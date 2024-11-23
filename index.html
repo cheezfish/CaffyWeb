@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>CAFFY</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.ico">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+
+  <div class="container">
+    <div class="row">
+      <div class="hero twelve columns">
+        <h1>CAFFY</h1>
+        <h6>Welcome to the future, we're glad you made it!</h6>
+        <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns">
+        <!-- Modal Structure -->
+        <div id="checkout-modal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+              <label for="name">Full Name:</label>
+              <input type="text" id="name" name="name" required>
+
+              <label for="email">Email Address:</label>
+              <input type="email" id="email" name="email" required>
+
+              <label for="address">Shipping Address:</label>
+              <textarea id="address" name="address" required></textarea>
+
+              <button type="submit" class="button-primary label">Complete Purchase</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+      <div class="row">
+
+        <model-viewer id="animation-demo" class="model" 
+        disable-zoom disable-pan autoplay 
+        ar ar-modes="webxr" scale="0.01 0.01 0.01" 
+        camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
+        camera-controls touch-action="pan-y" 
+        src="CaffyMintModel.glb" 
+        alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
+          <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
+          <div slot="hotspot-flavour" class="anchor" data-surface="0 0 220 221 222 0.1 0.061 0.534"></div>
+          <div slot="hotspot-effect" class="anchor" data-surface="2 0 0 3 2 0.007 0.753 0.240"></div>
+          <svg id="lines" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="lineContainer">
+            <line class="line"></line>
+            <line class="line"></line>
+            <line class="line"></line>
+          </svg>
+
+          <div id="labelsbox">
+            <button id="about" class="label">About Us</button>
+            <button id="flavour" class="label">Flavours</button>
+            <button id="effect" class="label">Effects</button>
+          </div>
+        </model-viewer>
+
+
+
+        <!---- Animation Script -->
+        <script>
+          (() => {
+            const modelViewer = document.querySelector('#animation-demo');
+            const orbitCycle = [
+              '90deg 0deg 3m', // Top view
+              '0deg 0deg 3m', // Top rotated -90
+              '0deg 90deg 3m', // Left side
+              '120deg 90deg 3m', // Left side 2
+              '270deg 180deg 4m', // Bottom View
+              '240deg 100deg 3m', // Born in UAE
+              '45deg 60deg 3m', // Front view
+              modelViewer.cameraOrbit
+            ];
+        
+            let isTouching = false; // Tracks if the user is interacting
+            let interactionTimeout = null; // Stores the timeout reference
+        
+            // Function to update the camera orbit
+            function updateOrbit() {
+              if (!isTouching) {
+                const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
+                modelViewer.cameraOrbit =
+                  orbitCycle[(currentOrbitIndex + 1) % orbitCycle.length];
+              }
+            }
+        
+            modelViewer.interpolationDecay = 100;
+
+            // Set up periodic updates
+            const intervalId = setInterval(updateOrbit, 4000);
+        
+            // Handle user interaction
+            modelViewer.addEventListener('pointerdown', () => {
+              isTouching = true;
+              clearTimeout(interactionTimeout); // Clear any previous timeout
+            });
+        
+            modelViewer.addEventListener('pointerup', () => {
+              // Set a delay before resuming camera movement
+              interactionTimeout = setTimeout(() => {
+                isTouching = false;
+              }, 10000); // 10 seconds
+            });
+          })();
+        </script>
+
+        <!---- Annotation script -->
+
+        <script type="module">
+          const modelViewer1 = document.querySelector('#animation-demo');
+          const lines = modelViewer1.querySelectorAll('line');
+          let baseRect;
+          let aboutRect;
+          let flavourRect;
+          let effectRect;
+
+          function onResize() {
+            const arStatus = modelViewer1.getAttribute('ar-status');
+            baseRect = (arStatus == "not-presenting" || arStatus == "failed") ?
+              modelViewer1.getBoundingClientRect() : new DOMRect();
+            aboutRect = document.querySelector('#about').getBoundingClientRect();
+            flavourRect = document.querySelector('#flavour').getBoundingClientRect();
+            effectRect = document.querySelector('#effect').getBoundingClientRect();
+          }
+
+          window.addEventListener("resize", onResize);
+
+          modelViewer1.addEventListener('ar-status', (event) => {
+            lines.forEach((element) => {
+              if (event.detail.status !== 'session-started') {
+                element.classList.remove('hide');
+              } else {
+                element.classList.add('hide');
+              }
+            });
+            onResize();
+          });
+
+          modelViewer1.addEventListener('load', () => {
+            onResize();
+
+            function drawLine(svgLine, name, rect) {
+              const hotspot = modelViewer1.queryHotspot('hotspot-' + name);
+              svgLine.setAttribute('x1', hotspot.canvasPosition.x);
+              svgLine.setAttribute('y1', hotspot.canvasPosition.y);
+              svgLine.setAttribute('x2', (rect.left + rect.right) / 2 - baseRect.left);
+              svgLine.setAttribute('y2', rect.top - baseRect.top);
+            }
+
+            // Function to hide lines behind the model
+            function updateLineVisibility() {
+              const cameraOrbit = modelViewer1.cameraOrbit;
+              const theta = parseFloat(cameraOrbit.split(' ')[0]); // Get the horizontal angle of the camera
+
+              // Hide lines if the camera is rotated NEEDS FIXING FOR EACH REFERENCE FRAME
+              lines.forEach((line, index) => {
+                if (theta > 359 && theta < 360) {
+                  line.classList.add('hide'); // Hide line behind the model
+                } else {
+                  line.classList.remove('hide'); // Show line when in front of the model
+                }
+              });
+            }
+
+            // Use requestAnimationFrame to update with renderer
+            const startSVGRenderLoop = () => {
+              drawLine(lines[0], 'about', aboutRect);
+              drawLine(lines[1], 'flavour', flavourRect);
+              drawLine(lines[2], 'effect', effectRect);
+              updateLineVisibility(); // Update visibility based on camera rotation
+              requestAnimationFrame(startSVGRenderLoop);
+            };
+
+            startSVGRenderLoop();
+          });
+        </script>
+
+        <style>
+          .hide {
+            display: none;
+          }
+        </style>
+
+      </div>
+    </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
