@@ -36,13 +36,15 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-
   <div class="container">
     <div class="row">
       <div class="hero twelve columns">
-        <h1>CAFFY</h1>
-        <h6>Welcome to the future, we're glad you made it!</h6>
+        <h1 id="title">CAFFY</h1>
+        <h5 id="subtitle">Welcome to the future, you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
+        <div id="infoBox" style="display: none;">
+          <p id="info"></p>
+        </div>
       </div>
     </div>
   </div>
@@ -81,7 +83,8 @@
         disable-zoom disable-pan autoplay 
         ar ar-modes="webxr" scale="0.01 0.01 0.01" 
         camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
-        camera-controls touch-action="pan-y" 
+        camera-controls touch-action="pan-y"
+
         src="CaffyMintModel.glb" 
         alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
           <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
@@ -233,5 +236,6 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   <script src="script.js"></script>
+  </script>
 </body>
 </html>
