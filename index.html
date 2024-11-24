@@ -5,9 +5,9 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>CAFFY</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <title>CAFFY - Energy, Memory, Focus</title>
+  <meta name="A novel blend of nootropics for energy, memory, and focus" content="">
+  <meta name="Caffy Ltd." content="">
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -22,9 +22,9 @@
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
+  <link rel="stylesheet" href="../css/style.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -39,7 +39,7 @@
   <div class="container">
     <div class="row">
       <div class="hero twelve columns">
-        <h1 id="title">CAFFY</h1>
+        <h1 id="title" class="montserrat-500">CAFFY</h1>
         <h5 id="subtitle">Welcome to the future, you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
         <div id="infoBox" style="display: none;">
@@ -78,31 +78,32 @@
 
   <div class="container">
       <div class="row">
+        <div class="ten columns">
 
-        <model-viewer id="animation-demo" class="model" 
-        disable-zoom disable-pan autoplay 
-        ar ar-modes="webxr" scale="0.01 0.01 0.01" 
-        camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
-        camera-controls touch-action="pan-y"
+          <model-viewer id="animation-demo" class="model" 
+          disable-zoom disable-pan autoplay 
+          ar ar-modes="webxr" scale="0.01 0.01 0.01" 
+          camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
+          camera-controls touch-action="pan-y"
 
-        src="CaffyMintModel.glb" 
-        alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
-          <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
-          <div slot="hotspot-flavour" class="anchor" data-surface="0 0 220 221 222 0.1 0.061 0.534"></div>
-          <div slot="hotspot-effect" class="anchor" data-surface="2 0 0 3 2 0.007 0.753 0.240"></div>
-          <svg id="lines" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="lineContainer">
-            <line class="line"></line>
-            <line class="line"></line>
-            <line class="line"></line>
-          </svg>
+          src="CaffyMintModel.glb" 
+          alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
+            <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
+            <div slot="hotspot-flavour" class="anchor" data-surface="0 0 220 221 222 0.1 0.061 0.534"></div>
+            <div slot="hotspot-effect" class="anchor" data-surface="2 0 0 3 2 0.007 0.753 0.240"></div>
+            <svg id="lines" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="lineContainer">
+              <line class="line"></line>
+              <line class="line"></line>
+              <line class="line"></line>
+            </svg>
 
-          <div id="labelsbox">
-            <button id="about" class="label">About Us</button>
-            <button id="flavour" class="label">Flavours</button>
-            <button id="effect" class="label">Effects</button>
-          </div>
-        </model-viewer>
-
+            <div id="labelsbox">
+              <button id="about" class="label">About Us</button>
+              <button id="flavour" class="label">Flavours</button>
+              <button id="effect" class="label">Effects</button>
+            </div>
+          </model-viewer>
+        </div>
 
 
         <!---- Animation Script -->
