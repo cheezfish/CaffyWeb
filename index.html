@@ -15,7 +15,6 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -39,8 +38,8 @@
   <div class="container">
     <div class="row">
       <div class="hero twelve columns">
-        <h1 id="title" class="montserrat-500">CAFFY</h1>
-        <h5 id="subtitle">Welcome to the future, you belong here.</h5>
+        <div id="title" class="montserrat-500">CAFFY</div>
+        <h5 id="subtitle" class="montserrat-300">Welcome to the future, you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
         <div id="infoBox" style="display: none;">
           <p id="info"></p>
@@ -81,10 +80,10 @@
         <div class="ten columns">
 
           <model-viewer id="animation-demo" class="model" 
-          disable-zoom disable-pan autoplay 
+          disable-pan autoplay 
           ar ar-modes="webxr" scale="0.01 0.01 0.01" 
           camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
-          camera-controls touch-action="pan-y"
+          camera-controls touch-action="pan-y" 
 
           src="CaffyMintModel.glb" 
           alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">

@@ -12,6 +12,7 @@ body {
     margin-top: 3%;
     margin-bottom: 10px;
     letter-spacing: 5px;
+    font-size: 42px;
 }
 
 #subtitle {
@@ -186,3 +187,10 @@ body {
   font-weight: 500;
   font-style: normal;
 }
+
+.montserrat-300 {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
