@@ -44,7 +44,7 @@
     modelViewer.cameraOrbit = '270deg 180deg 4m'; 
 
     // Update info text
-    updateInfo('CAFFY was founded in 2024 by Turab Ali Zia and Imran Azizuddin. May god have mercy on their souls.');
+    updateInfo('CAFFY was founded by Turab Ali Zia and Imran Azizuddin, with a mission to create the perfect blend of nootropic supplements.');
     const aboutButton = document.querySelector('#about');
     aboutButton.classList.remove('active'); 
     aboutButton.style.backgroundColor = ''; 

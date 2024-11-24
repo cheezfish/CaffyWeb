@@ -162,7 +162,7 @@ body {
     
     #infoBox {
         position: fixed;
-        top: 30%;
+        top: 20%;
         left: -0.5%;
         padding: 1%;
         width: 15%;
@@ -177,6 +177,7 @@ body {
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.18);
         z-index: 1300;
+        font-size: 1.2em;
         text-align: center;
     }
 }
