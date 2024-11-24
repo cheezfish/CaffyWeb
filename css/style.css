@@ -15,10 +15,6 @@ body {
     font-weight: 500;
 }
 
-#subtitle {
-
-}
-
 .hero {
     font-family: montserrat;
     position: sticky;
@@ -151,7 +147,7 @@ body {
         display:inline-flex;
         justify-content: space-evenly;
         bottom: 6vh;
-        width: 95%%;
+        width: 95%;
     }
 
     #info {
@@ -182,5 +178,3 @@ body {
         z-index: 1300;
         text-align: center;
     }
-
-}
