@@ -49,10 +49,6 @@
     aboutButton.classList.remove('active'); 
     aboutButton.style.backgroundColor = ''; 
   });
-
-
-
-
   
   // Modal elements
   const modal = document.getElementById("checkout-modal");

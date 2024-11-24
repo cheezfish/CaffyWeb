@@ -78,15 +78,17 @@
   <div class="container">
       <div class="row">
         <div class="ten columns">
-
           <model-viewer id="animation-demo" class="model" 
           disable-pan autoplay 
-          ar ar-modes="webxr" scale="0.01 0.01 0.01" 
-          camera-orbit="75deg 60deg 10m" shadow-intensity="1" 
-          camera-controls touch-action="pan-y" 
+          ar ar-modes="webxr" scale="0.001 0.001 0.001" 
+          camera-orbit="75deg 60deg 105%" shadow-intensity="0" 
+          camera-controls touch-action="none" orbit-sensitivity="2"
+          interaction-prompt-threshold="5000"
+           
 
           src="CaffyMintModel.glb" 
           alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
+
             <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
             <div slot="hotspot-flavour" class="anchor" data-surface="0 0 220 221 222 0.1 0.061 0.534"></div>
             <div slot="hotspot-effect" class="anchor" data-surface="2 0 0 3 2 0.007 0.753 0.240"></div>
@@ -236,6 +238,5 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   <script src="script.js"></script>
-  </script>
 </body>
 </html>
