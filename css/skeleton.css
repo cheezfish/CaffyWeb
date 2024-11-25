@@ -215,8 +215,8 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  color: #FFF;
-  background-color: #1EAEDB;
+  color: #000000;
+  background-color: #ffffff;
   border-color: #1EAEDB; }
 
 
@@ -233,7 +233,7 @@ textarea,
 select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
-  background-color: #fff;
+  background-color: #ffffffbb;
   border: 1px solid #D1D1D1;
   border-radius: 4px;
   box-shadow: none;
@@ -252,8 +252,8 @@ textarea {
           appearance: none; }
 textarea {
   min-height: 65px;
-  padding-top: 6px;
-  padding-bottom: 6px; }
+  padding-top: 3%;
+  padding-bottom: 3%; }
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
@@ -409,7 +409,9 @@ there.
 @media (min-width: 750px) {}
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+
+}
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}

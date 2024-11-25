@@ -41,17 +41,17 @@
         <div id="title" class="montserrat-500">CAFFY</div>
         <h5 id="subtitle" class="montserrat-300">Welcome to the future, you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
-        <div id="infoBox" style="display: none;">
+        <div id="infoBox">
           <p id="info"></p>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Modal Structure -->
   <div class="container">
     <div class="row">
       <div class="twelve columns">
-        <!-- Modal Structure -->
         <div id="checkout-modal" class="modal">
           <div class="modal-content">
             <span class="close">&times;</span>
@@ -159,36 +159,27 @@
         <script type="module">
           const modelViewer1 = document.querySelector('#animation-demo');
           const lines = modelViewer1.querySelectorAll('line');
-          let baseRect;
-          let aboutRect;
-          let flavourRect;
-          let effectRect;
-
+          const buttons = {
+            'about': document.querySelector('#about'),
+            'flavour': document.querySelector('#flavour'),
+            'effect': document.querySelector('#effect')
+          };
+          let baseRect, aboutRect, flavourRect, effectRect;
+        
           function onResize() {
             const arStatus = modelViewer1.getAttribute('ar-status');
             baseRect = (arStatus == "not-presenting" || arStatus == "failed") ?
               modelViewer1.getBoundingClientRect() : new DOMRect();
-            aboutRect = document.querySelector('#about').getBoundingClientRect();
-            flavourRect = document.querySelector('#flavour').getBoundingClientRect();
-            effectRect = document.querySelector('#effect').getBoundingClientRect();
+            aboutRect = buttons['about'].getBoundingClientRect();
+            flavourRect = buttons['flavour'].getBoundingClientRect();
+            effectRect = buttons['effect'].getBoundingClientRect();
           }
-
+        
           window.addEventListener("resize", onResize);
-
-          modelViewer1.addEventListener('ar-status', (event) => {
-            lines.forEach((element) => {
-              if (event.detail.status !== 'session-started') {
-                element.classList.remove('hide');
-              } else {
-                element.classList.add('hide');
-              }
-            });
-            onResize();
-          });
-
+        
           modelViewer1.addEventListener('load', () => {
             onResize();
-
+        
             function drawLine(svgLine, name, rect) {
               const hotspot = modelViewer1.queryHotspot('hotspot-' + name);
               svgLine.setAttribute('x1', hotspot.canvasPosition.x);
@@ -196,31 +187,37 @@
               svgLine.setAttribute('x2', (rect.left + rect.right) / 2 - baseRect.left);
               svgLine.setAttribute('y2', rect.top - baseRect.top);
             }
-
-            // Function to hide lines behind the model
-            function updateLineVisibility() {
-              const cameraOrbit = modelViewer1.cameraOrbit;
-              const theta = parseFloat(cameraOrbit.split(' ')[0]); // Get the horizontal angle of the camera
-
-              // Hide lines if the camera is rotated NEEDS FIXING FOR EACH REFERENCE FRAME
-              lines.forEach((line, index) => {
-                if (theta > 359 && theta < 360) {
-                  line.classList.add('hide'); // Hide line behind the model
-                } else {
-                  line.classList.remove('hide'); // Show line when in front of the model
-                }
-              });
+        
+            // Hide all lines initially
+            lines.forEach(line => line.classList.add('hide'));
+        
+            // Function to show and auto-hide a specific line
+            function showLineTemprorarily(index) {
+              // Hide all lines first
+              lines.forEach(line => line.classList.add('hide'));
+              
+              // Show the specific line
+              lines[index].classList.remove('hide');
+        
+              // Auto-hide after 3 seconds
+              setTimeout(() => {
+                lines[index].classList.add('hide');
+              }, 3000);
             }
-
+        
+            // Add click event listeners to buttons
+            buttons['about'].addEventListener('click', () => showLineTemprorarily(0));
+            buttons['flavour'].addEventListener('click', () => showLineTemprorarily(1));
+            buttons['effect'].addEventListener('click', () => showLineTemprorarily(2));
+        
             // Use requestAnimationFrame to update with renderer
             const startSVGRenderLoop = () => {
               drawLine(lines[0], 'about', aboutRect);
               drawLine(lines[1], 'flavour', flavourRect);
               drawLine(lines[2], 'effect', effectRect);
-              updateLineVisibility(); // Update visibility based on camera rotation
               requestAnimationFrame(startSVGRenderLoop);
             };
-
+        
             startSVGRenderLoop();
           });
         </script>
