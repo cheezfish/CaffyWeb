@@ -23,19 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
       switch(buttonId) {
         case 'effect':
           modelViewer.cameraOrbit = '130deg 90deg 3m';
+          variantBox.style.display = 'none';
           updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
           break;
         case 'flavour':
           modelViewer.cameraOrbit = '90deg 0deg 3m';
+          variantBox.style.display = 'block';
           updateInfo('Cool Mint is our first flavour compound, but new formulae are in development. Expect to see blueberry, grape, and cherry soon!');
           break;
         case 'about':
           modelViewer.cameraOrbit = '270deg 180deg 4m';
+          variantBox.style.display = 'none';
           updateInfo('CAFFY was founded by Turab Ali Zia and Imran Azizuddin, with a mission to create the perfect blend of nootropic supplements.');
           break;
         case 'buyNowBtn':
           modelViewer.cameraOrbit = '90deg 65deg 4m';
           isTouching = true;
+           // Hide all lines first
+          lines.forEach(line => line.classList.add('hide'));
           modelViewer.play({ repetitions: 1 });
 
           // Delay transition to allow animation to complete

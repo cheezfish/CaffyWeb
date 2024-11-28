@@ -42,6 +42,10 @@ body {
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
+#variantBox {
+    display: none;
+}
+
 .model {
     position: fixed;
     width: 100%;
@@ -185,6 +189,14 @@ body {
         font-size: 1.2em;
         text-align: center;
     }
+
+    #variantBox {
+        position: absolute;
+        bottom: 0;
+        color: white;
+        font-weight: bold;
+    }
+
 }
 
 .montserrat-500 {

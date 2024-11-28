@@ -43,6 +43,9 @@
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
         <div id="infoBox">
           <p id="info"></p>
+          <div class="controls">
+            <div id="variantBox">Variant: <select id="variant"></select></div>
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +62,7 @@
           interaction-prompt-threshold="5000" 
           poster="images/poster.webp"
 
-          src="CaffyPouchMintREDUCEDCOMPRESSED.glb" 
+          src="CaffyPouchMintyBlueX.glb" 
           alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
 
             <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
@@ -76,11 +79,31 @@
               <button id="flavour" class="label">Flavours</button>
               <button id="effect" class="label">Effects</button>
             </div>
+
           </model-viewer>
         </div>
 
       </div>
     </div>
+    <script>
+      const modelViewerVariants = document.querySelector("model-viewer#animation-demo");
+      const select = document.querySelector('#variant');
+      
+      modelViewerVariants.addEventListener('load', () => {
+        const names = modelViewerVariants.availableVariants;
+        for (const name of names) {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          option.style.zIndex = '9999';
+          select.appendChild(option);
+        }
+      });
+      
+      select.addEventListener('input', (event) => {
+        modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+      });
+    </script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
