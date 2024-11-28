@@ -39,7 +39,7 @@
     <div class="row">
       <div class="hero twelve columns">
         <div id="title" class="montserrat-500">CAFFY</div>
-        <h5 id="subtitle" class="montserrat-300">Welcome to the future, you belong here.</h5>
+        <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label">BUY NOW</button>
         <div id="infoBox">
           <p id="info"></p>
@@ -48,45 +48,18 @@
     </div>
   </div>
 
-  <!-- Modal Structure -->
-  <div class="container">
-    <div class="row">
-      <div class="twelve columns">
-        <div id="checkout-modal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Checkout</h2>
-            <form id="checkout-form">
-              <label for="name">Full Name:</label>
-              <input type="text" id="name" name="name" required>
-
-              <label for="email">Email Address:</label>
-              <input type="email" id="email" name="email" required>
-
-              <label for="address">Shipping Address:</label>
-              <textarea id="address" name="address" required></textarea>
-
-              <button type="submit" class="button-primary label">Complete Purchase</button>
-            </form>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
   <div class="container">
       <div class="row">
         <div class="ten columns">
           <model-viewer id="animation-demo" class="model" 
-          disable-pan autoplay 
+          disable-pan 
           ar ar-modes="webxr" scale="0.001 0.001 0.001" 
           camera-orbit="75deg 60deg 105%" shadow-intensity="0" 
           camera-controls touch-action="none" orbit-sensitivity="2"
-          interaction-prompt-threshold="5000"
-           
+          interaction-prompt-threshold="5000" 
+          poster="images/poster.webp"
 
-          src="CaffyMintModel.glb" 
+          src="CaffyPouchMintREDUCEDCOMPRESSED.glb" 
           alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
 
             <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
@@ -106,134 +79,12 @@
           </model-viewer>
         </div>
 
-
-        <!---- Animation Script -->
-        <script>
-          (() => {
-            const modelViewer = document.querySelector('#animation-demo');
-            const orbitCycle = [
-              '90deg 0deg 3m', // Top view
-              '0deg 0deg 3m', // Top rotated -90
-              '0deg 90deg 3m', // Left side
-              '120deg 90deg 3m', // Left side 2
-              '270deg 180deg 4m', // Bottom View
-              '240deg 100deg 3m', // Born in UAE
-              '45deg 60deg 3m', // Front view
-              modelViewer.cameraOrbit
-            ];
-        
-            let isTouching = false; // Tracks if the user is interacting
-            let interactionTimeout = null; // Stores the timeout reference
-        
-            // Function to update the camera orbit
-            function updateOrbit() {
-              if (!isTouching) {
-                const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
-                modelViewer.cameraOrbit =
-                  orbitCycle[(currentOrbitIndex + 1) % orbitCycle.length];
-              }
-            }
-        
-            modelViewer.interpolationDecay = 100;
-
-            // Set up periodic updates
-            const intervalId = setInterval(updateOrbit, 4000);
-        
-            // Handle user interaction
-            modelViewer.addEventListener('pointerdown', () => {
-              isTouching = true;
-              clearTimeout(interactionTimeout); // Clear any previous timeout
-            });
-        
-            modelViewer.addEventListener('pointerup', () => {
-              // Set a delay before resuming camera movement
-              interactionTimeout = setTimeout(() => {
-                isTouching = false;
-              }, 10000); // 10 seconds
-            });
-          })();
-        </script>
-
-        <!---- Annotation script -->
-
-        <script type="module">
-          const modelViewer1 = document.querySelector('#animation-demo');
-          const lines = modelViewer1.querySelectorAll('line');
-          const buttons = {
-            'about': document.querySelector('#about'),
-            'flavour': document.querySelector('#flavour'),
-            'effect': document.querySelector('#effect')
-          };
-          let baseRect, aboutRect, flavourRect, effectRect;
-        
-          function onResize() {
-            const arStatus = modelViewer1.getAttribute('ar-status');
-            baseRect = (arStatus == "not-presenting" || arStatus == "failed") ?
-              modelViewer1.getBoundingClientRect() : new DOMRect();
-            aboutRect = buttons['about'].getBoundingClientRect();
-            flavourRect = buttons['flavour'].getBoundingClientRect();
-            effectRect = buttons['effect'].getBoundingClientRect();
-          }
-        
-          window.addEventListener("resize", onResize);
-        
-          modelViewer1.addEventListener('load', () => {
-            onResize();
-        
-            function drawLine(svgLine, name, rect) {
-              const hotspot = modelViewer1.queryHotspot('hotspot-' + name);
-              svgLine.setAttribute('x1', hotspot.canvasPosition.x);
-              svgLine.setAttribute('y1', hotspot.canvasPosition.y);
-              svgLine.setAttribute('x2', (rect.left + rect.right) / 2 - baseRect.left);
-              svgLine.setAttribute('y2', rect.top - baseRect.top);
-            }
-        
-            // Hide all lines initially
-            lines.forEach(line => line.classList.add('hide'));
-        
-            // Function to show and auto-hide a specific line
-            function showLineTemprorarily(index) {
-              // Hide all lines first
-              lines.forEach(line => line.classList.add('hide'));
-              
-              // Show the specific line
-              lines[index].classList.remove('hide');
-        
-              // Auto-hide after 3 seconds
-              setTimeout(() => {
-                lines[index].classList.add('hide');
-              }, 3000);
-            }
-        
-            // Add click event listeners to buttons
-            buttons['about'].addEventListener('click', () => showLineTemprorarily(0));
-            buttons['flavour'].addEventListener('click', () => showLineTemprorarily(1));
-            buttons['effect'].addEventListener('click', () => showLineTemprorarily(2));
-        
-            // Use requestAnimationFrame to update with renderer
-            const startSVGRenderLoop = () => {
-              drawLine(lines[0], 'about', aboutRect);
-              drawLine(lines[1], 'flavour', flavourRect);
-              drawLine(lines[2], 'effect', effectRect);
-              requestAnimationFrame(startSVGRenderLoop);
-            };
-        
-            startSVGRenderLoop();
-          });
-        </script>
-
-        <style>
-          .hide {
-            display: none;
-          }
-        </style>
-
       </div>
     </div>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
