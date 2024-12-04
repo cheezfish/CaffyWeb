@@ -35,8 +35,7 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <div class="container">
-    <div class="row">
+  <div class="container" id="HeroContainer">
       <div class="hero twelve columns">
         <div id="title" class="montserrat-500">CAFFY</div>
         <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
@@ -48,11 +47,9 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 
-  <div class="container">
-      <div class="row">
+  <div class="container" id="ModelContainer">
         <div class="ten columns">
           <model-viewer id="animation-demo" class="model" 
           disable-pan 
@@ -82,9 +79,33 @@
 
           </model-viewer>
         </div>
+    </div>
+
+    <div class="container" id="FooterContainer">
+      <div class="twelve columns offset-by-one">
+
+        <input type="image" id="footerButton" src="images/info.png">
+        </input>
+
+        <div id="footer">
+            <div class="footer-content">
+              <div class="social-icons">
+                  <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
+                  <a href="#" title="Instagram"><i class="fa-xl fab fa-instagram"></i></a>
+                  <a href="https://www.tiktok.com/@getcaffy" title="TikTok"><i class="fa-xl fab fa-tiktok"></i></a>
+                  <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn"><i class="fa-xl fab fa-linkedin"></i></a>
+                  <a href="https://www.reddit.com/user/getcaffy/" title="Reddit"><i class="fa-xl fab fa-reddit"></i></a>
+                  <a href="https://www.youtube.com/@GetCaffy" title="YouTube"><i class="fa-xl fab fa-youtube"></i></a>
+              </div>
+              <div class="trademark">
+                  © 2024 CAFFY Ltd. All rights reserved.
+              </div>
+          </div>  
+        </div>
 
       </div>
     </div>
+
     <script>
       const modelViewerVariants = document.querySelector("model-viewer#animation-demo");
       const select = document.querySelector('#variant');
@@ -109,5 +130,6 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   <script src="script.js" defer></script>
+  <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
 </body>
 </html>

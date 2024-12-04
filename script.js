@@ -2,15 +2,52 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const infoBox = document.getElementById('infoBox');
-  const buttons = ['effect', 'flavour', 'about', 'buyNowBtn'];
+  const buttons = ['effect', 'flavour', 'about', 'buyNowBtn', 'footerButton'];
   const modelViewer = document.querySelector('#animation-demo');
+  const footer = document.getElementById('footer');
+  const footerButton = document.getElementById('footerButton');
+
+  // Function to hide footer
+  function hideFooter() {
+    footer.style.display = 'none';
+    footerButton.style.bottom = '0%';
+  }
+
+  // Function to show footer
+  function showFooter() {
+    footer.style.display = 'flex';
+    footerButton.style.bottom = '12%';
+  }
+
+  // Toggle footer when footer button is clicked
+  footerButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (footer.style.display === 'none' || footer.style.display === '') {
+      showFooter();
+    } else {
+      hideFooter();
+    }
+  });
+
+  // Hide footer when clicking outside
+  document.addEventListener('click', (event) => {
+    if ((footer.style.display === 'flex') && 
+        !footer.contains(event.target) && 
+        !footerButton.contains(event.target)) {
+      hideFooter();
+    }
+  });
+
+  // Initialize footer as hidden
+  footer.style.display = 'none';
+
 
   // Utility function to update info text
   function updateInfo(message) {
     const infoElement = document.getElementById('info');
     const infoBox = document.getElementById('infoBox');
     
-    infoElement.textContent = message;
+    infoElement.innerHTML = message;
     infoBox.style.display = 'block';
   }
 
@@ -24,41 +61,57 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'effect':
           modelViewer.cameraOrbit = '130deg 90deg 3m';
           variantBox.style.display = 'none';
-          updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
+          if (window.innerWidth >= 1025) {
+            updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea. <br><br>Our unique blend supports mental clarity, reduces fatigue, and enhances brain function.');
+          } else {
+            updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
+          }
           break;
+
         case 'flavour':
           modelViewer.cameraOrbit = '90deg 0deg 3m';
           variantBox.style.display = 'block';
-          updateInfo('Cool Mint is our first flavour compound, but new formulae are in development. Expect to see blueberry, grape, and cherry soon!');
+          if (window.innerWidth >= 1025) {
+            updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration. <br><br>Our range of flavours will soon include Kiwi, Mango, and Melon.');
+          } else {
+            updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration.');
+          }
           break;
+
         case 'about':
           modelViewer.cameraOrbit = '270deg 180deg 4m';
           variantBox.style.display = 'none';
-          updateInfo('CAFFY was founded by Turab Ali Zia and Imran Azizuddin, with a mission to create the perfect blend of nootropic supplements.');
-          break;
-        case 'buyNowBtn':
-          modelViewer.cameraOrbit = '90deg 65deg 4m';
-          isTouching = true;
-           // Hide all lines first
-          lines.forEach(line => line.classList.add('hide'));
-          modelViewer.play({ repetitions: 1 });
+          if (window.innerWidth >= 1025) {
+            updateInfo('CAFFY was founded with a mission to create the perfect blend of nootropic supplements. <br><br>Our aim is to reimagine the way we utilise caffeine, and deliver positive tangible effects with complete transparency.');
+          } else {
+            updateInfo('CAFFY was founded with a mission to create the perfect blend of nootropic supplements. Our aim is to reimagine the way we utilise caffeine.');
+          }
+            break;
 
-          // Delay transition to allow animation to complete
-          setTimeout(() => {
-            // Trigger transition
-            transitionOverlay.style.transform = 'scale(3)';
-            
-            // Redirect after transition
+          case 'buyNowBtn':
+            modelViewer.cameraOrbit = '90deg 65deg 4m';
+            isTouching = true;
+            // Hide all lines first
+            lines.forEach(line => line.classList.add('hide'));
+            modelViewer.play({ repetitions: 1 });
+
+            // Delay transition to allow animation to complete
             setTimeout(() => {
-              window.location.href = 'https://www.cheezfish.com';
-            }, 900); // matches transition duration
-          }, 900); // Adjust this number to match your model viewer's animation duration
-          
-          break;
+              // Trigger transition
+              transitionOverlay.style.transform = 'scale(3)';
+              
+              // Redirect after transition
+              setTimeout(() => {
+                window.location.href = 'https://www.cheezfish.com';
+              }, 900); // matches transition duration
+            }, 900); // Adjust this number to match your model viewer's animation duration
+            
+            break;
       }
     });
   });
 
+  
   // Close infoBox if clicked outside
   document.addEventListener('click', (event) => {
     if (!infoBox.contains(event.target) && 
