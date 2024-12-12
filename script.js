@@ -62,9 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
           modelViewer.cameraOrbit = '130deg 90deg 3m';
           variantBox.style.display = 'none';
           if (window.innerWidth >= 1025) {
-            updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea. <br><br>Our unique blend supports mental clarity, reduces fatigue, and enhances brain function.');
+            updateInfo('Energy, memory, focus. Caffeine from guarana, with nootropics including Taurine, L-Theanine, Alpha-GPC, and Rhodiola Rosea. <br><br>Our unique blend supports mental clarity, reduces fatigue, and enhances brain function.');
           } else {
-            updateInfo('Energy, memory, focus. Caffeine from guarana, with supplements and nootropics including L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
+            updateInfo('Energy, memory, focus. Caffeine from guarana, with nootropics including Taurine, L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
           }
           break;
 
