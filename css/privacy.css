@@ -1,0 +1,179 @@
+/* General */
+body {
+    font-family: montserrat;
+    color: WHITE;
+    background-color: rgb(0, 0, 0);
+    margin: 0;
+    padding: 0;
+}
+
+/* Hero Section */
+.hero {
+    font-family: montserrat;
+    color: antiquewhite;
+    text-align: center;
+    padding: 20px 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+    position: sticky;
+    top: 0;
+    z-index: 80;
+}
+
+#title {
+    margin-top: 3%;
+    letter-spacing: 5px;
+    font-size: 50px;
+}
+
+#subtitle {
+    margin-top: 1px;
+    margin-bottom: 2%;
+}
+
+/* Content Styles */
+.content-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.privacy-content {
+    background: linear-gradient(to bottom, rgba(80, 250, 250, 0.1), rgba(0, 0, 0, 0.25));
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 40px;
+    margin-bottom: 100px;
+}
+
+.privacy-content section {
+    margin-bottom: 30px;
+}
+
+.privacy-content h2 {
+    color: rgb(80, 250, 250);
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.privacy-content p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+}
+
+.privacy-content ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.privacy-content li {
+    line-height: 1.8;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.contact-info {
+    background: rgba(80, 250, 250, 0.1);
+    padding: 20px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* Footer Styles */
+#FooterContainer {
+    z-index: 3000;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#footer {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+    padding: 20px 0;
+}
+
+.footer-content {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.social-icons a {
+    color: #333;
+    text-decoration: none;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.trademark {
+    text-align: center;
+    color: #000000;
+    font-size: 0.9rem;
+}
+
+/* Fonts */
+.montserrat-500 {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.montserrat-300 {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-container {
+        padding: 0 15px;
+    }
+    
+    .privacy-content {
+        padding: 20px;
+    }
+    
+    .privacy-content h2 {
+        font-size: 20px;
+    }
+    
+    .privacy-content p, 
+    .privacy-content li {
+        font-size: 14px;
+    }
+
+    .social-icons {
+        gap: 30px;
+    }
+}
