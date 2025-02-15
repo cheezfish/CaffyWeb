@@ -394,3 +394,7 @@ body {
 .snipcart-cart {
     z-index: 801 !important;
 }
+
+.snipcart-layout {
+    z-index: 850 !important;
+}
