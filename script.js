@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
               
               // Redirect after transition
               setTimeout(() => {
-                window.location.href = '/checkout.html';
+                window.location.href = '/checkout';
               }, 900); // matches transition duration
             }, 900); // Adjust this number to match your model viewer's animation duration
             
