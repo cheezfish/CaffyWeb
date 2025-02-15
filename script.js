@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const modelViewer = document.querySelector('#animation-demo');
   const footer = document.getElementById('footer');
   const footerButton = document.getElementById('footerButton');
-  const toggleCheckout = document.getElementById('toggleCheckout');
 
   // Function to hide footer
   function hideFooter() {
@@ -92,8 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
           case 'buyNowBtn':
             modelViewer.cameraOrbit = '90deg 65deg 4m';
             isTouching = true;
-            // Hide all lines first
-            lines.forEach(line => line.classList.add('hide'));
             modelViewer.play({ repetitions: 1 });
 
             // Delay transition to allow animation to complete
