@@ -221,7 +221,7 @@ body {
     }
 
     .productimage {
-        margin-top: 10vh;
+        margin-top: 5vh;
     }
 
 }
@@ -270,8 +270,12 @@ body {
     color:#50f9fa;
 }
 
+.productimage {
+    margin-top: 5vh;
+}
 
-@media (max-width: 800px) {
+
+@media (max-width: 600px) {
 
     .cartContainer {
         position: fixed;
@@ -381,4 +385,12 @@ body {
 
 .snipcart-input__input {
    background-color: #ffffff !important;
+}
+
+.snipcart-item-line__container {
+    border-radius: 8px !important;
+}
+
+.snipcart-cart {
+    z-index: 801 !important;
 }
