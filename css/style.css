@@ -45,8 +45,8 @@ body {
 }
 
 #infoBox {
+    display: none; /* Changed from display:block */
     margin-top: 2%;
-    display:block;
     border-radius: 8px;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
