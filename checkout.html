@@ -1,124 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CAFFY - Checkout</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- FONT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caffy Checkout</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
 </head>
 
-<body style="background-color: black;">
-  <div class="container">
-    <div class="row">
-      <div class="twelve columns">
-        <h1 class="montserrat-500" style="text-align: center; color: #50F9FA; margin-top: 40px;">CAFFY</h1>
-      </div>
+<body>
+  <div class="container" id="HeroContainer">
+    <div class="hero twelve columns">
+        <div id="title" class="montserrat-500">CAFFY</div>
+        <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
+    </div>
+  </div>
+
+  <div class="cartContainer">
+  <span  id="cartCount" class="snipcart-items-count"></span>
+  <input type="image" class="snipcart-checkout" id="toggleCheckout" src="images/cart.png">
+  </div>
+
+    <div class="container" style="margin-bottom: 100px;">
+        <div class="row">
+            <div class="six columns u-text-center">
+                <img class="productimage" src="images/caffy-pouch-mint.png" alt="Caffy Pouch - Cool Mint" style="width:100%">
+                <h4 class="product">Cool Mint</h4>
+                <p class="price">50 AED</p>
+                <button class="button-primary snipcart-add-item six columns offset-by-three"
+                    data-item-id="caffy-pouch-mint"
+                    data-item-name="Caffy Pouch - Cool Mint"
+                    data-item-price="50"
+                    data-item-url="/checkout.html"
+                    data-item-image="images/caffy-pouch-mint.png"
+                    data-item-currency="AED">
+                    Add to Cart
+                </button>
+            </div>
+            <div class="six columns u-text-center">
+                <img class="productimage" src="images/caffy-pouch-blueberry.png" alt="Caffy Pouch - Blueberry" style="width:100%">
+                <h4 class="product">Blueberry</h4>
+                <p class="price">50 AED</p>
+                <button class="button-blueberry snipcart-add-item six columns offset-by-three"
+                    data-item-id="caffy-pouch-blueberry"
+                    data-item-name="Caffy Pouch - Blueberry"
+                    data-item-price="50"
+                    data-item-url="/checkout.html"
+                    data-item-image="images/caffy-pouch-blueberry.png"
+                    data-item-currency="AED">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
     </div>
 
-  <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
+    <div class="container" id="FooterContainer">
+      <div class="twelve columns offset-by-one">
+          <input type="image" id="footerButton" src="images/info.png">
+          <div id="footer">
+              <div class="footer-content">
+                  <div class="social-icons">
+                      <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
+                      <a href="https://www.instagram.com/get__caffy/" title="Instagram"><i class="fa-xl fab fa-instagram"></i></a>
+                      <a href="https://www.tiktok.com/@getcaffy" title="TikTok"><i class="fa-xl fab fa-tiktok"></i></a>
+                      <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn"><i class="fa-xl fab fa-linkedin"></i></a>
+                      <a href="https://www.reddit.com/user/getcaffy/" title="Reddit"><i class="fa-xl fab fa-reddit"></i></a>
+                      <a href="https://www.youtube.com/@GetCaffy" title="YouTube"><i class="fa-xl fab fa-youtube"></i></a>
+                  </div>
+                  <div class="links">
+                      <a href="/terms.html" class="montserrat-300">Terms</a>
+                      <a href="/faq.html" class="montserrat-300">FAQ</a>
+                      <a href="/privacy.html" class="montserrat-300">Privacy</a>
+                  </div>
+                  <div class="trademark">
+                      © 2024 CAFFY Ltd. All rights reserved.
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
-  <!-- Snipcart -->
-  <script>
-    window.SnipcartSettings = {
-      publicApiKey: 'MDc1NDQ1ZWMtNGIxOS00MWQyLThiNGEtYWMzZDYxOGU4ODA1NjM4NzUxODU5MjI3NDY3NDU2',
-      loadStrategy: 'on-user-interaction',
-      currency: 'aed',
-      modalStyle: "side",
-    };
-
-    (()=>{var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var f=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,m=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(m.forEach(t=>document.addEventListener(t,o)),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],e=document.querySelector("#snipcart"),i=document.querySelector(`src[src^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][src$="snipcart.js"]`),n=document.querySelector(`link[href^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][href$="snipcart.css"]`);e||(e=document.createElement("div"),e.id="snipcart",e.setAttribute("hidden","true"),document.body.appendChild(e)),v(e),i||(i=document.createElement("script"),i.src=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.js`,i.async=!0,t.appendChild(i)),n||(n=document.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.css`,t.prepend(n)),m.forEach(g=>document.removeEventListener(g,o))}function v(t){!f||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
-  </script>
-
-  <!-- Initialize React Component -->
-  <script type="module">
-    const ProductDisplay = () => {
-      const [quantityA, setQuantityA] = React.useState(1);
-      const [quantityB, setQuantityB] = React.useState(1);
-
-      const products = [
-    {
-      id: "caffy-pouch-mint",
-      name: "Cool Mint",
-      price: 50,
-      description: "The classic CAFFY Pouch experience in Cool Mint",
-      quantity: quantityA,
-      setQuantity: setQuantityA
-
-    },
-    {
-      id: "caffy-pouch-blueberry",
-      name: "Blueberry",
-      price: 50,
-      description: "CAFFY Pouch in Blueberry flavour",
-      quantity: quantityB,
-      setQuantity: setQuantityB
-
-    }
-  ];
-
-      return React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-8 p-6" },
-        products.map(product => 
-          React.createElement('div', { 
-            key: product.id,
-            className: "flex flex-col items-center p-6 rounded-lg bg-black/20 border border-[#50F9FA]/20"
-          }, [
-            React.createElement('img', {
-              src: "/images/" + product.id + ".png",
-              alt: product.name,
-              className: "w-full max-w-sm rounded-lg mb-4"
-            }),
-            React.createElement('h2', {
-              className: "text-2xl font-medium text-[#50F9FA] mb-2"
-            }, product.name),
-            React.createElement('p', {
-              className: "text-white/80 mb-4 text-center"
-            }, product.description),
-            React.createElement('p', {
-              className: "text-[#50F9FA] text-xl mb-6"
-            }, `${product.price} AED`),
-            React.createElement('div', {
-              className: "flex items-center gap-4 mb-6"
-            }, [
-              React.createElement('button', {
-                onClick: () => product.setQuantity(Math.max(1, product.quantity - 1)),
-                className: "p-2 rounded-md border border-[#50F9FA] text-[#50F9FA] hover:bg-[#50F9FA]/10"
-              }, "-"),
-              React.createElement('span', {
-                className: "text-white text-lg w-8 text-center"
-              }, product.quantity),
-              React.createElement('button', {
-                onClick: () => product.setQuantity(product.quantity + 1),
-                className: "p-2 rounded-md border border-[#50F9FA] text-[#50F9FA] hover:bg-[#50F9FA]/10"
-              }, "+")
-            ]),
-            React.createElement('button', {
-              className: "snipcart-add-item button-primary w-full max-w-xs py-2 px-4 rounded-md bg-[#50F9FA] text-black font-medium hover:bg-white hover:text-black transition-colors",
-              'data-item-id': product.id,
-              'data-item-name': product.name,
-              'data-item-price': product.price,
-              'data-item-quantity': product.quantity,
-              'data-item-url': "htpp://getcaffy.com/checkout.html"
-            }, "Add to Cart")
-          ])
-        )
-      );
-    };
-
-    const root = ReactDOM.createRoot(document.getElementById('product-display-root'));
-    root.render(React.createElement(ProductDisplay));
-  </script>
+    <script>
+      window.SnipcartSettings = {
+        publicApiKey: "MDc1NDQ1ZWMtNGIxOS00MWQyLThiNGEtYWMzZDYxOGU4ODA1NjM4NzUxODU5MjI3NDY3NDU2",
+        loadStrategy: "on-user-interaction",
+        currency: "AED",
+        modalStyle: "side",
+        loadCSS: false,
+        templatesUrl: "/snipcart-templates.html",
+      };
+    
+      (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+    </script>
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css">
+    <script src="script.js" defer></script>
+    <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
 </body>
 </html>

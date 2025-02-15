@@ -219,6 +219,28 @@ input[type="button"].button-primary:focus {
   background-color: #ffffff;
   border-color: #1EAEDB; }
 
+  .button.button-blueberry,
+  button.button-blueberry,
+  input[type="submit"].button-blueberry,
+  input[type="reset"].button-blueberry,
+  input[type="button"].button-blueberry {
+    color: #000000;
+    background-color: #3e65c2;
+    border-color: #3e65c2; }
+  .button.button-blueberry:hover,
+  button.button-blueberry:hover,
+  input[type="submit"].button-blueberry:hover,
+  input[type="reset"].button-blueberry:hover,
+  input[type="button"].button-blueberry:hover,
+  .button.button-blueberry:focus,
+  button.button-blueberry:focus,
+  input[type="submit"].button-blueberry:focus,
+  input[type="reset"].button-blueberry:focus,
+  input[type="button"].button-blueberry:focus {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #1EAEDB; }
+
 
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

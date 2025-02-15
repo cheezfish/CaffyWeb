@@ -32,7 +32,6 @@ body {
     font-family: montserrat;
     position: sticky;
     top: 0;
-    z-index: 80;
     color: antiquewhite;
     text-align: center;
 }
@@ -220,6 +219,10 @@ body {
         font-weight: 500;
     }
 
+    .productimage {
+        margin-top: 10vh;
+    }
+
 }
 
 /* Fonts */
@@ -237,3 +240,144 @@ body {
     font-weight: 300;
     font-style: normal;
   }
+
+
+
+/* Checkout */
+
+.price {
+    text-align: center;
+}
+
+.product {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.cartContainer {
+    position: fixed;
+    bottom: 0;
+    left: 95%;
+    transform: translateX(-50%);
+    z-index: 9000;
+}
+
+#cartCount {
+    position: fixed;
+    left: 42%;
+    bottom: 82%;
+    color:#50f9fa;
+}
+
+
+@media (max-width: 800px) {
+
+    .cartContainer {
+        position: fixed;
+        bottom: 0;
+        left: 90%;
+        transform: translateX(-50%);
+        z-index: 9000;
+    }
+
+    .snipcart-button-primary {
+        width: 90vw !important;
+        height: 8vh !important;
+    }
+}
+
+/* Add this to your style.css file */
+
+/* Cart summary container */
+.snipcart-cart-summary {
+    padding: 1rem;
+}
+
+/* Item spacing */
+.snipcart-item-line {
+    padding: 1.5rem 0;
+    margin: 1rem 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Quantity controls */
+.snipcart-item-quantity {
+    margin: 1rem 0;
+}
+
+.snipcart-button-primary {
+    background-color: #50F9FA !important; /* Matches Skeleton's button-primary color */
+    border-radius: 4px !important;
+    padding: 6px 120px !important;
+}
+
+/* Checkout button */
+.snipcart-cart-button--highlight {
+    color:#000000 !important;
+    background-color: #FFFFFF !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+}
+
+/* Item removal button */
+.snipcart-button-icon {
+    padding: 8px !important;
+    opacity: 0.7;
+}
+
+.snipcart-button-icon:hover {
+    opacity: 1;
+}
+
+/* Total section */
+.snipcart-summary-fees {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Quantity input */
+.snipcart-input {
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+}
+
+/* Product titles */
+.snipcart-item-line__title {
+    font-weight: 600 !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Price display */
+.snipcart-item-quantity__total-price {
+    font-weight: 500 !important;
+    font-size: 1.5rem !important;
+}
+
+.snipcart-summary-fees__amount {
+    margin-top: 5% !important;
+    margin-bottom: 5% !important;
+}
+
+.snipcart-summary-fees__notice {
+    margin-bottom: 3% !important;   
+}
+
+.snipcart-base-button__icon {
+    display: none !important;
+}
+
+.snipcart-base-button__label {
+    font-weight: bold !important;
+}
+
+.snipcart-base-button:hover {
+    color: black !important;
+}
+
+.snipcart-input__input {
+   background-color: #ffffff !important;
+}

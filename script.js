@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modelViewer = document.querySelector('#animation-demo');
   const footer = document.getElementById('footer');
   const footerButton = document.getElementById('footerButton');
+  const toggleCheckout = document.getElementById('toggleCheckout');
 
   // Function to hide footer
   function hideFooter() {
@@ -160,70 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     interactionTimeout = setTimeout(() => {
       isTouching = false;
     }, 10000); // 10 seconds
-  });
-
-  // Annotation Line Handling
-  const lines = modelViewer.querySelectorAll('line');
-  const annotationButtons = {
-    'about': document.querySelector('#about'),
-    'flavour': document.querySelector('#flavour'),
-    'effect': document.querySelector('#effect')
-  };
-  let baseRect, aboutRect, flavourRect, effectRect;
-
-  function onResize() {
-    const arStatus = modelViewer.getAttribute('ar-status');
-    baseRect = (arStatus == "not-presenting" || arStatus == "failed") ?
-      modelViewer.getBoundingClientRect() : new DOMRect();
-    aboutRect = annotationButtons['about'].getBoundingClientRect();
-    flavourRect = annotationButtons['flavour'].getBoundingClientRect();
-    effectRect = annotationButtons['effect'].getBoundingClientRect();
-  }
-
-  window.addEventListener("resize", onResize);
-
-  modelViewer.addEventListener('load', () => {
-    onResize();
-
-    function drawLine(svgLine, name, rect) {
-      const hotspot = modelViewer.queryHotspot('hotspot-' + name);
-      svgLine.setAttribute('x1', hotspot.canvasPosition.x);
-      svgLine.setAttribute('y1', hotspot.canvasPosition.y);
-      svgLine.setAttribute('x2', (rect.left + rect.right) / 2 - baseRect.left);
-      svgLine.setAttribute('y2', rect.top - baseRect.top);
-    }
-
-    // Hide all lines initially
-    lines.forEach(line => line.classList.add('hide'));
-
-    // Function to show and auto-hide a specific line
-    function showLineTemprorarily(index) {
-      // Hide all lines first
-      lines.forEach(line => line.classList.add('hide'));
-      
-      // Show the specific line
-      lines[index].classList.remove('hide');
-
-      // Auto-hide after 3 seconds
-      setTimeout(() => {
-        lines[index].classList.add('hide');
-      }, 3000);
-    }
-
-    // Add click event listeners to buttons
-    annotationButtons['about'].addEventListener('click', () => showLineTemprorarily(0));
-    annotationButtons['flavour'].addEventListener('click', () => showLineTemprorarily(1));
-    annotationButtons['effect'].addEventListener('click', () => showLineTemprorarily(2));
-
-    // Use requestAnimationFrame to update with renderer
-    const startSVGRenderLoop = () => {
-      drawLine(lines[0], 'about', aboutRect);
-      drawLine(lines[1], 'flavour', flavourRect);
-      drawLine(lines[2], 'effect', effectRect);
-      requestAnimationFrame(startSVGRenderLoop);
-    };
-
-    startSVGRenderLoop();
   });
 });
 
