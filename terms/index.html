@@ -8,7 +8,10 @@
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" type="text/css"/>
+  </noscript>
     
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/skeleton.css">
@@ -57,7 +60,7 @@
 
     <div class="container" id="FooterContainer">
         <div class="twelve columns offset-by-one">
-            <input type="image" id="footerButton" src="../images/info.png">
+            <input type="image" id="footerButton" src="../images/info.png" alt="info button - opens terms, faq and privacy, as well as socials">
             <div id="footer">
                 <div class="footer-content">
                     <div class="social-icons">
