@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
 
           case 'buyNowBtn':
-            modelViewer.play();
+            modelViewer.play({ repetitions: 1 });
             modelViewer.cameraOrbit = '90deg 65deg 4m';
             isTouching = true;
 
