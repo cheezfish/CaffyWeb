@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modelViewer.play();
             modelViewer.cameraOrbit = '90deg 65deg 4m';
             isTouching = true;
+            modelViewer.pause()
 
             // Delay transition to allow animation to complete
             setTimeout(() => {
