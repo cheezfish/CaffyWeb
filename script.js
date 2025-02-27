@@ -92,18 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
             modelViewer.play();
             modelViewer.cameraOrbit = '90deg 65deg 4m';
             isTouching = true;
-            modelViewer.pause()
 
-            // Delay transition to allow animation to complete
+            // Redirect after transition
             setTimeout(() => {
-              // Trigger transition
-              transitionOverlay.style.transform = 'scale(3)';
-              
-              // Redirect after transition
-              setTimeout(() => {
-                window.location.href = '/checkout';
-              }, 900); // matches transition duration
-            }, 900); // Adjust this number to match your model viewer's animation duration
+              window.location.href = '/checkout';
+            }, 900); // matches transition duration
             
             break;
       }
@@ -161,28 +154,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 10000); // 10 seconds
   });
 
-  // Reset the transition overlay when page loads (including when coming back from history)
-  window.addEventListener('pageshow', (event) => {
-  // This will also trigger when navigating via back button
-  // The persisted property tells us if the page is being loaded from cache (back button)
-  if (event.persisted) {
-    // Reset the overlay to its initial state
-    transitionOverlay.style.transform = 'scale(0)';
-  }
-  });
-
 });
-
-// Create transition overlay
-const transitionOverlay = document.createElement('div');
-transitionOverlay.style.position = 'fixed';
-transitionOverlay.style.top = '2%';
-transitionOverlay.style.left = '0';
-transitionOverlay.style.width = '100%';
-transitionOverlay.style.height = '100%';
-transitionOverlay.style.backgroundImage = "radial-gradient(circle at center, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.85))";
-transitionOverlay.style.transform = 'scale(0)';
-transitionOverlay.style.borderRadius = '5%';
-transitionOverlay.style.zIndex = '9999';
-transitionOverlay.style.transition = 'transform 1.5s ease-out';
-document.body.appendChild(transitionOverlay);
