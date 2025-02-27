@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirect after transition
             setTimeout(() => {
               window.location.href = '/checkout';
-            }, 12000); // matches transition duration
+            }, 1200); // matches transition duration
             
             break;
       }
