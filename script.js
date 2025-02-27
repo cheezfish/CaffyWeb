@@ -159,6 +159,17 @@ document.addEventListener('DOMContentLoaded', () => {
       isTouching = false;
     }, 10000); // 10 seconds
   });
+
+  // Reset the transition overlay when page loads (including when coming back from history)
+  window.addEventListener('pageshow', (event) => {
+  // This will also trigger when navigating via back button
+  // The persisted property tells us if the page is being loaded from cache (back button)
+  if (event.persisted) {
+    // Reset the overlay to its initial state
+    transitionOverlay.style.transform = 'scale(0)';
+  }
+  });
+
 });
 
 // Create transition overlay
