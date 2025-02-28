@@ -14,6 +14,7 @@
   </noscript>
 </head>
 
+
 <body>
   <div class="container" id="HeroContainer">
     <div class="hero twelve columns" onclick="window.location.href='https://getcaffy.com/';" style="cursor: pointer; z-index:0;">
@@ -64,7 +65,7 @@
     <div class="container" id="FooterContainer">
       <div class="twelve columns offset-by-one">
           <input type="image" id="footerButton" src="../images/info.png" alt="info button - opens terms, faq and privacy, as well as socials">
-          <div id="footer">
+          <div id="footer" style="display: none;">
               <div class="footer-content">
                   <div class="social-icons">
                       <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
@@ -86,11 +87,6 @@
           </div>
       </div>
   </div>
-
-    <script>
-    // Initialize footer as hidden
-      footer.style.display = 'none';
-    </script>
 
     <script>
       window.SnipcartSettings = {
