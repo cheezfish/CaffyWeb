@@ -75,7 +75,7 @@
           camera-controls touch-action="none" orbit-sensitivity="2"
           interaction-prompt-threshold="5000" 
           poster="images/poster-new.webp"
-          src="../CaffyPouchMintLAST3.glb" 
+          src="../CaffyPouchMintMVout.glb" 
           alt="A 3D model of CAFFY Pouch, a mint flavored energy supplement.">
 
             <div slot="hotspot-about" class="anchor" data-surface="1 0 0 3 2 0 0 0"></div>
@@ -128,24 +128,39 @@
     </div>
 
     <script>
-      const modelViewerVariants = document.querySelector("model-viewer#animation-demo");
+      const modelViewerVariants = document.querySelector("#animation-demo");
       const select = document.querySelector('#variant');
-      
+    
       modelViewerVariants.addEventListener('load', () => {
+        select.innerHTML = '';
+    
         const names = modelViewerVariants.availableVariants;
-        for (const name of names) {
-          const option = document.createElement('option');
-          option.value = name;
-          option.textContent = name;
-          option.style.zIndex = '9999';
-          select.appendChild(option);
+        if (names.length > 0) {
+    
+          // Create options in the desired order (Mint first)
+          const mintIndex = names.indexOf("Mint");
+          const blueberryIndex = names.indexOf("Blueberry");
+
+          if (mintIndex !== -1) {
+              const mintOption = document.createElement('option');
+              mintOption.value = "Mint";
+              mintOption.textContent = "Mint";
+              select.appendChild(mintOption);
+          }
+          if (blueberryIndex !== -1){
+              const blueberryOption = document.createElement('option');
+              blueberryOption.value = "Blueberry";
+              blueberryOption.textContent = "Blueberry";
+              select.appendChild(blueberryOption);
+          }
         }
       });
-      
+    
       select.addEventListener('input', (event) => {
         modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
       });
     </script>
+    
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

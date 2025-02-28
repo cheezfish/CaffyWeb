@@ -76,6 +76,8 @@ window.addEventListener('pageshow', (event) => {
   // Start with infoBox hidden
   infoBox.style.display = 'none';
 
+
+
   // Click event for each button
   buttons.forEach(buttonId => {
     document.querySelector(`#${buttonId}`).addEventListener('click', () => {
