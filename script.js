@@ -7,6 +7,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const footer = document.getElementById('footer');
   const footerButton = document.getElementById('footerButton');
 
+  // Add this near the top of your DOMContentLoaded event handler
+window.addEventListener('pageshow', (event) => {
+  // Check if the page is being restored from the bfcache (back/forward cache)
+  if (event.persisted) {
+    // Reset the model to its initial state
+    const modelViewer = document.querySelector('#animation-demo');
+    
+    // Stop any current animation
+    modelViewer.pause();
+    
+    // Reset animation to initial frame
+    modelViewer.currentTime = 0;
+    
+    // Reset camera position to default view
+    modelViewer.cameraOrbit = '75deg 60deg 105%';
+    
+    // Reset any other state as needed
+    isTouching = false;
+    infoBox.style.display = 'none';
+  }
+});
+
   // Function to hide footer
   function hideFooter() {
     footer.style.display = 'none';
