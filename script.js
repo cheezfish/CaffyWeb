@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
             variantBox.style.display = 'block';
           }
           if (window.innerWidth >= 1025) {
-            updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration. <br><br>Our range of flavours will soon include Kiwi, Mango, and Melon.');
+            updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration. <br><br>Stay tuned as we increase our range of flavours.');
           } else {
             updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration.');
           }
@@ -448,9 +448,9 @@ document.addEventListener('DOMContentLoaded', () => {
             variantBox.style.display = 'none';
           }
           if (window.innerWidth >= 1025) {
-            updateInfo('CAFFY was founded with a mission to create the perfect blend of nootropic supplements. <br><br>Our aim is to reimagine the way we utilise caffeine, and deliver positive tangible effects with complete transparency.');
+            updateInfo('CAFFY is the product of a mission to create the perfect blend of nootropic supplements. <br><br>Our aim is to reimagine the way we utilise caffeine, and deliver you positive tangible effects with complete transparency.');
           } else {
-            updateInfo('CAFFY was founded with a mission to create the perfect blend of nootropic supplements. Our aim is to reimagine the way we utilise caffeine.');
+            updateInfo('CAFFY is the product of a mission to create the perfect blend of nootropic supplements. Our aim is to reimagine the way we utilise caffeine.');
           }
           break;
 
