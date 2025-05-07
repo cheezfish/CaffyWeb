@@ -4,42 +4,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const modelViewer = document.querySelector('#animation-demo');
   const footer = document.getElementById('footer');
   const footerButton = document.getElementById('footerButton');
+  const variantBox = document.getElementById('variantBox'); // Ensure variantBox is defined if used globally
 
-  // Add this near the top of your DOMContentLoaded event handler
   window.addEventListener('pageshow', (event) => {
-    // Check if the page is being restored from the bfcache (back/forward cache)
     if (event.persisted) {
-      // Reset the model to its initial state
       const modelViewer = document.querySelector('#animation-demo');
-      
-      // Stop any current animation
       modelViewer.pause();
-      
-      // Reset animation to initial frame
       modelViewer.currentTime = 0;
-      
-      // Reset camera position to default view
       modelViewer.cameraOrbit = '75deg 60deg 105%';
-      
-      // Reset any other state as needed
-      isTouching = false;
+      isTouching = false; // Reset isTouching if it's a global or accessible variable
       infoBox.style.display = 'none';
+       buttons.forEach(btnId => {
+            const btnElement = document.querySelector(`#${btnId}`);
+            if (btnElement) btnElement.classList.remove('active');
+        });
     }
   });
 
-  // Function to hide footer
   function hideFooter() {
     footer.style.display = 'none';
     footerButton.style.bottom = '0%';
   }
 
-  // Function to show footer
   function showFooter() {
     footer.style.display = 'flex';
     footerButton.style.bottom = '12%';
   }
 
-  // Toggle footer when footer button is clicked
   footerButton.addEventListener('click', (event) => {
     event.stopPropagation();
     if (footer.style.display === 'none' || footer.style.display === '') {
@@ -49,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Hide footer when clicking outside
   document.addEventListener('click', (event) => {
     if ((footer.style.display === 'flex') && 
         !footer.contains(event.target) && 
@@ -58,24 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initialize footer as hidden
   footer.style.display = 'none';
 
-  // Utility function to update info text
-  function updateInfo(message) {
+  // Store original updateInfo before potentially overwriting it
+  let baseUpdateInfo = function(message) {
     const infoElement = document.getElementById('info');
-    const infoBox = document.getElementById('infoBox');
+    const currentInfoBox = document.getElementById('infoBox'); // Use currentInfoBox to avoid conflict
     
     infoElement.innerHTML = message;
-    infoBox.style.display = 'block';
-  }
+    currentInfoBox.style.display = 'block';
+  };
 
-  // Start with infoBox hidden
+  // Assign to global updateInfo or use a more scoped approach if preferred
+  // For simplicity here, we're preparing for updateInfo to be reassigned.
+  var updateInfo = baseUpdateInfo; // 'var' to allow reassignment if this script is wrapped
+
   infoBox.style.display = 'none';
 
-  // Create mobile ingredient popup
   function createMobileIngredientPopup() {
-    // Create mobile popup if it doesn't exist
     if (!document.getElementById('mobile-ingredient-popup')) {
       const popupHTML = `
         <div id="mobile-ingredient-popup" class="mobile-ingredient-popup">
@@ -88,12 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       
-      // Add popup to the body
       const popupContainer = document.createElement('div');
       popupContainer.innerHTML = popupHTML;
       document.body.appendChild(popupContainer.firstElementChild);
       
-      // Add styles for the popup
       const popupStyles = document.createElement('style');
       popupStyles.id = 'mobile-popup-styles';
       popupStyles.textContent = `
@@ -175,72 +163,59 @@ document.addEventListener('DOMContentLoaded', () => {
           font-style: italic;
           color: #5ee6e6;
           text-decoration: underline;
+          cursor: pointer; /* Add cursor pointer for mobile */
         }
       `;
       document.head.appendChild(popupStyles);
       
-      // Add close button functionality
       document.getElementById('popup-close').addEventListener('click', () => {
         document.getElementById('mobile-ingredient-popup').classList.remove('active');
       });
     }
   }
 
-  // Function to create ingredient tooltips/popups based on device
   function createIngredientInfo() {
-    // Define ingredient information with links
     const ingredientInfo = {
       'guarana': {
         title: 'Guarana',
-        description: 'A plant native to the Amazon basin, known for its high caffeine content.',
+        description: 'A plant native to the Amazon basin, known for its high caffeine content, providing sustained energy release.',
         links: [
           { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Guarana' },
           { name: 'Examine.com', url: 'https://examine.com/supplements/guarana/' },
           { name: 'PubMed Studies', url: 'https://pubmed.ncbi.nlm.nih.gov/?term=guarana' }
         ]
       },
-      'taurine': {
-        title: 'Taurine',
-        description: 'An amino acid that supports neurological development and regulates water and mineral salt levels in the blood.',
+      'citicoline': {
+        title: 'Citicoline',
+        description: 'A naturally occurring brain chemical that supports memory, focus, and overall cognitive function by aiding in the synthesis of phosphatidylcholine.',
         links: [
-          { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Taurine' },
-          { name: 'Examine.com', url: 'https://examine.com/supplements/taurine/' },
-          { name: 'NIH Info', url: 'https://ods.od.nih.gov/factsheets/ExerciseAndAthleticPerformance-HealthProfessional/' }
+          { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Citicoline' },
+          { name: 'Examine.com', url: 'https://examine.com/supplements/citicoline/' },
+          { name: 'PubMed Studies', url: 'https://pubmed.ncbi.nlm.nih.gov/?term=citicoline+cognitive' }
         ]
       },
       'l-theanine': {
         title: 'L-Theanine',
-        description: 'An amino acid found primarily in tea leaves that promotes relaxation without drowsiness.',
+        description: 'An amino acid found primarily in tea leaves that promotes relaxation without drowsiness, often used to smooth out caffeine\'s effects and enhance focus.',
         links: [
           { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Theanine' },
           { name: 'Examine.com', url: 'https://examine.com/supplements/theanine/' },
-          { name: 'PubMed Studies', url: 'https://pubmed.ncbi.nlm.nih.gov/?term=l-theanine' }
+          { name: 'PubMed Studies', url: 'https://pubmed.ncbi.nlm.nih.gov/?term=l-theanine+focus' }
         ]
       },
-      'alpha-gpc': {
-        title: 'Alpha-GPC',
-        description: 'A choline-containing compound that may increase acetylcholine in the brain, supporting cognitive function.',
+      'vitamin b6': {
+        title: 'Vitamin B6 (Pyridoxine)',
+        description: 'An essential vitamin crucial for brain development and function, playing a key role in neurotransmitter synthesis which impacts mood and mental clarity.',
         links: [
-          { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Alpha-GPC' },
-          { name: 'Examine.com', url: 'https://examine.com/supplements/alpha-gpc/' },
-          { name: 'NCBI Research', url: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4594115/' }
-        ]
-      },
-      'rhodiola rosea': {
-        title: 'Rhodiola Rosea',
-        description: 'An adaptogenic herb that may help the body resist physical and mental stress.',
-        links: [
-          { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Rhodiola_rosea' },
-          { name: 'Examine.com', url: 'https://examine.com/supplements/rhodiola-rosea/' },
-          { name: 'NCCIH Info', url: 'https://www.nccih.nih.gov/health/rhodiola' }
+          { name: 'Wikipedia', url: 'https://en.wikipedia.org/wiki/Vitamin_B6' },
+          { name: 'Examine.com', url: 'https://examine.com/supplements/vitamin-b6/' },
+          { name: 'NIH Fact Sheet', url: 'https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/' }
         ]
       }
     };
 
-    // Create mobile popup
     createMobileIngredientPopup();
 
-    // Create desktop tooltips
     if (!document.getElementById('tooltip-styles')) {
       const tooltipStyles = document.createElement('style');
       tooltipStyles.id = 'tooltip-styles';
@@ -249,16 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
           position: relative;
           display: inline-block;
           font-style: italic;
-          color: inherit;
+          color: inherit; /* Keep original text color */
           cursor: pointer;
-          border-bottom: 1px dotted #999;
+          border-bottom: 1px dotted #999; /* Subtle underline for desktop */
         }
         
         .tooltip-container {
-          position: fixed;
-          right: 20px;
-          top: 50%;
-          transform: translateY(-50%);
+          position: fixed; /* Changed from absolute to fixed */
+          /* Positioning will be handled by JS */
           width: 300px;
           background-color: #fff;
           color: #333;
@@ -267,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
           padding: 15px;
           box-shadow: 0 2px 10px rgba(0,0,0,0.2);
           z-index: 1000;
-          display: none;
+          display: none; /* Initially hidden */
         }
         
         .tooltip-links {
@@ -288,113 +261,105 @@ document.addEventListener('DOMContentLoaded', () => {
       document.head.appendChild(tooltipStyles);
     }
 
-    // Create a single tooltip container if it doesn't exist
     if (!document.getElementById('tooltip-container')) {
       const tooltipContainer = document.createElement('div');
       tooltipContainer.id = 'tooltip-container';
       tooltipContainer.className = 'tooltip-container';
       document.body.appendChild(tooltipContainer);
     }
-
-    // Override updateInfo to add tooltips/mobile popup functionality
-    const originalUpdateInfo = updateInfo;
     
+    // Re-assign updateInfo to the enhanced version
     updateInfo = function(message) {
-      // Call the original function first
-      originalUpdateInfo(message);
+      baseUpdateInfo(message); // Call the original function first
       
-      // Get the info element after it's been updated
       const infoElement = document.getElementById('info');
-      
-      // For desktop: tooltips
-      // For mobile: clickable text that opens bottom popup
+      const currentInfoBox = document.getElementById('infoBox'); // Local reference to infoBox
       const isMobile = window.innerWidth < 1025;
       
-      // Replace ingredient names with tooltipped spans or mobile clickable spans
-      Object.keys(ingredientInfo).forEach(ingredient => {
-        // Case insensitive search for ingredient name
-        const regex = new RegExp(`\\b${ingredient}\\b`, 'i');
-        if (infoElement.innerHTML.match(regex)) {
-          if (isMobile) {
-            // Mobile: Add clickable class
-            infoElement.innerHTML = infoElement.innerHTML.replace(
-              regex,
-              `<span class="mobile-ingredient" data-ingredient="${ingredient}">${ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}</span>`
-            );
-          } else {
-            // Desktop: Add tooltip class
-            infoElement.innerHTML = infoElement.innerHTML.replace(
-              regex,
-              `<span class="ingredient-tooltip" data-ingredient="${ingredient}">${ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}</span>`
-            );
-          }
-        }
+      Object.keys(ingredientInfo).forEach(ingredientKey => {
+        // Regex to match whole word, case insensitive, and handle spaces in keys
+        const regexPattern = ingredientKey.replace(/ /g, '\\s+'); // Allows one or more spaces between words
+        const regex = new RegExp(`\\b(${regexPattern})\\b`, 'gi'); // 'g' for global, 'i' for case-insensitive
+
+        infoElement.innerHTML = infoElement.innerHTML.replace(regex, (match) => {
+            // 'match' here is the actual text found, e.g., "Guarana", "citicoline", "Vitamin B6"
+            // We use 'ingredientKey' for data-attribute to ensure consistency with 'ingredientInfo' keys.
+            if (isMobile) {
+                return `<span class="mobile-ingredient" data-ingredient="${ingredientKey.toLowerCase()}">${match}</span>`;
+            } else {
+                return `<span class="ingredient-tooltip" data-ingredient="${ingredientKey.toLowerCase()}">${match}</span>`;
+            }
+        });
       });
       
       if (isMobile) {
-        // Setup mobile click events
         const mobileIngredients = document.querySelectorAll('.mobile-ingredient');
         const popup = document.getElementById('mobile-ingredient-popup');
         const popupTitle = document.getElementById('popup-title');
         const popupDescription = document.getElementById('popup-description');
         const popupLinks = document.getElementById('popup-links');
         
-        mobileIngredients.forEach(ingredient => {
-          ingredient.addEventListener('click', () => {
-            const ingredientName = ingredient.getAttribute('data-ingredient');
-            const info = ingredientInfo[ingredientName];
+        mobileIngredients.forEach(ingredientSpan => {
+          ingredientSpan.addEventListener('click', () => {
+            const ingredientName = ingredientSpan.getAttribute('data-ingredient');
+            const info = ingredientInfo[ingredientName]; // ingredientInfo keys are lowercase
             
-            popupTitle.textContent = info.title;
-            popupDescription.textContent = info.description;
-            
-            // Generate links
-            popupLinks.innerHTML = info.links.map(link => 
-              `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.name}</a>`
-            ).join(' ');
-            
-            // Show popup
-            popup.classList.add('active');
+            if (info) {
+                popupTitle.textContent = info.title;
+                popupDescription.textContent = info.description;
+                popupLinks.innerHTML = info.links.map(link => 
+                `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.name}</a>`
+                ).join(' ');
+                popup.classList.add('active');
+            }
           });
         });
       } else {
-        // Setup desktop tooltip hover events
         const tooltips = document.querySelectorAll('.ingredient-tooltip');
         const tooltipContainer = document.getElementById('tooltip-container');
         
         tooltips.forEach(tooltip => {
-          tooltip.addEventListener('mouseenter', () => {
-            const ingredient = tooltip.getAttribute('data-ingredient');
-            const info = ingredientInfo[ingredient];
+          tooltip.addEventListener('mouseenter', (event) => {
+            const ingredientKey = tooltip.getAttribute('data-ingredient');
+            const info = ingredientInfo[ingredientKey]; // ingredientInfo keys are lowercase
             
-            tooltipContainer.innerHTML = `
-              <strong>${info.title}</strong>
-              <p>${info.description}</p>
-              <div class="tooltip-links">
-                ${info.links.map(link => 
-                  `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.name}</a>`
-                ).join(' ')}
-              </div>
-            `;
-            
-            tooltipContainer.style.display = 'block';
-            
-            // Calculate position to appear to the right of the infoBox
-            const infoBoxRect = infoBox.getBoundingClientRect();
-            tooltipContainer.style.left = (infoBoxRect.right + 20) + 'px';
-            tooltipContainer.style.right = 'auto';
-            tooltipContainer.style.top = (infoBoxRect.top + infoBoxRect.height / 2) + 'px';
-            tooltipContainer.style.transform = 'translateY(-50%)';
-            
-            // Check if tooltip would go off-screen and adjust if needed
-            const tooltipRect = tooltipContainer.getBoundingClientRect();
-            if (tooltipRect.right > window.innerWidth) {
-              tooltipContainer.style.left = 'auto';
-              tooltipContainer.style.right = '20px';
+            if (info) {
+                tooltipContainer.innerHTML = `
+                <strong>${info.title}</strong>
+                <p>${info.description}</p>
+                <div class="tooltip-links">
+                    ${info.links.map(link => 
+                    `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.name}</a>`
+                    ).join(' ')}
+                </div>
+                `;
+                
+                tooltipContainer.style.display = 'block';
+                
+                const infoBoxRect = currentInfoBox.getBoundingClientRect();
+                tooltipContainer.style.left = (infoBoxRect.right + 20) + 'px';
+                tooltipContainer.style.top = (infoBoxRect.top + infoBoxRect.height / 2) + 'px';
+                tooltipContainer.style.transform = 'translateY(-50%)';
+                
+                const tooltipRect = tooltipContainer.getBoundingClientRect();
+                if (tooltipRect.right > window.innerWidth - 20) { // Check with a margin
+                    tooltipContainer.style.left = (infoBoxRect.left - tooltipRect.width - 20) + 'px';
+                }
+                 if (tooltipRect.left < 20) { // Ensure it's not off-screen left
+                    tooltipContainer.style.left = '20px';
+                }
+                 if (tooltipRect.bottom > window.innerHeight - 20) {
+                    tooltipContainer.style.top = (window.innerHeight - tooltipRect.height - 20) + 'px';
+                    tooltipContainer.style.transform = 'translateY(0)';
+                }
+                if (tooltipRect.top < 20) {
+                    tooltipContainer.style.top = '20px';
+                    tooltipContainer.style.transform = 'translateY(0)';
+                }
             }
           });
           
           tooltip.addEventListener('mouseleave', () => {
-            // Hide tooltip after a small delay to prevent flickering
             setTimeout(() => {
               if (!tooltipContainer.matches(':hover')) {
                 tooltipContainer.style.display = 'none';
@@ -403,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
         
-        // Hide tooltip when mouse leaves it
         tooltipContainer.addEventListener('mouseleave', () => {
           tooltipContainer.style.display = 'none';
         });
@@ -411,30 +375,39 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
   
-  // Initialize the ingredient info functionality
-  createIngredientInfo();
+  createIngredientInfo(); // This will redefine `updateInfo`
 
-  // Click event for each button
   buttons.forEach(buttonId => {
-    document.querySelector(`#${buttonId}`).addEventListener('click', () => {
+    const buttonElement = document.querySelector(`#${buttonId}`);
+    if (!buttonElement) return; // Skip if button doesn't exist
+
+    buttonElement.addEventListener('click', () => {
+      // Add 'active' class to clicked button and remove from others
+      buttons.forEach(btnId => {
+        const btnElement = document.querySelector(`#${btnId}`);
+        if (btnElement) { // Check if element exists
+            if (btnId === buttonId && btnId !== 'buyNowBtn' && btnId !== 'footerButton') {
+                btnElement.classList.add('active');
+            } else {
+                btnElement.classList.remove('active');
+            }
+        }
+      });
+
       switch(buttonId) {
         case 'effect':
           modelViewer.cameraOrbit = '130deg 90deg 3m';
-          if (typeof variantBox !== 'undefined') {
-            variantBox.style.display = 'none';
-          }
+          if (variantBox) variantBox.style.display = 'none';
           if (window.innerWidth >= 1025) {
-            updateInfo('Energy, memory, focus. <br>Caffeine from guarana, <br>with nootropics including <br> Taurine, <br> L-Theanine, <br> Alpha-GPC, <br> Rhodiola Rosea. <br><br>Our blend supports mental clarity, reduces fatigue, & enhances brain function.');
+            updateInfo('Energy, memory, focus. <br>Caffeine from Guarana, <br>with nootropics including <br> Citicoline, <br> L-Theanine, <br> Vitamin B6. <br><br>Our blend supports mental clarity, reduces fatigue, & enhances brain function.');
           } else {
-            updateInfo('Energy, memory, focus. Caffeine from guarana, with nootropics including Taurine, L-Theanine, Alpha-GPC, and Rhodiola Rosea.');
+            updateInfo('Energy, memory, focus. Caffeine from Guarana, with nootropics including Citicoline, L-Theanine, and Vitamin B6.');
           }
           break;
 
         case 'flavour':
           modelViewer.cameraOrbit = '90deg 0deg 3m';
-          if (typeof variantBox !== 'undefined') {
-            variantBox.style.display = 'block';
-          }
+          if (variantBox) variantBox.style.display = 'block';
           if (window.innerWidth >= 1025) {
             updateInfo('Available in Cool Mint and Blueberry. Optimized for potency and flavor duration. <br><br>Stay tuned as we increase our range of flavours.');
           } else {
@@ -444,9 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         case 'about':
           modelViewer.cameraOrbit = '270deg 180deg 4m';
-          if (typeof variantBox !== 'undefined') {
-            variantBox.style.display = 'none';
-          }
+          if (variantBox) variantBox.style.display = 'none';
           if (window.innerWidth >= 1025) {
             updateInfo('CAFFY is the product of a mission to create the perfect blend of nootropic supplements. <br><br>Our aim is to reimagine the way we utilise caffeine, and deliver you positive tangible effects with complete transparency.');
           } else {
@@ -458,47 +429,49 @@ document.addEventListener('DOMContentLoaded', () => {
           modelViewer.play({ repetitions: 1 });
           modelViewer.cameraOrbit = '90deg 65deg 4m';
           isTouching = true;
-
-          // Redirect after transition
           setTimeout(() => {
             window.location.href = '/checkout';
-          }, 1200); // matches transition duration
-            
+          }, 1200);
           break;
       }
     });
   });
 
-  // Add window resize event to recreate content if needed
   window.addEventListener('resize', () => {
-    if (document.getElementById('infoBox').style.display === 'block') {
-      const effectButton = document.getElementById('effect');
-      const flavourButton = document.getElementById('flavour');
-      const aboutButton = document.getElementById('about');
-      
-      // Determine which button is active and re-click it to refresh content
-      if (effectButton.classList.contains('active')) {
-        effectButton.click();
-      } else if (flavourButton.classList.contains('active')) {
-        flavourButton.click();
-      } else if (aboutButton.classList.contains('active')) {
-        aboutButton.click();
+    // If infoBox is visible, re-trigger the active button's click to re-render content
+    if (infoBox.style.display === 'block') {
+      const activeButton = buttons.find(btnId => {
+        const el = document.querySelector(`#${btnId}`);
+        return el && el.classList.contains('active');
+      });
+      if (activeButton) {
+        const activeElement = document.querySelector(`#${activeButton}`);
+        if (activeElement) activeElement.click();
       }
     }
     
-    // Hide mobile popup on resize
     const popup = document.getElementById('mobile-ingredient-popup');
     if (popup) {
       popup.classList.remove('active');
     }
   });
   
-  // Close infoBox if clicked outside
   document.addEventListener('click', (event) => {
-    if (!infoBox.contains(event.target) && 
-        !buttons.some(buttonId => document.querySelector(`#${buttonId}`).contains(event.target))) {
-      infoBox.style.display = 'none';
-      // Also hide tooltip container
+    const currentInfoBox = document.getElementById('infoBox'); // Use local reference
+
+    // Check if the click is outside the infoBox and not on any of the control buttons
+    if (currentInfoBox.style.display === 'block' && // Only if infoBox is visible
+        !currentInfoBox.contains(event.target) && 
+        !buttons.some(buttonId => {
+            const btnEl = document.querySelector(`#${buttonId}`);
+            return btnEl && btnEl.contains(event.target); // Check if button exists and contains target
+        })) {
+      currentInfoBox.style.display = 'none';
+      // Remove 'active' class from all buttons when infoBox is closed this way
+      buttons.forEach(btnId => {
+          const btnElement = document.querySelector(`#${btnId}`);
+          if (btnElement) btnElement.classList.remove('active');
+      });
       const tooltipContainer = document.getElementById('tooltip-container');
       if (tooltipContainer) {
         tooltipContainer.style.display = 'none';
@@ -506,43 +479,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Model Viewer Animation Cycle
   const orbitCycle = [
-    '90deg 0deg 3m', // Top view
-    '0deg 0deg 3m', // Top rotated -90
-    '0deg 90deg 3m', // Left side
-    '120deg 90deg 3m', // Left side 2
-    '270deg 180deg 4m', // Bottom View
-    '240deg 100deg 3m', // Born in UAE
-    '45deg 60deg 3m', // Front view
-    modelViewer.cameraOrbit
+    '90deg 0deg 3m',
+    '0deg 0deg 3m',
+    '0deg 90deg 3m',
+    '120deg 90deg 3m',
+    '270deg 180deg 4m',
+    '240deg 100deg 3m',
+    '45deg 60deg 3m',
+    modelViewer.cameraOrbit // Initial orbit
   ];
 
-  let isTouching = false; // Tracks if the user is interacting
-  let interactionTimeout = null; // Stores the timeout reference
+  let isTouching = false;
+  let interactionTimeout = null;
 
-  // Function to update the camera orbit
   function updateOrbit() {
-    if (!isTouching) {
+    if (!isTouching && (infoBox.style.display === 'none' || infoBox.style.display === '')) {
       const currentOrbitIndex = orbitCycle.indexOf(modelViewer.cameraOrbit);
-      modelViewer.cameraOrbit =
-        orbitCycle[(currentOrbitIndex + 1) % orbitCycle.length];
+      const nextOrbitIndex = (currentOrbitIndex + 1) % orbitCycle.length;
+      // Ensure the next orbit is different from current, especially if initial orbit was duplicated
+      if (orbitCycle[nextOrbitIndex] !== modelViewer.cameraOrbit || orbitCycle.length === 1) {
+          modelViewer.cameraOrbit = orbitCycle[nextOrbitIndex];
+      } else {
+          modelViewer.cameraOrbit = orbitCycle[(nextOrbitIndex + 1) % orbitCycle.length];
+      }
     }
   }
 
   modelViewer.interpolationDecay = 100;
-
-  // Set up periodic updates
   const intervalId = setInterval(updateOrbit, 4000);
 
-  // Handle user interaction
   modelViewer.addEventListener('pointerdown', () => {
     isTouching = true;
-    clearTimeout(interactionTimeout); // Clear any previous timeout
+    clearTimeout(interactionTimeout);
   });
 
   modelViewer.addEventListener('pointerup', () => {
-    // Set a delay before resuming camera movement
     interactionTimeout = setTimeout(() => {
       isTouching = false;
     }, 10000); // 10 seconds
