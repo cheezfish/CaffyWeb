@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (!tooltipContainer.matches(':hover')) {
                 tooltipContainer.style.display = 'none';
               }
-            }, 100);
+            }, 800);
           });
         });
         
