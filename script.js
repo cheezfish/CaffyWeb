@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
           modelViewer.cameraOrbit = '90deg 65deg 4m';
           isTouching = true;
           setTimeout(() => {
-            window.location.href = '/checkout';
+            window.location.href = 'https://buy.stripe.com/8x24gz0uweEyayS80D9k401';
           }, 1200);
           break;
       }
