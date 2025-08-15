@@ -9,24 +9,41 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/png" href="../images/favicon.ico">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" type="text/css"/>
-  </noscript>
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" type="text/css"/>
+    </noscript>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Basic styling for the new cart elements -->
+    <style>
+        .cart-icon-container { position: fixed; bottom: 20px; right: 20px; cursor: pointer; z-index: 999; }
+        #cart-icon-container img { width: 60px; height: 60px; }
+        #cart-count { position: absolute; top: -5px; right: -5px; background: #ff5a5f; color: white; border-radius: 50%; padding: 2px 8px; font-size: 14px; font-weight: bold; }
+        .cart-modal { position: fixed; top: 0; right: 0; width: 350px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.15); z-index: 1000; transform: translateX(100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; padding: 20px; }
+        .cart-modal.open { transform: translateX(0); }
+        .cart-header { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .cart-items { flex-grow: 1; overflow-y: auto; }
+        .cart-item { display: flex; align-items: center; margin-bottom: 15px; }
+        .cart-item img { width: 60px; height: 60px; margin-right: 15px; }
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-info h5 { margin: 0; font-size: 16px; }
+        .cart-item-info p { margin: 5px 0 0; }
+        .cart-footer { padding-top: 20px; border-top: 1px solid #eee; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+        #checkout-button { width: 100%; }
+        .hidden { display: none !important; }
+    </style>
 </head>
 
-
 <body>
-  <div class="container" id="HeroContainer">
-    <div class="hero twelve columns" onclick="window.location.href='https://getcaffy.com/';" style="cursor: pointer; z-index:0;">
-        <div id="title" class="montserrat-500">CAFFY</div>
-        <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
+  <!-- This div will wrap all page content that should hide during checkout -->
+  <div id="main-content">
+    <div class="container" id="HeroContainer">
+      <div class="hero twelve columns" onclick="window.location.href='https://getcaffy.com/';" style="cursor: pointer; z-index:0;">
+          <div id="title" class="montserrat-500">CAFFY</div>
+          <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
+      </div>
     </div>
-  </div>
-
-  <div class="cartContainer" style="bottom:1%%">
-  <span  id="cartCount" class="snipcart-items-count" style="font-weight: bold;"></span>
-  <input type="image" class="snipcart-checkout" id="toggleCheckout" src="../images/cart.png">
-  </div>
 
     <div class="container" style="margin-bottom: 100px;">
         <div class="row">
@@ -34,13 +51,12 @@
                 <img class="productimage" src="../images/caffy-pouch-mint.png" alt="Caffy Pouch - Cool Mint" style="width:100%">
                 <h4 class="product">Cool Mint</h4>
                 <p class="price">50 AED</p>
-                <button class="button-primary snipcart-add-item six columns offset-by-three"
-                    data-item-id="caffy-pouch-mint"
-                    data-item-name="Caffy Pouch - Cool Mint"
-                    data-item-price="50"
-                    data-item-url="/checkout"
-                    data-item-image="../images/caffy-pouch-mint.png"
-                    data-item-currency="AED">
+                <!-- ADD TO CART BUTTONS with data attributes -->
+                <button class="button-primary add-to-cart-button six columns offset-by-three"
+                    data-id="caffy-mint"
+                    data-name="Caffy Pouch - Cool Mint"
+                    data-price="5000"
+                    data-image="../images/caffy-pouch-mint.png">
                     Add to Cart
                 </button>
             </div>
@@ -48,61 +64,170 @@
                 <img class="productimage" src="../images/caffy-pouch-blueberry.png" alt="Caffy Pouch - Blueberry" style="width:100%">
                 <h4 class="product">Blueberry</h4>
                 <p class="price">50 AED</p>
-                <button class="button-blueberry snipcart-add-item six columns offset-by-three"
-                    data-item-id="caffy-pouch-blueberry"
-                    data-item-name="Caffy Pouch - Blueberry"
-                    data-item-price="50"
-                    data-item-url="/checkout"
-                    data-item-image="../images/caffy-pouch-blueberry.png"
-                    data-item-currency="AED">
+                <button class="button-blueberry add-to-cart-button six columns offset-by-three"
+                    data-id="caffy-blueberry"
+                    data-name="Caffy Pouch - Blueberry"
+                    data-price="5000"
+                    data-image="../images/caffy-pouch-blueberry.png">
                     Add to Cart
                 </button>
             </div>
-
         </div>
     </div>
 
     <div class="container" id="FooterContainer">
-      <div class="twelve columns offset-by-one">
-          <input type="image" id="footerButton" src="../images/info.png" alt="info button - opens terms, faq and privacy, as well as socials">
-          <div id="footer" style="display: none;">
-              <div class="footer-content">
-                  <div class="social-icons">
-                      <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
-                      <a href="https://www.instagram.com/get__caffy/" title="Instagram"><i class="fa-xl fab fa-instagram"></i></a>
-                      <a href="https://www.tiktok.com/@getcaffy" title="TikTok"><i class="fa-xl fab fa-tiktok"></i></a>
-                      <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn"><i class="fa-xl fab fa-linkedin"></i></a>
-                      <a href="https://www.reddit.com/user/getcaffy/" title="Reddit"><i class="fa-xl fab fa-reddit"></i></a>
-                      <a href="https://www.youtube.com/@GetCaffy" title="YouTube"><i class="fa-xl fab fa-youtube"></i></a>
-                  </div>
-                  <div class="links">
-                      <a href="/terms" class="montserrat-300">Terms</a>
-                      <a href="/faq" class="montserrat-300">FAQ</a>
-                      <a href="/privacy" class="montserrat-300">Privacy</a>
-                  </div>
-                  <div class="trademark">
-                      © 2024 CAFFY Ltd. All rights reserved.
-                  </div>
-              </div>
-          </div>
-      </div>
+      <!-- Your Footer HTML... -->
+    </div>
   </div>
 
-    <script>
-      window.SnipcartSettings = {
-        publicApiKey: "MDc1NDQ1ZWMtNGIxOS00MWQyLThiNGEtYWMzZDYxOGU4ODA1NjM4NzUxODU5MjI3NDY3NDU2",
-        loadStrategy: "on-user-interaction",
-        currency: "AED",
-        modalStyle: "side",
-        loadCSS: false,
-        templatesUrl: "../checkout/snipcart-templates.html",
-      };
-    
-      (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
-    </script>
-    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
-    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css">
-    <script src="../script.js" defer></script>
-    <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
+  <!-- DIV for the Stripe Embedded Component to mount into -->
+  <div id="stripe-checkout" class="container"></div>
+
+  <!-- Cart Icon -->
+  <div class="cart-icon-container" id="cart-icon">
+    <img src="../images/cart.png" alt="Shopping Cart">
+    <span id="cart-count">0</span>
+  </div>
+
+  <!-- Cart Modal (hidden by default) -->
+  <div class="cart-modal" id="cart-modal">
+    <h3 class="cart-header">Your Basket</h3>
+    <div class="cart-items" id="cart-items-container">
+      <!-- Cart items will be dynamically inserted here -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total">0 AED</span>
+      </div>
+      <button class="button-primary" id="checkout-button">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // --- ACTION ITEM 1: Replace with your Stripe PUBLISHABLE key ---
+    const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGBzHG1vdjlqsfJ0dSBT2kTgLfEhFP3oYhdiPboMjaIAmgiXBWKt0OqvIM4xrMmydKBRNkpOny00qMCEFQaX');
+
+    // --- Cart State & DOM Elements ---
+    let cart = [];
+    const cartIcon = document.getElementById('cart-icon');
+    const cartModal = document.getElementById('cart-modal');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
+    const checkoutButton = document.getElementById('checkout-button');
+    const mainContent = document.getElementById('main-content');
+    const stripeCheckoutContainer = document.getElementById('stripe-checkout');
+
+    // --- Cart Logic ---
+    function addToCart(item) {
+      const existingItem = cart.find(cartItem => cartItem.id === item.id);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ ...item, quantity: 1 });
+      }
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      // Clear previous items
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        count += item.quantity;
+        
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('cart-item');
+        itemElement.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="cart-item-info">
+            <h5>${item.name}</h5>
+            <p>${item.quantity} x ${(item.price / 100).toFixed(2)} AED</p>
+          </div>
+        `;
+        cartItemsContainer.appendChild(itemElement);
+      });
+
+      cartCount.textContent = count;
+      cartTotal.textContent = `${(total / 100).toFixed(2)} AED`;
+    }
+
+    // --- Checkout Logic ---
+    async function initiateCheckout() {
+      if (cart.length === 0) {
+        alert("Your basket is empty.");
+        return;
+      }
+      
+      // 1. Hide page content and show a loading state
+      mainContent.classList.add('hidden');
+      cartModal.classList.remove('open');
+      stripeCheckoutContainer.innerHTML = '<h4>Loading Checkout...</h4>';
+
+      // 2. Format cart data for the Stripe API
+      const line_items = cart.map(item => {
+        return {
+          price_data: {
+            currency: 'aed',
+            product_data: {
+              name: item.name,
+              images: [window.location.origin + item.image.replace('..', '')]
+            },
+            unit_amount: item.price,
+          },
+          quantity: item.quantity,
+        };
+      });
+
+      // 3. Call your backend to create the Checkout Session
+      try {
+        // --- ACTION ITEM 2: Replace with your Cloudflare Worker URL ---
+        const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ line_items }),
+        });
+        
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message);
+
+        // 4. Initialize and mount the Embedded Checkout
+        const checkout = await stripe.initEmbeddedCheckout({
+          clientSecret: data.clientSecret,
+        });
+        stripeCheckoutContainer.innerHTML = ''; // Clear loading message
+        checkout.mount('#stripe-checkout');
+
+      } catch(error) {
+        console.error('Checkout Error:', error);
+        alert('Could not initiate checkout. Please try again.');
+        mainContent.classList.remove('hidden'); // Show content again on error
+      }
+    }
+
+    // --- Event Listeners ---
+    document.querySelectorAll('.add-to-cart-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const item = e.target.dataset;
+        addToCart({
+          id: item.id,
+          name: item.name,
+          price: parseInt(item.price),
+          image: item.image
+        });
+        cartModal.classList.add('open'); // Open cart when item is added
+      });
+    });
+
+    cartIcon.addEventListener('click', () => cartModal.classList.toggle('open'));
+    checkoutButton.addEventListener('click', initiateCheckout);
+
+  </script>
+  <script src="../script.js" defer></script>
+  <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
 </body>
 </html>
