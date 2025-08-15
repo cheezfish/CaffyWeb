@@ -148,7 +148,7 @@
 
   <script type="text/javascript">
     // --- ACTION ITEM: Your real publishable key goes here ---
-    const stripe = Stripe('pk_live_YOUR_PUBLISHABLE_KEY_HERE');
+    const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGBzHG1vdjlqsfJ0dSBT2kTgLfEhFP3oYhdiPboMjaIAmgiXBWKt0OqvIM4xrMmydKBRNkpOny00qMCEFQaX');
     
     // --- STRIPE ELEMENTS LOGIC ---
     let elements;
@@ -232,7 +232,7 @@
 
         try {
             // --- ACTION ITEM: Your real worker URL goes here ---
-            const response = await fetch('https://caffy-stripe-cloud.YOUR_REAL_SUBDOMAIN.workers.dev', {
+            const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ line_items: cart }), // Pass the simple cart array
