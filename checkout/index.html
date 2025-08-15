@@ -241,6 +241,7 @@
 
     #checkout-view {
       color: #fff;
+      padding-bottom: 100px;
     }
 
     #back-to-store-button {
@@ -266,8 +267,137 @@
       padding: 0 15px;
     }
 
+    .form-section {
+      margin-bottom: 35px;
+    }
+
+    .form-section h4 {
+      margin-bottom: 20px;
+      font-weight: 500;
+      color: #00ffff;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .form-field {
+      flex: 1;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-field input[type="email"],
+    .form-field input[type="tel"],
+    .form-field input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-field input:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
+    }
+
+    .form-field input::placeholder {
+      color: #666;
+    }
+
+    .required {
+      color: #ff5a5f;
+    }
+
+    #address-element,
     #payment-element {
       margin-bottom: 24px;
+    }
+
+    .checkbox-field {
+      display: flex;
+      align-items: flex-start;
+      margin: 20px 0;
+      gap: 12px;
+    }
+
+    .checkbox-field input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: #00ffff;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checkbox-field label {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .checkbox-field label a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    .checkbox-field label a:hover {
+      text-decoration: underline;
+    }
+
+    .order-summary {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .order-summary h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #00ffff;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #00ffff;
+    }
+
+    .order-item-name {
+      color: #ccc;
+    }
+
+    .order-item-price {
+      color: #fff;
     }
 
     #submit-payment-button {
@@ -276,6 +406,13 @@
       color: #000;
       border-color: #00ffff;
       font-weight: bold;
+      padding: 15px;
+      font-size: 16px;
+
+      /* --- THIS IS THE FIX --- */
+      display: flex;
+      align-items: center;      /* Vertically centers the text */
+      justify-content: center;  /* Horizontally centers the text */
     }
 
     #submit-payment-button:disabled {
@@ -364,16 +501,17 @@
         box-sizing: border-box;
       }
 
-      /* Add these lines to your existing <style> block */
-      .marketing-checkbox {
-          display: flex;
-          align-items: center;
-          margin: 20px 0;
-          color: #aaa;
-          font-size: 14px;
+      .form-row {
+        flex-direction: column;
+        gap: 0;
       }
-      .marketing-checkbox input {
-          margin-right: 10px;
+
+      .form-field {
+        margin-bottom: 15px;
+      }
+
+      #payment-form {
+        padding: 0 20px;
       }
     }
   </style>
@@ -414,22 +552,56 @@
 
   <div id="checkout-view" class="hidden">
     <button id="back-to-store-button">← Back to Store</button>
+    
     <form id="payment-form">
-      <!-- NEW: Address Element Container -->
-      <h4 style="margin-bottom: 20px; font-weight: 500;">Shipping Information</h4>
-      <div id="address-element">
-        <!-- Stripe Address Element will be inserted here -->
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h4>Order Summary</h4>
+        <div id="order-items-list">
+          <!-- Order items will be populated here -->
+        </div>
       </div>
 
-      <h4 style="margin: 30px 0 20px; font-weight: 500;">Payment Details</h4>
-      <div id="payment-element">
-        <!-- Stripe Payment Element will be inserted here -->
+      <!-- Contact Information -->
+      <div class="form-section">
+        <h4>Contact Information</h4>
+        <div class="form-field">
+          <label for="customer-email">Email Address <span class="required">*</span></label>
+          <input type="email" id="customer-email" name="email" required placeholder="your@email.com">
+        </div>
       </div>
 
-      <!-- NEW: Marketing Checkbox -->
-      <div class="marketing-checkbox">
-        <input id="comms-checkbox" type="checkbox" name="comms" checked />
-        <label for="comms-checkbox">Receive news and special offers.</label>
+      <!-- Shipping Address -->
+      <div class="form-section">
+        <h4>Shipping Address</h4>
+        <div id="address-element">
+          <!-- Stripe Address Element will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Payment Details -->
+      <div class="form-section">
+        <h4>Payment Details</h4>
+        <div id="payment-element">
+          <!-- Stripe Payment Element will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Marketing and Terms -->
+      <div class="form-section">
+        <div class="checkbox-field">
+          <input id="marketing-checkbox" type="checkbox" name="marketing" checked />
+          <label for="marketing-checkbox">
+            I would like to receive news, special offers, and product updates from CAFFY.
+          </label>
+        </div>
+        
+        <div class="checkbox-field">
+          <input id="terms-checkbox" type="checkbox" name="terms" required />
+          <label for="terms-checkbox">
+            I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a> <span class="required">*</span>
+          </label>
+        </div>
       </div>
 
       <button id="submit-payment-button" class="button-primary">
@@ -473,6 +645,8 @@
 
     // --- STRIPE ELEMENTS LOGIC ---
     let elements;
+    let addressElement;
+    let paymentElement;
 
     // --- CART STATE & DOM ELEMENTS ---
     let cart = [];
@@ -522,10 +696,50 @@
       checkoutButton.disabled = cart.length === 0;
     }
 
+    function updateOrderSummary() {
+      const orderItemsList = document.getElementById('order-items-list');
+      orderItemsList.innerHTML = '';
+      
+      let total = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        const orderItem = document.createElement('div');
+        orderItem.classList.add('order-item');
+        orderItem.innerHTML = `
+          <span class="order-item-name">${item.name} × ${item.quantity}</span>
+          <span class="order-item-price">${(itemTotal / 100).toFixed(2)} AED</span>
+        `;
+        orderItemsList.appendChild(orderItem);
+      });
+      
+      // Add total
+      const totalItem = document.createElement('div');
+      totalItem.classList.add('order-item');
+      totalItem.innerHTML = `
+        <span>Total</span>
+        <span>${(total / 100).toFixed(2)} AED</span>
+      `;
+      orderItemsList.appendChild(totalItem);
+    }
+
     // --- VIEW MANAGEMENT FUNCTIONS ---
-    function showCheckoutView() { document.body.classList.add('checkout-active'); mainContent.classList.add('hidden'); checkoutView.classList.remove('hidden'); }
-    function hideCheckoutView() { document.body.classList.remove('checkout-active'); mainContent.classList.remove('hidden'); checkoutView.classList.add('hidden'); }
-    function closeCart() { cartModal.classList.remove('open'); document.body.classList.remove('cart-open'); }
+    function showCheckoutView() { 
+      document.body.classList.add('checkout-active'); 
+      mainContent.classList.add('hidden'); 
+      checkoutView.classList.remove('hidden');
+      updateOrderSummary();
+    }
+    function hideCheckoutView() { 
+      document.body.classList.remove('checkout-active'); 
+      mainContent.classList.remove('hidden'); 
+      checkoutView.classList.add('hidden'); 
+    }
+    function closeCart() { 
+      cartModal.classList.remove('open'); 
+      document.body.classList.remove('cart-open'); 
+    }
 
     // --- STRIPE ELEMENTS CHECKOUT FLOW ---
     async function initiateCheckout() {
@@ -550,18 +764,47 @@
         if (!response.ok) throw new Error(data.error?.message || 'Server error');
 
         const clientSecret = data.clientSecret;
-        const appearance = { theme: 'night', variables: { colorPrimary: '#00ffff', colorBackground: '#1a1a1a', colorText: '#ffffff', colorDanger: '#ff5a5f', fontFamily: 'Montserrat, sans-serif' } };
+        const appearance = { 
+          theme: 'night', 
+          variables: { 
+            colorPrimary: '#00ffff', 
+            colorBackground: '#1a1a1a', 
+            colorText: '#ffffff', 
+            colorDanger: '#ff5a5f', 
+            fontFamily: 'Montserrat, sans-serif',
+            borderRadius: '4px',
+            spacingUnit: '6px'
+          } 
+        };
         elements = stripe.elements({ appearance, clientSecret });
 
-        const addressElement = elements.create("address", {
-          mode: "shipping", // This is crucial for collecting a shipping address
+        // Enhanced Address Element with all fields
+        addressElement = elements.create("address", {
+          mode: "shipping",
+          allowedCountries: ['AE'], // Gulf countries + others as needed
+          blockPoBox: true, // Block P.O. Box addresses for shipping
           fields: {
-            phone: 'always', // Makes the phone number field visible and required
+            phone: 'always', // Always show phone field
+          },
+          validation: {
+            phone: {
+              required: 'always',
+            },
           },
         });
         addressElement.mount("#address-element");
 
-        const paymentElement = elements.create("payment");
+        // Enhanced Payment Element
+        paymentElement = elements.create("payment", {
+          fields: {
+            billingDetails: {
+              name: 'never', // We'll collect this separately if needed
+              email: 'never', // We collect email above
+              phone: 'never', // We collect phone above
+              address: 'never', // We collect address above
+            },
+          },
+        });
         paymentElement.mount("#payment-element");
 
       } catch (error) {
@@ -573,15 +816,32 @@
 
     document.getElementById('payment-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       setLoading(true);
+      
+      // Collect customer data
+      const email = document.getElementById('customer-email').value;
+      const phone = document.getElementById('customer-phone').value;
+      const marketingConsent = document.getElementById('marketing-checkbox').checked;
+      
       const { error } = await stripe.confirmPayment({
         elements,
-        confirmParams: { return_url: `${window.location.protocol}//${window.location.host}/return.html` },
+        confirmParams: {
+          return_url: `${window.location.protocol}//${window.location.host}/return.html`,
+          receipt_email: email,
+          shipping: {
+            name: 'Customer', // This will be overridden by address element
+            phone: phone,
+          },
+        },
       });
-      if (error.type === "card_error" || error.type === "validation_error") {
-        showMessage(error.message);
-      } else {
-        showMessage("An unexpected error occurred.");
+      
+      if (error) {
+        if (error.type === "card_error" || error.type === "validation_error") {
+          showMessage(error.message);
+        } else {
+          showMessage("An unexpected error occurred.");
+        }
       }
       setLoading(false);
     });
@@ -593,10 +853,12 @@
         btn.disabled = true;
         btn.querySelector('#button-text').textContent = "Processing...";
       } else {
+        btn.disabled = false;
         const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
         btn.querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
       }
     }
+    
     function showMessage(messageText) {
       const messageContainer = document.getElementById('payment-message');
       messageContainer.classList.remove("hidden");
@@ -604,8 +866,29 @@
       setTimeout(() => { messageContainer.classList.add("hidden"); }, 4000);
     }
 
+    // --- FORM ENHANCEMENTS ---
+    function formatPhoneNumber(input) {
+      // Simple UAE phone number formatting
+      let value = input.value.replace(/\D/g, '');
+      if (value.startsWith('971')) {
+        value = '+' + value;
+      } else if (value.startsWith('0')) {
+        value = '+971' + value.substring(1);
+      } else if (value.length === 9) {
+        value = '+971' + value;
+      }
+      input.value = value;
+    }
+
+    // Real-time email validation
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
     // --- EVENT LISTENERS ---
     document.addEventListener('DOMContentLoaded', () => {
+      // Product add to cart buttons
       document.querySelectorAll('.add-to-cart-button').forEach(button => {
         button.addEventListener('click', e => {
           addToCart({ ...e.currentTarget.dataset, price: parseInt(e.currentTarget.dataset.price) });
@@ -613,6 +896,8 @@
           document.body.classList.add('cart-open');
         });
       });
+
+      // Cart item actions
       cartItemsContainer.addEventListener('click', e => {
         const { id, action } = e.target.dataset;
         if (!id) return;
@@ -623,6 +908,7 @@
         else if (action === 'increase') updateCart(id, item.quantity + 1);
       });
 
+      // Cart and checkout navigation
       cartIcon.addEventListener('click', () => {
         cartModal.classList.add('open');
         document.body.classList.add('cart-open');
@@ -635,6 +921,7 @@
         document.body.classList.add('cart-open');
       });
 
+      // Footer toggle
       footerButton.addEventListener('click', (event) => {
         event.stopPropagation();
         footer.style.display = footer.style.display === 'none' ? 'flex' : 'none';
@@ -644,8 +931,44 @@
           footer.style.display = 'none';
         }
       });
-      footer.style.display = 'none';
 
+      // Form field enhancements
+      const emailField = document.getElementById('customer-email');
+      
+      // Email validation
+      emailField.addEventListener('blur', (e) => {
+        const email = e.target.value;
+        if (email && !validateEmail(email)) {
+          e.target.style.borderColor = '#ff5a5f';
+        } else {
+          e.target.style.borderColor = '#444';
+        }
+      });
+
+      // Phone number formatting
+      phoneField.addEventListener('blur', (e) => {
+        formatPhoneNumber(e.target);
+      });
+
+      // Terms checkbox requirement
+      const termsCheckbox = document.getElementById('terms-checkbox');
+      const submitButton = document.getElementById('submit-payment-button');
+      
+      function updateSubmitButton() {
+        // Note: We'll also check other validations in the form submit handler
+        // This is just for the terms checkbox visual feedback
+        if (!termsCheckbox.checked) {
+          submitButton.style.opacity = '0.6';
+        } else {
+          submitButton.style.opacity = '1';
+        }
+      }
+      
+      termsCheckbox.addEventListener('change', updateSubmitButton);
+      updateSubmitButton(); // Initial state
+
+      // Initialize
+      footer.style.display = 'none';
       updateCartDisplay();
     });
   </script>
