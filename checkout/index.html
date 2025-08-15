@@ -28,93 +28,66 @@
         .product-model { width: 100%; height: 400px; margin: 0 auto; cursor: grab; }
         .hidden { display: none !important; }
 
-        /* --- Icon & Button Styles --- */
+        /* Icon & Button Styles */
         .cart-icon-container { position: fixed; bottom: 20px; right: 20px; cursor: pointer; z-index: 1001; filter: drop-shadow(0 0 5px #00ffff); transition: opacity 0.3s, transform 0.3s; }
-        .cart-icon-container i { color: #00ffff; transition: color 0.2s; }
-        .cart-icon-container:hover i { color: #fff; }
+        .cart-icon-container i { color: #00ffff; }
         #cart-count { position: absolute; top: -8px; right: -8px; background: #00ffff; color: #000; border-radius: 50%; padding: 2px 8px; font-size: 14px; font-weight: bold; }
         #footerButtonContainer { position: fixed; bottom: 20px; left: 20px; z-index: 1001; background: none; border: none; cursor: pointer; transition: opacity 0.3s, transform 0.3s; }
-        #footerButtonContainer i { color: #888; font-size: 32px; transition: color 0.2s; }
-        #footerButtonContainer:hover i { color: #fff; }
+        #footerButtonContainer i { color: #888; font-size: 32px; }
         body.checkout-active .cart-icon-container,
         body.checkout-active #footerButtonContainer,
         body.cart-open .cart-icon-container { opacity: 0; pointer-events: none; transform: scale(0.8); }
 
-        /* --- Polished Cart Modal --- */
+        /* Polished Cart Modal */
         .cart-modal { box-sizing: border-box; position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100%; background: #121212; color: #fff; border-left: 1px solid #00ffff; box-shadow: -5px 0 25px rgba(0, 255, 255, 0.2); z-index: 1002; transform: translateX(100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; font-family: 'Montserrat', sans-serif; }
         .cart-modal.open { transform: translateX(0); }
         .cart-header { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; padding: 25px; font-size: 24px; font-weight: 500; margin: 0; border-bottom: 1px solid #333; }
-        .close-cart-btn { background: none; border: none; color: #888; font-size: 28px; cursor: pointer; transition: color 0.2s; line-height: 1; padding: 0; }
-        .close-cart-btn:hover { color: #fff; }
+        .close-cart-btn { background: none; border: none; color: #888; font-size: 28px; cursor: pointer; line-height: 1; padding: 0; }
         .cart-items { flex-grow: 1; overflow-y: auto; padding: 10px 25px; }
         .cart-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #222; }
         .cart-item-model { width: 70px; height: 70px; min-width: 70px; margin-right: 15px; border-radius: 4px; }
         .cart-item-details { flex-grow: 1; }
-        .cart-item-details h5 { margin: 0; font-size: 16px; font-weight: 400; }
+        .cart-item-details h5 { margin: 0; font-size: 16px; }
         .cart-item-details p { margin: 5px 0 0; color: #888; }
         .cart-item-actions { display: flex; flex-direction: column; align-items: center; margin-left: 15px; }
         .quantity-controls { display: flex; align-items: center; margin-bottom: 5px; }
         .quantity-controls button { background: #222; color: #fff; border: 1px solid #444; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: 18px; }
-        .quantity-controls span { min-width: 30px; text-align: center; font-size: 16px; }
+        .quantity-controls span { min-width: 30px; text-align: center; }
         .remove-item-btn { background: none; border: none; color: #ff5a5f; cursor: pointer; font-size: 12px; font-weight: bold; }
         .cart-empty-message { color: #888; text-align: center; margin-top: 50px; }
-        .cart-footer { flex-shrink: 0; padding: 25px; border-top: 1px solid #333; background: #121212; }
+        .cart-footer { flex-shrink: 0; padding: 25px; border-top: 1px solid #333; }
         .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 500; margin-bottom: 20px; }
         #checkout-button { width: 100%; background-color: #00ffff; color: #000; border-color: #00ffff; font-weight: bold; }
-        #checkout-button:hover { background-color: #fff; border-color: #fff; }
+        
+        /* Elements Checkout View */
+        #checkout-view { color: #fff; }
+        #back-to-store-button { position: relative; z-index: 10; display: flex; align-items: center; width: fit-content; margin: 40px auto 20px; background: none; border: 1px solid #444; color: #aaa; padding: 10px 20px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; border-radius: 4px; }
+        #payment-form { margin: 40px auto; max-width: 500px; padding: 0 15px; }
+        #payment-element { margin-bottom: 24px; }
+        #submit-payment-button { width: 100%; background-color: #00ffff; color: #000; border-color: #00ffff; font-weight: bold; }
+        #submit-payment-button:disabled { background-color: #555; cursor: not-allowed; }
+        #payment-message { color: #ff5a5f; text-align: center; margin-top: 20px; }
 
-        /* --- Checkout View & Back Button --- */
-        /* --- Checkout View & Back Button --- */
-        #checkout-view {
-            position: relative;
-            z-index: 1;
-        }
-        #back-to-store-button {
-            position: relative;
-            z-index: 10; /* This makes the button float on top */
-            display: block;
-            width: fit-content;
-            margin: 40px auto 20px;
-            background: none;
-            border: 1px solid #444;
-            color: #aaa;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            border-radius: 4px;
-        }
-        #back-to-store-button:hover {
-            border-color: #00ffff;
-            color: #00ffff;
-        }
-
-        /* --- Themed Footer --- */
+        /* Themed Footer */
         #footer { width: 100%; position: fixed; left: 0; bottom: 0; z-index: 1000; background-color: #1a1a1a; padding: 20px 0; border-top: 1px solid #00ffff; box-shadow: 0 -5px 25px rgba(0, 255, 255, 0.2); }
         .footer-content { width: 80%; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .social-icons { display: flex; justify-content: center; gap: 40px; }
-        .social-icons a { color: #ccc; text-decoration: none; font-size: 24px; transition: color 0.2s; }
-        .social-icons a:hover { color: #00ffff; }
-        .links a { color: #aaa; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-        .links a:hover { color: #fff; }
+        .social-icons a { color: #ccc; font-size: 24px; }
+        .links a { color: #aaa; }
         .trademark { color: #666; font-size: 0.9rem; }
         
-        /* --- MOBILE OVERHAUL --- */
+        /* Mobile Overhaul */
         @media (max-width: 768px) {
             .row .six.columns { width: 100%; margin-left: 0; }
             .product-model { height: 320px; }
             .add-to-cart-button { margin-bottom: 50px; }
             #HeroContainer { margin-bottom: 0; }
             #back-to-store-button { margin-top: 20px; }
-            
-            /* Full screen cart on mobile */
             .cart-modal { max-width: 100%; border-left: none; }
             .cart-footer { position: sticky; bottom: 0; width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
-
 <body>
 
   <div id="main-content">
@@ -142,9 +115,15 @@
 
   <div id="checkout-view" class="hidden">
       <button id="back-to-store-button">← Back to Store</button>
-      <div id="stripe-checkout" class="container"></div>
+      <form id="payment-form">
+          <div id="payment-element"></div>
+          <button id="submit-payment-button" class="button-primary">
+              <span id="button-text">Pay now</span>
+          </button>
+          <div id="payment-message" class="hidden"></div>
+      </form>
   </div>
-
+  
   <div class="cart-icon-container" id="cart-icon"><i class="fas fa-shopping-cart fa-2x"></i><span id="cart-count">0</span></div>
   <button id="footerButtonContainer"><i class="fas fa-info-circle"></i></button>
   
@@ -168,17 +147,18 @@
   </div>
 
   <script type="text/javascript">
-    const appearance = { theme: 'night', variables: { colorPrimary: '#00ffff', colorBackground: '#000000', colorText: '#ffffff', colorDanger: '#ff5a5f', fontFamily: 'Montserrat, sans-serif', spacingUnit: '4px', borderRadius: '4px' }};
-    const options = { appearance };
-    
     // --- ACTION ITEM: Your real publishable key goes here ---
-    const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGBzHG1vdjlqsfJ0dSBT2kTgLfEhFP3oYhdiPboMjaIAmgiXBWKt0OqvIM4xrMmydKBRNkpOny00qMCEFQaX', options);
-
+    const stripe = Stripe('pk_live_YOUR_PUBLISHABLE_KEY_HERE');
+    
+    // --- STRIPE ELEMENTS LOGIC ---
+    let elements;
+    let clientSecret;
+    
+    // --- CART STATE & DOM ELEMENTS ---
     let cart = [];
     const mainContent = document.getElementById('main-content');
     const checkoutView = document.getElementById('checkout-view');
     const backToStoreButton = document.getElementById('back-to-store-button');
-    const stripeCheckoutContainer = document.getElementById('stripe-checkout');
     const cartIcon = document.getElementById('cart-icon');
     const cartModal = document.getElementById('cart-modal');
     const cartItemsContainer = document.getElementById('cart-items-container');
@@ -189,6 +169,7 @@
     const footer = document.getElementById('footer');
     const footerButton = document.getElementById('footerButtonContainer');
 
+    // --- CART FUNCTIONS ---
     function updateCart(itemId, newQuantity) {
         const item = cart.find(i => i.id === itemId);
         if (item) {
@@ -221,6 +202,7 @@
         checkoutButton.disabled = cart.length === 0;
     }
 
+    // --- VIEW MANAGEMENT FUNCTIONS ---
     function showCheckoutView() {
         document.body.classList.add('checkout-active');
         mainContent.classList.add('hidden');
@@ -231,39 +213,6 @@
         document.body.classList.remove('checkout-active');
         mainContent.classList.remove('hidden');
         checkoutView.classList.add('hidden');
-        stripeCheckoutContainer.innerHTML = '';
-    }
-
-    async function initiateCheckout() {
-        if (cart.length === 0) return;
-        cartModal.classList.remove('open');
-        document.body.classList.remove('cart-open');
-        showCheckoutView();
-        stripeCheckoutContainer.innerHTML = '<h4 style="text-align: center; margin-top: 50px;">Loading Secure Checkout...</h4>';
-
-        const line_items = cart.map(item => ({
-            price_data: { currency: 'aed', product_data: { name: item.name, images: [`${window.location.protocol}//${window.location.host}${item.image.replace('..', '')}`] }, unit_amount: item.price },
-            quantity: item.quantity,
-        }));
-
-        try {
-            // --- ACTION ITEM: Your real worker URL goes here ---
-            const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ line_items }),
-            });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error?.message || 'Failed to create checkout session.');
-            
-            const checkout = await stripe.initEmbeddedCheckout({ clientSecret: data.clientSecret });
-            stripeCheckoutContainer.innerHTML = '';
-            checkout.mount('#stripe-checkout');
-        } catch(error) {
-            console.error('Checkout Error:', error);
-            alert('Could not initiate checkout. Please try again.');
-            hideCheckoutView();
-        }
     }
 
     function closeCart() {
@@ -271,6 +220,78 @@
         document.body.classList.remove('cart-open');
     }
 
+    // --- STRIPE ELEMENTS CHECKOUT FLOW ---
+    async function initiateCheckout() {
+        if (cart.length === 0) return;
+        closeCart();
+        showCheckoutView();
+        
+        // Update the pay button text immediately
+        const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
+        document.getElementById('submit-payment-button').querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
+
+        try {
+            // --- ACTION ITEM: Your real worker URL goes here ---
+            const response = await fetch('https://caffy-stripe-cloud.YOUR_REAL_SUBDOMAIN.workers.dev', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ line_items: cart }), // Pass the simple cart array
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error?.message || 'Server error');
+            
+            clientSecret = data.clientSecret;
+
+            const appearance = { theme: 'night', variables: { colorPrimary: '#00ffff', colorBackground: '#1a1a1a', colorText: '#ffffff', colorDanger: '#ff5a5f', fontFamily: 'Montserrat, sans-serif' }};
+            elements = stripe.elements({ appearance, clientSecret });
+
+            const paymentElement = elements.create("payment");
+            paymentElement.mount("#payment-element");
+
+        } catch(error) {
+            console.error('Checkout Init Error:', error);
+            alert('Could not initiate checkout. Please try again.');
+            hideCheckoutView();
+        }
+    }
+
+    document.getElementById('payment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const { error } = await stripe.confirmPayment({
+            elements,
+            confirmParams: { return_url: `${window.location.protocol}//${window.location.host}/return.html` },
+        });
+
+        if (error.type === "card_error" || error.type === "validation_error") {
+            showMessage(error.message);
+        } else {
+            showMessage("An unexpected error occurred.");
+        }
+        setLoading(false);
+    });
+
+    // --- HELPER FUNCTIONS FOR PAYMENT FORM ---
+    function setLoading(isLoading) {
+        const btn = document.getElementById('submit-payment-button');
+        if (isLoading) {
+            btn.disabled = true;
+            btn.querySelector('#button-text').textContent = "Processing...";
+        } else {
+            btn.disabled = false;
+            const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
+            btn.querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
+        }
+    }
+    function showMessage(messageText) {
+        const messageContainer = document.getElementById('payment-message');
+        messageContainer.classList.remove("hidden");
+        messageContainer.textContent = messageText;
+        setTimeout(() => { messageContainer.classList.add("hidden"); }, 4000);
+    }
+
+    // --- EVENT LISTENERS ---
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.add-to-cart-button').forEach(button => {
             button.addEventListener('click', e => {
@@ -297,7 +318,7 @@
         checkoutButton.addEventListener('click', initiateCheckout);
         backToStoreButton.addEventListener('click', () => {
             hideCheckoutView();
-            cartModal.classList.add('open'); // The "smart return"
+            cartModal.classList.add('open');
             document.body.classList.add('cart-open');
         });
 
