@@ -821,7 +821,6 @@
       
       // Collect customer data
       const email = document.getElementById('customer-email').value;
-      const phone = document.getElementById('customer-phone').value;
       const marketingConsent = document.getElementById('marketing-checkbox').checked;
       
       const { error } = await stripe.confirmPayment({
@@ -829,10 +828,6 @@
         confirmParams: {
           return_url: `${window.location.protocol}//${window.location.host}/return.html`,
           receipt_email: email,
-          shipping: {
-            name: 'Customer', // This will be overridden by address element
-            phone: phone,
-          },
         },
       });
       
