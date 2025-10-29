@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>CAFFY - Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- FONT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.ico">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
+  <style>
+    /* Additional styles for vertical centering */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-container {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #FooterContainer {
+      flex-shrink: 0;
+    }
+
+    .coming-soon-title {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .coming-soon-subtitle {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .email-subscription {
+      max-width: 500px;
+      margin: 2rem auto 0;
+    }
+
+    .subscription-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .email-input {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid #50f9fa;
+      border-radius: 4px;
+      font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .email-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .email-input:focus {
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-color: #50f9fa;
+      box-shadow: 0 0 10px rgba(80, 249, 250, 0.3);
+    }
+
+    .subscribe-button {
+      padding: 0px 30px;
+      background-color: #50f9fa;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .subscribe-button:hover {
+      background-color: #3dd9da;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(80, 249, 250, 0.4);
+    }
+
+    .subscribe-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .subscribe-message {
+      color: #50f9fa;
+      font-size: 0.95rem;
+      min-height: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .subscription-form {
+        flex-direction: column;
+      }
+
+      .email-input,
+      .subscribe-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container content-container">
+    <h1 class="montserrat-500 coming-soon-title">Coming Soon</h1>
+    <h5 class="montserrat-300 coming-soon-subtitle">We're working hard to bring you something amazing. Stay tuned!</h5>
+    <div class="email-subscription">
+      <form id="subscribeForm" class="subscription-form">
+        <input type="email" id="emailInput" placeholder="Enter your email" required class="email-input montserrat-300">
+        <button type="submit" class="subscribe-button montserrat-500">Subscribe</button>
+      </form>
+      <p id="subscribeMessage" class="subscribe-message montserrat-300"></p>
+    </div>
+  </div>
+  <div class="container" id="FooterContainer">
+    <div class="twelve columns">
+      <input type="image" id="footerButton" src="images/info.png"
+        alt="info button - opens terms, faq and privacy, as well as socials">
+      <div id="footer" style="display: none;">
+        <div class="footer-content">
+          <div class="social-icons">
+            <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/get__caffy/" title="Instagram"><i class="fa-xl fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@getcaffy" title="TikTok"><i class="fa-xl fab fa-tiktok"></i></a>
+            <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn"><i
+                class="fa-xl fab fa-linkedin"></i></a>
+            <a href="https://www.reddit.com/user/getcaffy/" title="Reddit"><i class="fa-xl fab fa-reddit"></i></a>
+            <a href="https://www.youtube.com/@GetCaffy" title="YouTube"><i class="fa-xl fab fa-youtube"></i></a>
+          </div>
+          <div class="links">
+            <a href="/terms" class="montserrat-300">Terms</a>
+            <a href="/faq" class="montserrat-300">FAQ</a>
+            <a href="/privacy" class="montserrat-300">Privacy</a>
+          </div>
+          <div class="trademark">
+            © 2024 CAFFY Ltd. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Script to toggle the footer visibility
+    const footerButton = document.getElementById('footerButton');
+    const footer = document.getElementById('footer');
+    if (footerButton && footer) {
+      footerButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        footer.style.display = footer.style.display === 'none' || footer.style.display === '' ? 'block' : 'none';
+      });
+      document.addEventListener('click', (event) => {
+        if (footer.style.display === 'block' && !footer.contains(event.target) && !footerButton.contains(event.target)) {
+          footer.style.display = 'none';
+        }
+      });
+    }
+
+    // Email subscription form handler
+    const subscribeForm = document.getElementById('subscribeForm');
+    const emailInput = document.getElementById('emailInput');
+    const subscribeMessage = document.getElementById('subscribeMessage');
+
+    // Replace this with your n8n webhook URL
+    const N8N_WEBHOOK_URL = 'http://n8n-vkko8cg8s8w84ogwswkg0wk4.91.98.67.122.sslip.io/webhook-test/10165c6b-f1bb-4dbb-babe-2c7a5e834c71';
+
+    if (subscribeForm) {
+      subscribeForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = emailInput.value.trim();
+
+        if (email) {
+          // Disable button and show loading state
+          const submitButton = subscribeForm.querySelector('.subscribe-button');
+          const originalText = submitButton.textContent;
+          submitButton.textContent = 'Subscribing...';
+          submitButton.disabled = true;
+
+          try {
+            // Send email to n8n webhook
+            const response = await fetch(N8N_WEBHOOK_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                email: email,
+                timestamp: new Date().toISOString(),
+                source: 'coming-soon-page'
+              })
+            });
+
+            if (response.ok) {
+              subscribeMessage.textContent = 'Thank you for subscribing! We\'ll keep you updated.';
+              subscribeMessage.style.color = '#50f9fa';
+              emailInput.value = '';
+            } else {
+              throw new Error('Subscription failed');
+            }
+          } catch (error) {
+            subscribeMessage.textContent = 'Oops! Something went wrong. Please try again.';
+            subscribeMessage.style.color = '#ff6b6b';
+            console.error('Subscription error:', error);
+          } finally {
+            // Re-enable button
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+              subscribeMessage.textContent = '';
+            }, 5000);
+          }
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
