@@ -230,6 +230,30 @@
           }
         }
       });
+
+      // Wait for Clarity to load
+      function checkClarity() {
+        // If Clarity has generated a Session ID...
+        if (typeof clarity === 'function' && clarity.v) {
+          // ...and if Umami is loaded
+          if (typeof umami !== 'undefined') {
+            // Send a "Session Start" event to Umami containing the Clarity Link
+            // The link format is always: https://clarity.ms/player/{ProjectID}/{SessionID}
+            const clarityId = clarity.v.id; 
+            // Replace 'uvpwwz7gy2' below with your ACTUAL Clarity Project ID from the URL
+            const clarityUrl = `https://clarity.ms/player/uvpwwz7gy2/${clarityId}`;
+            
+            umami.track('Clarity Session', { url: clarityUrl });
+          }
+        } else {
+          // Keep checking every 1 second until it loads
+          setTimeout(checkClarity, 1000);
+        }
+      }
+
+      // Start checking
+      checkClarity();
+
     </script>
     
 
