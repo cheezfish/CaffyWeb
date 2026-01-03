@@ -58,7 +58,8 @@
       <div class="hero twelve columns">
         <div id="title" class="montserrat-500">CAFFY</div>
         <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
-        <button id="buyNowBtn" class="button-primary label">SUBSCRIBE</button>
+        <button id="buyNowBtn" class="button-primary label" data-umami-event="Click Subscribe"
+        data-umami-event-location="Hero Section">SUBSCRIBE</button>
         <div id="infoBox" style="display: none;">
           <p id="info"></p>
           <div class="controls">
@@ -91,9 +92,12 @@
             </svg>
 
             <div id="labelsbox">
-              <button id="about" class="label">About Us</button>
-              <button id="flavour" class="label">Flavours</button>
-              <button id="effect" class="label">Effects</button>
+              <button id="about" class="label" data-umami-event="Open Modal"
+              data-umami-event-type="About Us">About Us</button>
+              <button id="flavour" class="label" data-umami-event="Open Modal"
+              data-umami-event-type="Flavours">Flavours</button>
+              <button id="effect" class="label" data-umami-event="Open Modal"
+              data-umami-event-type="Effects">Effects</button>
             </div>
 
           </model-viewer>
@@ -103,18 +107,47 @@
     <div class="container" id="FooterContainer">
       <div class="twelve columns offset-by-one">
 
-        <input type="image" id="footerButton" src="images/info.png" alt="info button - opens terms, faq and privacy, as well as socials">
+        <input type="image" id="footerButton" src="images/info.png" data-umami-event="Toggle Footer" alt="info button - opens terms, faq and privacy, as well as socials">
         </input>
 
         <div id="footer" style="display: none;">
             <div class="footer-content">
               <div class="social-icons">
-                  <a href="https://x.com/GetCaffy" title="Twitter"><i class="fa-xl fab fa-twitter"></i></a>
-                  <a href="https://www.instagram.com/get__caffy/" title="Instagram"><i class="fa-xl fab fa-instagram"></i></a>
-                  <a href="https://www.tiktok.com/@getcaffy" title="TikTok"><i class="fa-xl fab fa-tiktok"></i></a>
-                  <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn"><i class="fa-xl fab fa-linkedin"></i></a>
-                  <a href="https://www.reddit.com/user/getcaffy/" title="Reddit"><i class="fa-xl fab fa-reddit"></i></a>
-                  <a href="https://www.youtube.com/@GetCaffy" title="YouTube"><i class="fa-xl fab fa-youtube"></i></a>
+                  <a href="https://x.com/GetCaffy" title="Twitter" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="Twitter">
+                    <i class="fa-xl fab fa-twitter"></i>
+                  </a>
+
+                  <a href="https://www.instagram.com/get__caffy/" title="Instagram" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="Instagram">
+                    <i class="fa-xl fab fa-instagram"></i>
+                  </a>
+
+                  <a href="https://www.tiktok.com/@getcaffy" title="TikTok" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="TikTok">
+                    <i class="fa-xl fab fa-tiktok"></i>
+                  </a>
+
+                  <a href="https://www.linkedin.com/company/getcaffy/" title="LinkedIn" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="LinkedIn">
+                    <i class="fa-xl fab fa-linkedin"></i>
+                  </a>
+
+                  <a href="https://www.reddit.com/user/getcaffy/" title="Reddit" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="Reddit">
+                    <i class="fa-xl fab fa-reddit"></i>
+                  </a>
+
+                  <a href="https://www.youtube.com/@GetCaffy" title="YouTube" 
+                    data-umami-event="Social Click" 
+                    data-umami-event-platform="YouTube">
+                    <i class="fa-xl fab fa-youtube"></i>
+                  </a>
               </div>
               <div class = "links">
                   <a href="/terms" class="montserrat-300">Terms</a>
@@ -161,6 +194,32 @@
     
       select.addEventListener('input', (event) => {
         modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+      });
+
+      // 2. CHANGE: Logic to track Flavor Changes
+      select.addEventListener('input', (event) => {
+        // A. Actually change the model (Your original code)
+        modelViewerVariants.variantName = event.target.value === 'default' ? null : event.target.value;
+        
+        // B. Analytics (New safe code)
+        // If Umami is loaded, tell it which flavor was picked
+        if (typeof umami !== 'undefined') {
+          umami.track('Select Flavor', { name: event.target.value });
+        }
+      });
+
+      // 3. INTERACT: Logic to track 3D Model Rotation
+      let hasInteracted = false; // "Switch" to ensure we only track this once
+      
+      modelViewerVariants.addEventListener('camera-change', (event) => {
+        // Only run if the USER moved it, and if we haven't tracked it yet
+        if (event.detail.source === 'user-interaction' && !hasInteracted) {
+          hasInteracted = true; // Flip the switch off so we don't spam
+          
+          if (typeof umami !== 'undefined') {
+            umami.track('Interact 3D Model');
+          }
+        }
       });
     </script>
     
