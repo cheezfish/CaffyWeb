@@ -762,9 +762,21 @@
       if (cart.length === 0) return;
 
       // --- UMAMI TRACKING START ---
+      // 1. Calculate Value
       const totalVal = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
+      
+      // 2. Calculate Actual Quantity (Sum of all items, not just rows)
+      const totalCount = cart.reduce((t, i) => t + i.quantity, 0);
+
+      // 3. Create a Flavor List (e.g. "Mint (x2), Blueberry (x1)")
+      const flavorList = cart.map(i => `${i.variant} (x${i.quantity})`).join(', ');
+
       if (typeof umami !== 'undefined') {
-        umami.track('View Checkout Form', { value: totalVal, items: cart.length });
+        umami.track('View Checkout Form', { 
+            value: totalVal, 
+            items: totalCount, 
+            contents: flavorList 
+        });
       }
       // --- UMAMI TRACKING END ---
 
