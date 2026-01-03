@@ -19,6 +19,10 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet" type="text/css" />
   </noscript>
+  
+  <!-- Umami Analytics -->
+  <script defer src="https://analytics.getcaffy.com/script.js" data-website-id="9ff81ca6-c20a-4e0e-a512-17fc4d51f211"></script>
+
   <script src="https://js.stripe.com/v3/"></script>
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
@@ -535,7 +539,10 @@
           <p class="price">50 AED</p><button class="button-primary add-to-cart-button six columns offset-by-three"
             data-id="mint_pouch_v1" data-name="Caffy Pouch - Cool Mint" data-price="5000"
             data-image="../images/caffy-pouch-mint.png" data-model="../CaffyPouchMintMVout6b.glb"
-            data-variant="Mint">Add to Cart</button>
+            data-variant="Mint"
+            data-umami-event="Add to Cart"
+            data-umami-event-product="Cool Mint"
+            >Add to Cart</button>
         </div>
         <div class="six columns u-text-center"><model-viewer class="product-model" src="../CaffyPouchMintMVout6b.glb"
             variant-name="Blueberry" loading="eager" camera-orbit="180deg 55deg" interaction-prompt="none" auto-rotate camera-controls disable-pan shadow-intensity="0"
@@ -544,14 +551,20 @@
           <p class="price">50 AED</p><button class="button-blueberry add-to-cart-button six columns offset-by-three"
             data-id="blueberry_pouch_v1" data-name="Caffy Pouch - Blueberry" data-price="5000"
             data-image="../images/caffy-pouch-blueberry.png" data-model="../CaffyPouchMintMVout6b.glb"
-            data-variant="Blueberry">Add to Cart</button>
+            data-variant="Blueberry"
+            data-umami-event="Add to Cart"
+            data-umami-event-product="Blueberry"
+            >Add to Cart</button>
         </div>
       </div>
     </div>
   </div>
 
   <div id="checkout-view" class="hidden">
-    <button id="back-to-store-button">← Back to Store</button>
+    <button id="back-to-store-button"
+      data-umami-event="Abandon Checkout" 
+      data-umami-event-reason="Clicked Back"
+    >← Back to Store</button>
     
     <form id="payment-form">
       <!-- Order Summary -->
@@ -635,7 +648,10 @@
     <div class="cart-items" id="cart-items-container"></div>
     <div class="cart-footer">
       <div class="cart-total"><span>Total</span><span id="cart-total">0.00 AED</span></div>
-      <button class="button-primary" id="checkout-button">Proceed to Checkout</button>
+      <button class="button-primary" id="checkout-button"
+        data-umami-event="Begin Checkout"
+        data-umami-event-location="Cart Modal"
+      >Proceed to Checkout</button>
     </div>
   </div>
 
@@ -744,6 +760,14 @@
     // --- STRIPE ELEMENTS CHECKOUT FLOW ---
     async function initiateCheckout() {
       if (cart.length === 0) return;
+
+      // --- UMAMI TRACKING START ---
+      const totalVal = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
+      if (typeof umami !== 'undefined') {
+        umami.track('View Checkout Form', { value: totalVal, items: cart.length });
+      }
+      // --- UMAMI TRACKING END ---
+
       closeCart();
       showCheckoutView();
 
@@ -818,6 +842,12 @@
       e.preventDefault();
       
       setLoading(true);
+
+      // --- UMAMI TRACKING START ---
+      if (typeof umami !== 'undefined') {
+        umami.track('Submit Payment');
+      }
+      // --- UMAMI TRACKING END ---
       
       // Collect customer data
       const email = document.getElementById('customer-email').value;
@@ -832,6 +862,15 @@
       });
       
       if (error) {
+        // --- UMAMI TRACKING START ---
+        if (typeof umami !== 'undefined') {
+          umami.track('Payment Failed', { 
+            reason: error.message, 
+            code: error.code 
+          });
+        }
+        // --- UMAMI TRACKING END ---
+
         if (error.type === "card_error" || error.type === "validation_error") {
           showMessage(error.message);
         } else {
@@ -862,18 +901,7 @@
     }
 
     // --- FORM ENHANCEMENTS ---
-    function formatPhoneNumber(input) {
-      // Simple UAE phone number formatting
-      let value = input.value.replace(/\D/g, '');
-      if (value.startsWith('971')) {
-        value = '+' + value;
-      } else if (value.startsWith('0')) {
-        value = '+971' + value.substring(1);
-      } else if (value.length === 9) {
-        value = '+971' + value;
-      }
-      input.value = value;
-    }
+    // (Note: Removed manual phone formatting as Stripe Elements handles it)
 
     // Real-time email validation
     function validateEmail(email) {
@@ -898,7 +926,15 @@
         if (!id) return;
         const item = cart.find(i => i.id === id);
         if (!item) return;
-        if (e.target.classList.contains('remove-item-btn')) updateCart(id, 0);
+        
+        if (e.target.classList.contains('remove-item-btn')) {
+          // --- UMAMI TRACKING START ---
+          if (typeof umami !== 'undefined') {
+            umami.track('Remove from Cart', { name: item.name });
+          }
+          // --- UMAMI TRACKING END ---
+          updateCart(id, 0);
+        }
         else if (action === 'decrease') updateCart(id, item.quantity - 1);
         else if (action === 'increase') updateCart(id, item.quantity + 1);
       });
@@ -938,11 +974,6 @@
         } else {
           e.target.style.borderColor = '#444';
         }
-      });
-
-      // Phone number formatting
-      phoneField.addEventListener('blur', (e) => {
-        formatPhoneNumber(e.target);
       });
 
       // Terms checkbox requirement
