@@ -831,16 +831,7 @@
         });
         addressElement.mount("#address-element");
 
-        paymentElement = elements.create("payment", {
-          fields: {
-            billingDetails: {
-              name: 'auto',
-              email: 'never',
-              phone: 'never',
-              address: 'never',
-            },
-          },
-        });
+        paymentElement = elements.create("payment");
         paymentElement.mount("#payment-element");
 
       } catch (error) {
