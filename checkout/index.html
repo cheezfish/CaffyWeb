@@ -859,7 +859,7 @@
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.protocol}//${window.location.host}/return.html`,
+          return_url: `${window.location.protocol}//${window.location.host}/checkout/return.html`,
           payment_method_data: {
             billing_details: {
               email: email,
