@@ -660,15 +660,23 @@
     const stripe = Stripe('pk_test_51QYtamFAY8BwNpdGdEBdfplxqwhxhlL3so8Mof2rs4gO9iUMlcQsUl2XENAyra7AtuaktV9IqjATPqfz1QwB5xI200bjBlyi2F');
 
     // --- HELPER: GET UMAMI SESSION SAFELY ---
-    async function getUmamiSessionId() {
-      if (typeof umami === 'undefined') return "script_blocked";
-      // Try 3 times with a small delay to allow the script to initialize
-      for (let i = 0; i < 3; i++) {
-        const id = umami.getSessionId();
-        if (id) return id;
-        await new Promise(r => setTimeout(r, 300));
+    async function getUmamiId() {
+      try {
+        // 1. Try localStorage (Usually the most reliable)
+        const storage = localStorage.getItem('umami.session');
+        if (storage) {
+          const parsed = JSON.parse(storage);
+          if (parsed && parsed.id) return parsed.id;
+        }
+        // 2. Try the function fallback
+        if (window.umami && typeof window.umami.getSessionId === 'function') {
+          const id = window.umami.getSessionId();
+          if (id) return id;
+        }
+      } catch (e) {
+        console.warn("Umami ID fetch failed", e);
       }
-      return "not_initialized";
+      return "anonymous_or_blocked";
     }
 
     // --- STRIPE ELEMENTS LOGIC ---
@@ -801,8 +809,8 @@
       document.getElementById('submit-payment-button').querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
 
       try {
-        // 1. GET THE UMAMI SESSION ID (Wait for initialization)
-        const umamiSessionId = await getUmamiSessionId();
+        // 1. GET THE UMAMI SESSION ID (Using the robust helper)
+        const umamiSessionId = await getUmamiId();
 
         // 2. PREPARE THE PAYLOAD WITH ALL DATA
         const secure_line_items = cart.map(item => ({ id: item.id, quantity: item.quantity }));
@@ -815,8 +823,7 @@
             landing_page: landing_page,
             marketing_consent: marketingConsent,
             items_summary: flavorList,
-            umami_session_id: umamiSessionId,
-            checkout_initiated_at: new Date().toISOString()
+            umami_session_id: umamiSessionId
           }
         };
 
