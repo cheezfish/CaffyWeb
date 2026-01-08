@@ -603,7 +603,7 @@
       <!-- Marketing and Terms -->
       <div class="form-section">
         <div class="checkbox-field">
-          <input id="marketing-checkbox" type="checkbox" name="marketing" checked />
+          <input id="marketing-checkbox" type="checkbox" name="marketing"/>
           <label for="marketing-checkbox">
             I would like to receive news, special offers, and product updates from CAFFY.
           </label>
@@ -890,7 +890,7 @@
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.protocol}//${window.location.host}/checkout/return.html`,
+          return_url: `${window.location.protocol}//${window.location.host}/checkout/return.html?marketing_consent=${marketingConsent}`,
           payment_method_data: {
             billing_details: {
               email: email,
