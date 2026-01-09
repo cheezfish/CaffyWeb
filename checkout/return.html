@@ -79,7 +79,7 @@
     </div>
   </div>
 
-  <!-- ✅ CORRECTED SCRIPT -->
+  <!-- ACTUALLY CORRECTED SCRIPT -->
   <script>
     async function sendMarketingConsentToN8N() {
       // 1. Get Data from URL
@@ -87,11 +87,9 @@
       const consentParam = urlParams.get('marketing_consent'); // string "true" or "false"
       const paymentIntentId = urlParams.get('payment_intent'); 
 
-      // 2. LOGIC FIX: "If not checked, do nothing."
-      if (consentParam !== 'true') {
-        console.log('User did not opt-in (box unchecked). No action taken.');
-        return; 
-      }
+      // 2. LOGIC FIX: Determine status instead of returning
+      // If checked -> 'opt_in', If unchecked -> 'opt_out'
+      const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
 
       // 3. Send to Cloudflare Worker -> n8n
       try {
@@ -100,13 +98,13 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             payment_intent_id: paymentIntentId,
-            marketing_consent: 'opt_in', 
+            marketing_consent: status, // <--- CHANGED: Sends the actual status
             timestamp: new Date().toISOString()
           })
         });
 
         if (response.ok) {
-          console.log('Marketing consent sent successfully');
+          console.log('Marketing consent sent successfully: ' + status);
         } else {
           console.error('Failed to send marketing consent');
         }
