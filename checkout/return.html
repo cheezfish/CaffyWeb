@@ -4,65 +4,151 @@
   <meta charset="utf-8">
   <title>CAFFY - Order Confirmed</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- CSS Assets (Matching your index.html) -->
+  
+  <!-- CSS Assets -->
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/skeleton.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/png" href="../images/favicon.ico">
+  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
+
   <style>
+    :root {
+      --bg-dark: #121212;
+      --card-bg: #1a1a1a;
+      --accent: #00ffff;
+      --text-main: #ffffff;
+      --text-muted: #d1d5db;
+      --text-dim: #9ca3af;
+    }
+
     body {
-      background-color: #121212;
-      color: #fff;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       text-align: center;
+      font-family: 'Montserrat', sans-serif;
     }
+
     .confirmation-card {
-      background: #1a1a1a;
-      border: 1px solid #00ffff;
-      padding: 50px 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
-      max-width: 500px;
+      background: var(--card-bg);
+      border: 1px solid var(--accent);
+      padding: 60px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+      max-width: 480px;
       width: 90%;
+      position: relative;
     }
+
     .success-icon {
-      color: #00ffff;
-      font-size: 64px;
-      margin-bottom: 20px;
+      color: var(--accent);
+      font-size: 72px;
+      margin-bottom: 25px;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+
     h1 {
-      color: #00ffff;
-      font-weight: 500;
-      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 3.2rem;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+    p.main-message {
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* Button Polish */
+    .button.button-primary {
+      background-color: var(--accent);
+      color: #000;
+      border: 2px solid var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 45px;
+      height: 48px;
+      line-height: 44px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      display: inline-block;
       margin-bottom: 10px;
     }
-    p {
-      color: #aaa;
-      font-size: 18px;
-      margin-bottom: 30px;
+
+    .button.button-primary:hover {
+      background-color: transparent;
+      color: var(--accent);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
     }
-    .button.button-primary {
-      background-color: #00ffff;
-      color: #000;
-      border-color: #00ffff;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 0 40px;
+
+    /* Footer Section */
+    .order-hint-container {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .order-hint {
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+
+    /* Reference ID Styling */
+    .ref-wrapper {
+      display: block;
+      margin-bottom: 10px;
       font-size: 14px;
-      color: #666;
-      margin-top: 20px;
+      color: #fff;
+    }
+    
+    .reference-number {
+      font-family: 'Roboto Mono', monospace; 
+      font-weight: 700; /* Bolder to look like a code */
+      color: var(--accent);
+      letter-spacing: 2px; /* Extra spacing for readability */
+      background: rgba(0, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      user-select: all; /* One click selects the whole code */
+    }
+
+    /* Highlighting the Email */
+    .email-link {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px dashed var(--accent);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .email-link:hover {
+      color: var(--accent);
+      border-bottom-style: solid;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -71,50 +157,69 @@
     <div class="success-icon">
       <i class="fas fa-check-circle"></i>
     </div>
-    <h1 class="montserrat-500">THANK YOU!</h1>
-    <p class="montserrat-300">Your payment was successful. We've received your order and we're getting it ready.</p>
+    
+    <h1 class="montserrat-700">THANK YOU!</h1>
+    
+    <p class="main-message montserrat-300">
+      Your payment was successful.<br>
+      We've received your order and we're getting it ready.
+    </p>
+    
     <a href="/" class="button button-primary">Back to Store</a>
-    <div class="order-hint montserrat-300">
-      A receipt has been sent to your email.
+    
+    <div class="order-hint-container">
+      <div class="order-hint montserrat-300">
+        <!-- SHORT REFERENCE NUMBER -->
+        <span class="ref-wrapper">
+          Ref: <span id="order-ref" class="reference-number">...</span>
+        </span>
+        
+        A receipt has been sent to your email.<br>
+        You may need to check your junk folder.<br>
+        Need help? Contact us at <a href="mailto:hello@getcaffy.com" class="email-link">hello@getcaffy.com</a>
+      </div>
     </div>
   </div>
 
-  <!-- ACTUALLY CORRECTED SCRIPT -->
   <script>
-    async function sendMarketingConsentToN8N() {
+    async function initPage() {
       // 1. Get Data from URL
       const urlParams = new URLSearchParams(window.location.search);
-      const consentParam = urlParams.get('marketing_consent'); // string "true" or "false"
+      const consentParam = urlParams.get('marketing_consent'); 
       const paymentIntentId = urlParams.get('payment_intent'); 
 
-      // 2. LOGIC FIX: Determine status instead of returning
-      // If checked -> 'opt_in', If unchecked -> 'opt_out'
-      const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
+      // 2. DISPLAY THE SHORT REF (Matches your Email Logic)
+      const displayRef = document.getElementById('order-ref');
+      
+      if (paymentIntentId) {
+        // Take last 9 chars and Uppercase to match email format
+        const shortRef = paymentIntentId.slice(-9).toUpperCase();
+        displayRef.textContent = shortRef;
+      } else {
+        displayRef.textContent = "PENDING"; // Fallback
+      }
 
-      // 3. Send to Cloudflare Worker -> n8n
-      try {
-        const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/marketing-consent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            payment_intent_id: paymentIntentId,
-            marketing_consent: status, // <--- CHANGED: Sends the actual status
-            timestamp: new Date().toISOString()
-          })
-        });
-
-        if (response.ok) {
-          console.log('Marketing consent sent successfully: ' + status);
-        } else {
-          console.error('Failed to send marketing consent');
+      // 3. Webhook Logic
+      if (paymentIntentId) {
+        const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
+        try {
+          await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/marketing-consent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            keepalive: true,
+            body: JSON.stringify({
+              payment_intent_id: paymentIntentId,
+              marketing_consent: status, 
+              timestamp: new Date().toISOString()
+            })
+          });
+        } catch (err) {
+          console.error("Webhook Error:", err);
         }
-      } catch (err) {
-        console.error('Error sending marketing consent:', err);
       }
     }
 
-    // Run when page loads
-    sendMarketingConsentToN8N();
+    initPage();
   </script>
 </body>
 </html>
