@@ -430,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
           modelViewer.cameraOrbit = '90deg 65deg 4m';
           isTouching = true;
           setTimeout(() => {
-            window.location.href = '../comingsoon.html';
+            window.location.href = '../checkout';
           }, 1200);
           break;
       }
