@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" type="image/png" href="../images/favicon.ico">
   
+  <!-- Umami Analytics (Added so we can track the purchase event) -->
+  <script defer src="https://analytics.getcaffy.com/script.js" data-website-id="9ff81ca6-c20a-4e0e-a512-17fc4d51f211"></script>
+  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,34 +191,41 @@
       const consentParam = urlParams.get('marketing_consent'); 
       const paymentIntentId = urlParams.get('payment_intent'); 
 
-      // 2. DISPLAY THE SHORT REF (Matches your Email Logic)
-      const displayRef = document.getElementById('order-ref');
-      
-      if (paymentIntentId) {
-        // Take last 9 chars and Uppercase to match email format
-        const shortRef = paymentIntentId.slice(-9).toUpperCase();
-        displayRef.textContent = shortRef;
-      } else {
-        displayRef.textContent = "PENDING"; // Fallback
+      // 2. CRITICAL: CLEAR THE CART (Prevents double ordering)
+      localStorage.removeItem('caffy_cart');
+
+      // 3. Security Check
+      // If someone stumbles here without paying, send them back
+      if (!paymentIntentId) {
+        window.location.href = "/"; 
+        return;
       }
 
-      // 3. Webhook Logic
-      if (paymentIntentId) {
-        const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
-        try {
-          await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/marketing-consent', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            keepalive: true,
-            body: JSON.stringify({
-              payment_intent_id: paymentIntentId,
-              marketing_consent: status, 
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch (err) {
-          console.error("Webhook Error:", err);
-        }
+      // 4. DISPLAY THE SHORT REF
+      const displayRef = document.getElementById('order-ref');
+      const shortRef = paymentIntentId.slice(-9).toUpperCase();
+      displayRef.textContent = shortRef;
+
+      // 5. Analytics (Track Purchase)
+      if (typeof umami !== 'undefined') {
+        umami.track('Purchase Success', { ref: shortRef });
+      }
+
+      // 6. Webhook Logic (Send Marketing Consent)
+      const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
+      try {
+        await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/marketing-consent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            payment_intent_id: paymentIntentId,
+            marketing_consent: status, 
+            timestamp: new Date().toISOString()
+          })
+        });
+      } catch (err) {
+        console.error("Webhook Error:", err);
       }
     }
 
