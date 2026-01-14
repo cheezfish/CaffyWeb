@@ -532,25 +532,46 @@
     </div>
     <div class="container" style="margin-bottom: 100px;">
       <div class="row">
-        <div class="six columns u-text-center"><model-viewer class="product-model" src="../CaffyPouchMintMVout6b.glb"
+        <!-- COOL MINT -->
+        <div class="six columns u-text-center">
+          <model-viewer class="product-model" src="../CaffyPouchMintMVout6b.glb"
             variant-name="Mint" loading="eager" camera-orbit="0deg 55deg" interaction-prompt="none" auto-rotate camera-controls disable-pan shadow-intensity="0"
             alt="3D model of Caffy Pouch - Cool Mint"></model-viewer>
           <h4 class="product">Cool Mint</h4>
-          <p class="price">50 AED</p><button class="button-primary add-to-cart-button six columns offset-by-three"
-            data-id="mint_pouch_v1" data-name="Caffy Pouch - Cool Mint" data-price="5000"
-            data-image="../images/caffy-pouch-mint.png" data-model="../CaffyPouchMintMVout6b.glb"
+          
+          <!-- ID ADDED HERE for Live Updates -->
+          <p class="price" id="price-text-mint">Loading...</p>
+          
+          <!-- DATA-ID UPDATED HERE -->
+          <button class="button-primary add-to-cart-button six columns offset-by-three"
+            data-id="price_1QrjjHFAY8BwNpdGLqU1zwtO" 
+            data-name="Caffy Pouch - Cool Mint" 
+            data-price="0"
+            data-image="../images/caffy-pouch-mint.png" 
+            data-model="../CaffyPouchMintMVout6b.glb"
             data-variant="Mint"
             data-umami-event="Add to Cart"
             data-umami-event-product="Cool Mint"
             >Add to Cart</button>
         </div>
-        <div class="six columns u-text-center"><model-viewer class="product-model" src="../CaffyPouchMintMVout6b.glb"
+
+        <!-- BLUEBERRY -->
+        <div class="six columns u-text-center">
+          <model-viewer class="product-model" src="../CaffyPouchMintMVout6b.glb"
             variant-name="Blueberry" loading="eager" camera-orbit="180deg 55deg" interaction-prompt="none" auto-rotate camera-controls disable-pan shadow-intensity="0"
             alt="3D model of Caffy Pouch - Blueberry"></model-viewer>
           <h4 class="product">Blueberry</h4>
-          <p class="price">50 AED</p><button class="button-blueberry add-to-cart-button six columns offset-by-three"
-            data-id="blueberry_pouch_v1" data-name="Caffy Pouch - Blueberry" data-price="5000"
-            data-image="../images/caffy-pouch-blueberry.png" data-model="../CaffyPouchMintMVout6b.glb"
+          
+          <!-- ID ADDED HERE for Live Updates -->
+          <p class="price" id="price-text-blueberry">Loading...</p>
+          
+          <!-- DATA-ID UPDATED HERE -->
+          <button class="button-blueberry add-to-cart-button six columns offset-by-three"
+            data-id="price_1QrjbyFAY8BwNpdG1KvCMlKz" 
+            data-name="Caffy Pouch - Blueberry" 
+            data-price="0"
+            data-image="../images/caffy-pouch-blueberry.png" 
+            data-model="../CaffyPouchMintMVout6b.glb"
             data-variant="Blueberry"
             data-umami-event="Add to Cart"
             data-umami-event-product="Blueberry"
@@ -1037,6 +1058,75 @@
       footer.style.display = 'none';
       updateCartDisplay();
     });
+
+    // ============================================================
+    // PRODUCTION FEATURES: Live Pricing & Ghost Cart
+    // ============================================================
+
+    async function initLiveFeatures() {
+      // 1. LIVE PRICE FETCHING
+      // This ensures the price on the button matches the price in Stripe
+      try {
+        const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/get-prices');
+        if (response.ok) {
+          const prices = await response.json();
+          
+          // IDs from your Worker
+          const mintId = "price_1QrjjHFAY8BwNpdGLqU1zwtO";
+          const berryId = "price_1QrjbyFAY8BwNpdG1KvCMlKz";
+
+          // Update Display Text
+          if (prices[mintId]) {
+            document.getElementById('price-text-mint').textContent = (prices[mintId] / 100).toFixed(2) + " AED";
+          }
+          if (prices[berryId]) {
+            document.getElementById('price-text-blueberry').textContent = (prices[berryId] / 100).toFixed(2) + " AED";
+          }
+
+          // Update Buttons (Critical for Cart Math)
+          document.querySelectorAll('.add-to-cart-button').forEach(btn => {
+            const id = btn.dataset.id;
+            if (prices[id]) {
+              btn.dataset.price = prices[id]; // Set the real price (e.g. 5000)
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("Pricing fetch failed, using fallbacks.", e);
+        // Fallback in case Worker is down
+        document.getElementById('price-text-mint').textContent = "50.00 AED";
+        document.getElementById('price-text-blueberry').textContent = "50.00 AED";
+        // Manually set fallbacks for buttons if fetch fails
+        document.querySelector('[data-variant="Mint"]').dataset.price = "5000";
+        document.querySelector('[data-variant="Blueberry"]').dataset.price = "5000";
+      }
+
+      // 2. GHOST CART (Abandoned Checkout)
+      // Captures email the moment they click away from the email field
+      const emailInput = document.getElementById('customer-email');
+      if (emailInput) {
+        emailInput.addEventListener('blur', (e) => {
+          const email = e.target.value;
+          // Only send if email is valid and user has items in cart
+          if (email.includes('@') && email.includes('.') && cart.length > 0) {
+            fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/capture-lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              keepalive: true, // Ensures request finishes even if page closes
+              body: JSON.stringify({
+                email: email,
+                cart: cart,
+                url: window.location.href
+              })
+            });
+          }
+        });
+      }
+    }
+
+    // Run this when page loads
+    document.addEventListener('DOMContentLoaded', initLiveFeatures);
+
   </script>
 </body>
 
