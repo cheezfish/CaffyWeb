@@ -707,6 +707,7 @@
 
     // --- CART STATE & DOM ELEMENTS ---
     let cart = [];
+    let activeDiscountRules = []; // Store rules from backend
     const mainContent = document.getElementById('main-content');
     const checkoutView = document.getElementById('checkout-view');
     const backToStoreButton = document.getElementById('back-to-store-button');
@@ -775,16 +776,19 @@
         orderItemsList.appendChild(orderItem);
       });
 
-      // 2. CALCULATE DISCOUNT (Mirrors Backend Logic)
+      // 2. CALCULATE DISCOUNT (Dynamic)
       let discountAmount = 0;
       let discountLabel = "";
 
-      if (totalQty >= 5) {
-        discountAmount = total * 0.20; // 20% off
-        discountLabel = "Bulk Discount (20% off)";
-      } else if (totalQty >= 3) {
-        discountAmount = total * 0.10; // 10% off
-        discountLabel = "Bulk Discount (10% off)";
+      // Sort rules so we check highest threshold first
+      if (activeDiscountRules.length > 0) {
+        const sortedRules = activeDiscountRules.sort((a, b) => b.threshold - a.threshold);
+        const activeRule = sortedRules.find(rule => totalQty >= rule.threshold);
+
+        if (activeRule) {
+            discountAmount = total * (activeRule.percent / 100);
+            discountLabel = activeRule.label;
+        }
       }
 
       // 3. Show Discount Row (If applicable)
@@ -1114,7 +1118,11 @@
       try {
         const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/get-prices');
         if (response.ok) {
-          const prices = await response.json();
+          const data = await response.json(); // Get the whole object
+          const prices = data.prices;         // Extract prices
+          
+          // STORE THE RULES
+          activeDiscountRules = data.discounts || []; // Extract discounts
           
           // IDs from your Worker
           const mintId = "price_1QrjjHFAY8BwNpdGLqU1zwtO";
