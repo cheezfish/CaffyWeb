@@ -758,9 +758,13 @@
       orderItemsList.innerHTML = '';
       
       let total = 0;
+      let totalQty = 0;
+
+      // 1. List Items
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
+        totalQty += item.quantity;
         
         const orderItem = document.createElement('div');
         orderItem.classList.add('order-item');
@@ -770,15 +774,56 @@
         `;
         orderItemsList.appendChild(orderItem);
       });
+
+      // 2. CALCULATE DISCOUNT (Mirrors Backend Logic)
+      let discountAmount = 0;
+      let discountLabel = "";
+
+      if (totalQty >= 5) {
+        discountAmount = total * 0.20; // 20% off
+        discountLabel = "Bulk Discount (20% off)";
+      } else if (totalQty >= 3) {
+        discountAmount = total * 0.10; // 10% off
+        discountLabel = "Bulk Discount (10% off)";
+      }
+
+      // 3. Show Discount Row (If applicable)
+      if (discountAmount > 0) {
+        const discountItem = document.createElement('div');
+        discountItem.classList.add('order-item');
+        // Make it stand out with your accent color
+        discountItem.style.color = '#00ffff'; 
+        discountItem.innerHTML = `
+          <span class="order-item-name">${discountLabel}</span>
+          <span class="order-item-price">-${(discountAmount / 100).toFixed(2)} AED</span>
+        `;
+        orderItemsList.appendChild(discountItem);
+      }
       
-      // Add total
+      // 4. Calculate Final Total
+      const finalTotal = total - discountAmount;
+
+      // 5. Update Total Row
       const totalItem = document.createElement('div');
       totalItem.classList.add('order-item');
+      // Add some styling to separate total
+      totalItem.style.borderTop = '1px solid #333'; 
+      totalItem.style.marginTop = '10px';
+      totalItem.style.paddingTop = '10px';
+      totalItem.style.fontWeight = 'bold';
+      
       totalItem.innerHTML = `
         <span>Total</span>
-        <span>${(total / 100).toFixed(2)} AED</span>
+        <span style="color: #00ffff; font-size: 1.2em;">${(finalTotal / 100).toFixed(2)} AED</span>
       `;
       orderItemsList.appendChild(totalItem);
+
+      // 6. Update the "Pay Now" Button Text to match
+      const submitBtn = document.getElementById('submit-payment-button');
+      if(submitBtn) {
+          const btnText = submitBtn.querySelector('#button-text');
+          if(btnText) btnText.textContent = `Pay ${(finalTotal / 100).toFixed(2)} AED`;
+      }
     }
 
     // --- VIEW MANAGEMENT FUNCTIONS ---
