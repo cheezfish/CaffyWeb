@@ -1175,6 +1175,55 @@
           }
         });
       }
+
+      // --- EASTER EGG: GAMIFICATION ---
+      document.querySelectorAll('.product-model').forEach(model => {
+          let taps = 0;
+          let timeout;
+
+          // Use 'pointerup' because 'click' often fails if the user rotates the model slightly
+          model.addEventListener('pointerup', (e) => {
+              // If user was dragging/rotating (movement > 0), ignore
+              // (Simplification: just count every release to make it feel responsive)
+              
+              taps++;
+              console.log(`Combo: ${taps}`); // Check your console to see if it registers
+
+              // Reset tap count if they stop clicking for 2 seconds
+              clearTimeout(timeout);
+              timeout = setTimeout(() => taps = 0, 2000);
+
+              if(taps === 5) {
+                  // Visual Reward: Change the Product Title Color
+                  const title = model.nextElementSibling; // The <h4> tag
+                  const originalText = title.textContent;
+                  
+                  title.style.color = '#00ffff';
+                  title.style.transition = 'all 0.3s ease';
+                  title.textContent = "✨ SECRET UNLOCKED! ✨";
+                  
+                  // Show the deal
+                  const priceText = title.nextElementSibling;
+                  priceText.textContent = "Order 5+ for 20% OFF";
+                  priceText.style.color = '#00ffff';
+
+                  // Reset after 3 seconds
+                  setTimeout(() => {
+                      title.style.color = '';
+                      title.textContent = originalText;
+                      priceText.style.color = '';
+                      priceText.textContent = model.getAttribute('variant-name') === 'Mint' 
+                          ? document.getElementById('price-text-mint').dataset.originalPrice || "50.00 AED"
+                          : document.getElementById('price-text-blueberry').dataset.originalPrice || "50.00 AED";
+                      // Re-trigger live fetch to restore price text accurately
+                      initLiveFeatures(); 
+                  }, 3000);
+                  
+                  taps = 0;
+              }
+          });
+      });
+
     }
 
     // Run this when page loads
