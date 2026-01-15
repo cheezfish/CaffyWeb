@@ -529,198 +529,343 @@
       }
     }
 
+    /* --- MODAL UPGRADES --- */
+
+    /* 1. Cyber-Pill Quantity Buttons */
+    .quantity-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 4px; /* Slightly squared for tech feel */
+      height: 32px;
+      width: 100px;
+      margin-bottom: 5px;
+    }
+
+    .qty-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 30px;
+      height: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      padding: 0; margin: 0;
+    }
+
+    .qty-btn:hover { background: rgba(0, 255, 255, 0.1); color: #00ffff; }
+
+    .qty-val {
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      color: #00ffff;
+      width: 30px;
+      text-align: center;
+      border-left: 1px solid #222;
+      border-right: 1px solid #222;
+      line-height: 30px;
+    }
+
+    /* 2. Cross-Sell Box */
+    .cross-sell-box {
+      background: rgba(0, 255, 255, 0.03);
+      border: 1px dashed #333;
+      border-radius: 4px;
+      padding: 12px;
+      margin-top: 15px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .cross-sell-text { 
+      font-size: 11px; 
+      color: #ccc; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+    
+    .cross-sell-btn {
+      background: transparent;
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      margin: 0;
+      height: auto;
+      line-height: 1;
+    }
+
+    .cross-sell-btn:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    /* 3. Discount Note */
+    .discount-note {
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 10px;
+      color: #00ffff; /* Highlight it */
+      text-align: right;
+      margin-bottom: 5px;
+      margin-top: 20px;
+      opacity: 0.8;
+      letter-spacing: 0.5px;
+    }
+
     @media (max-width: 768px) {
-  /* 1. LOCK SCREEN */
-  html, body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    position: fixed;
-  }
+      /* 1. LOCK SCREEN */
+      html, body {
+        height: 100dvh;
+        width: 100vw;
+        overflow: hidden;
+        position: fixed;
+        margin: 0; padding: 0;
+      }
 
-  /* 2. HEADER - Tighter & Fixes Offset */
-  #HeroContainer {
-    height: 8vh !important; /* Shrink slightly to give products room */
-    min-height: 0;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: flex-end; /* Align bottom of header */
-    justify-content: center;
-    z-index: 2;
-    width: 100%;
-  }
-  
-  /* FIX: Reset the column margins that were pushing title right/left */
-  #HeroContainer .columns {
-    margin: 0 !important;
-    width: 100% !important;
-    text-align: center;
-  }
-  
-  #title { 
-    font-size: 2.8rem; 
-    line-height: 1; 
-    margin: 0;
-    padding-bottom: 5px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  #subtitle { display: none; }
+      /* 2. HEADER (7%) */
+      #HeroContainer {
+        height: 7vh !important;
+        min-height: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 2;
+        width: 100%;
+      }
+      
+      #HeroContainer .columns { margin: 0 !important; width: 100%; text-align: center; }
+      
+      #title { 
+        font-size: 2.8rem; 
+        line-height: 1; 
+        margin: 0; padding-bottom: 5px; 
+        width: 100%; text-align: center; 
+      }
+      
+      #subtitle { display: none; }
 
-  /* 3. MAIN CONTAINER */
-  #HeroContainer + .container {
-    height: 92vh !important; /* Give more height to products */
-    width: 100%;
-    max-width: 100%;
-    margin: 0 !important;
-    padding: 0 0 60px 0;
-    display: flex;
-    flex-direction: column;
-  }
+      /* 3. MARQUEE (3%) */
+      .marquee-wrapper {
+        height: 3vh !important;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: #000;
+        border-bottom: 1px solid #22222200;
+        z-index: 5;
+      }
+      
+      /* 4. PRODUCT CONTAINER (90%) - FIXED SELECTOR */
+      #main-content > .container:last-of-type {
+        height: 90vh !important; /* 100 - 7 - 3 = 90 */
+        width: 100%;
+        max-width: 100%;
+        margin: 0 !important;
+        padding: 0 0 60px 0;
+        display: flex;
+        flex-direction: column;
+      }
 
-  .row {
-    height: 100%;
-    width: 100%;
-    margin: 0 !important;
-    display: flex;
-    flex-direction: column;
-  }
+      .row {
+        height: 100%;
+        width: 100%;
+        margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+      }
 
-  /* 4. PRODUCT SPLIT - No Divider */
-  .six.columns {
-    flex: 1; 
-    width: 100% !important;
-    margin: 0 !important; /* Resets margins */
-    padding: 0 !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-    position: relative;
-    border: none !important; /* REMOVED DIVIDER */
-  }
+      /* 5. PRODUCT SPLIT - PUSHED UP */
+      .six.columns {
+        flex: 1; 
+        width: 100% !important;
+        margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+        
+        /* THE CHANGE: Align to top instead of center */
+        justify-content: flex-start; 
+        padding-top: 15px !important; /* Small gap above model */
+        
+        align-items: center;
+        position: relative;
+        border: none;
+      }
 
-  /* 5. 3D MODEL - BIGGER */
-  .product-model {
-    flex: 2; /* Allow model to take 2x space compared to text */
-    width: 100%; /* Wider */
-    min-height: 0;
-    max-height: 60%; /* Increased from 50% */
-    margin: 0 auto !important;
-  }
+      /* 6. 3D MODEL */
+      .product-model {
+        flex: 2; 
+        width: 80%;
+        min-height: 200px;
+        max-height: 60%;
+        margin: 0 auto !important;
+      }
 
-  /* 6. TEXT - Compact */
-  h4.product {
-    font-size: 1.5rem;
-    margin: 0;
-    flex-shrink: 0;
-  }
+      /* 7. TEXT */
+      h4.product {
+        font-size: 1.5rem;
+        margin: 0;
+        flex-shrink: 0;
+      }
 
-  p.price {
-    font-size: 1rem;
-    margin: 0 0 8px 0;
-    color: #ccc;
-    flex-shrink: 0;
-  }
+      p.price {
+        font-size: 1.2rem;
+        margin: 0 0 5px 0;
+        color: #ccc;
+        flex-shrink: 0;
+      }
 
-  /* 7. BUTTONS - Specificity Boost to Defeat Skeleton */
+      /* 8. BUTTONS - Forced Pill Shape */
       button.add-to-cart-button.columns {
-        /* Reset Grid/Flex Behavior */
-        width: auto !important; /* Force content width */
-        min-width: 140px !important; /* Ensure it's not too small */
-        max-width: 200px !important; /* Ensure it's not too big */
-        
-        flex: 0 0 auto !important; /* Stop flex stretching */
-        align-self: center !important; /* Center in flex container */
-        
-        /* Reset Skeleton Column Margins */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        margin-bottom: 5px !important;
-        
-        /* Visuals */
-        height: 38px !important;
-        line-height: 36px !important;
+        width: auto !important;
+        min-width: 140px !important;
+        max-width: 200px !important;
+        flex: 0 0 auto !important;
+        align-self: center !important;
+        margin: 0 0 10px 0 !important;
+        height: 36px !important;
+        line-height: 34px !important;
         padding: 0 25px !important;
         font-size: 11px !important;
         letter-spacing: 2px;
         display: inline-block !important;
       }
 
-  /* 8. ICONS - FIXED POSITIONS */
-      
-      /* Info Button (Left) */
-      #footerButtonContainer {
-        position: fixed !important;
-        bottom: 20px !important;
-        left: 20px !important;
-        z-index: 1 !important;
-        width: 50px; /* Ensure clickable area */
-        height: 50px;
-        background: transparent;
-        border: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* Cart Icon (Right) */
+      /* 9. ICONS */
       .cart-icon-container {
         position: fixed !important;
         bottom: 20px !important;
         right: 20px !important;
-        left: auto !important; /* Safety reset */
+        left: auto !important;
         z-index: 99999 !important;
       }
 
-  /* 9. FOOTER - Compact & Elegant */
-      #footer {
-        padding: 15px 0 !important;
-        background: rgba(18, 18, 18, 0.95) !important; /* Slightly transparent */
-        backdrop-filter: blur(10px); /* Modern glass effect */
-        border-top: 1px solid #333;
+      #footerButtonContainer {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        z-index: 1 !important; /* Keep low so modal covers it */
+        width: 50px; height: 50px;
+        background: transparent; border: none;
+        display: flex; align-items: center; justify-content: center;
       }
+    }
 
-      .footer-content {
-        width: 90%;
-        gap: 10px; /* Reduce gap between rows */
-      }
+    /* --- 1. MARQUEE (Slogan) --- */
+    .marquee-container {
+      width: 100%;
+      background: #000;
+      border-bottom: 1px solid #1a1a1a;
+      overflow: hidden;
+      white-space: nowrap;
+      height: 25px; /* Very thin */
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+    }
 
-      /* Shrink the Icons */
-      .social-icons {
-        gap: 25px; /* Bring them closer */
-        margin-bottom: 5px;
-      }
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 11px;
+      color: #00ffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
-      .social-icons a i {
-        font-size: 1.5rem !important; /* Override fa-xl size */
-        color: #ccc;
-      }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
 
-      /* Shrink Links */
-      .links {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 5px;
-      }
+    /* --- 2. NEW QUANTITY CONTROLS (Cyber-Pill) --- */
+    .quantity-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 20px;
+      height: 32px;
+      width: 100px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
 
-      .links a {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
+    .qty-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 30px;
+      height: 100%;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
 
-      /* Shrink Copyright */
-      .trademark {
-        font-size: 0.7rem;
-        color: #666;
-        margin-top: 0;
-      }
-}
+    .qty-btn:active { background: rgba(0, 255, 255, 0.2); }
+
+    .qty-val {
+      font-family: 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      color: #00ffff;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* --- 3. CROSS SELL & DISCOUNT NOTES --- */
+    .cross-sell-box {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px dashed #333;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 15px;
+      text-align: center;
+    }
+    
+    .cross-sell-text { font-size: 12px; color: #ccc; margin-bottom: 5px; }
+    
+    .cross-sell-btn {
+      background: transparent;
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      font-size: 10px;
+      padding: 5px 15px;
+      border-radius: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .discount-note {
+      font-size: 10px;
+      color: #888;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 10px;
+      margin-top: 5px;
+    }
   </style>
 </head>
 
@@ -733,7 +878,14 @@
         <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
       </div>
     </div>
-    <div class="container" style="margin-bottom: 100px;">
+
+    <div class="marquee-wrapper">
+          <div class="marquee-container">
+            <div class="marquee-text">Welcome to the future - you belong here. // 10% OFF 3+ ITEMS // 20% OFF 5+ ITEMS //</div>
+          </div>
+        </div>
+
+    <div class="container">
       <div class="row">
         <!-- COOL MINT -->
         <div class="six columns u-text-center">
@@ -945,20 +1097,104 @@
     }
 
     function updateCartDisplay() {
-      cartItemsContainer.innerHTML = cart.length === 0 ? '<p class="cart-empty-message">Your basket is empty.</p>' : '';
-      let total = 0, count = 0;
+      const container = document.getElementById('cart-items-container');
+      
+      // Empty State
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="cart-empty-message">Your basket is empty.</p>';
+        document.getElementById('checkout-button').disabled = true;
+        document.getElementById('cart-count').textContent = '0';
+        document.getElementById('cart-total').textContent = '0.00 AED';
+        return;
+      }
+
+      let total = 0;
+      let count = 0;
+      let hasMint = false;
+      let hasBerry = false;
+
+      container.innerHTML = '';
+
       cart.forEach(item => {
         total += item.price * item.quantity;
         count += item.quantity;
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('cart-item');
-        itemElement.innerHTML = `<model-viewer class="cart-item-model" src="${item.model}" variant-name="${item.variant}" auto-rotate disable-zoom disable-pan shadow-intensity="0"></model-viewer><div class="cart-item-details"><h5>${item.name}</h5><p>${(item.price / 100).toFixed(2)} AED</p></div><div class="cart-item-actions"><div class="quantity-controls"><button data-id="${item.id}" data-action="decrease">-</button><span>${item.quantity}</span><button data-id="${item.id}" data-action="increase">+</button></div><button class="remove-item-btn" data-id="${item.id}">REMOVE</button></div>`;
-        cartItemsContainer.appendChild(itemElement);
+        
+        // Logic to detect what's in cart (Robust check)
+        if (item.id.includes("Mint")) hasMint = true;
+        if (item.id.includes("Blueberry") || item.id.includes("Berry")) hasBerry = true;
+
+        const itemEl = document.createElement('div');
+        itemEl.classList.add('cart-item');
+        
+        // 1. PILL BUTTONS UI
+        itemEl.innerHTML = `
+          <model-viewer class="cart-item-model" src="${item.model}" variant-name="${item.variant}" disable-zoom disable-pan shadow-intensity="0"></model-viewer>
+          <div class="cart-item-details">
+            <h5>${item.name}</h5>
+            <p>${(item.price / 100).toFixed(2)} AED</p>
+          </div>
+          <div class="cart-item-actions">
+            <div class="quantity-pill">
+              <button class="qty-btn" onclick="updateCart('${item.id}', ${item.quantity - 1})">−</button>
+              <span class="qty-val">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateCart('${item.id}', ${item.quantity + 1})">+</button>
+            </div>
+            <button class="remove-item-btn" onclick="updateCart('${item.id}', 0)">REMOVE</button>
+          </div>
+        `;
+        container.appendChild(itemEl);
       });
-      cartCount.textContent = count;
-      cartTotal.textContent = `${(total / 100).toFixed(2)} AED`;
-      checkoutButton.disabled = cart.length === 0;
+
+      // 2. CROSS SELL LOGIC (Only show if missing one variant)
+      if (hasMint && !hasBerry) {
+        const crossSellDiv = document.createElement('div');
+        crossSellDiv.className = 'cross-sell-box';
+        crossSellDiv.innerHTML = `
+            <p class="cross-sell-text">Missing: Blueberry</p>
+            <button class="cross-sell-btn" id="cross-add-berry">ADD +1</button>
+        `;
+        container.appendChild(crossSellDiv);
+        
+        // Wait for DOM then bind click
+        setTimeout(() => {
+            document.getElementById('cross-add-berry').addEventListener('click', () => {
+                // Find the main button and click it to ensure consistency
+                const btn = document.querySelector('button[data-variant="Blueberry"]');
+                if(btn) btn.click(); 
+            });
+        }, 0);
+      } 
+      else if (hasBerry && !hasMint) {
+        const crossSellDiv = document.createElement('div');
+        crossSellDiv.className = 'cross-sell-box';
+        crossSellDiv.innerHTML = `
+            <p class="cross-sell-text">Missing: Cool Mint</p>
+            <button class="cross-sell-btn" id="cross-add-mint">ADD +1</button>
+        `;
+        container.appendChild(crossSellDiv);
+        
+        setTimeout(() => {
+            document.getElementById('cross-add-mint').addEventListener('click', () => {
+                const btn = document.querySelector('button[data-variant="Mint"]');
+                if(btn) btn.click();
+            });
+        }, 0);
+      }
+
+      // 3. BULK DISCOUNT NOTE
+      const note = document.createElement('div');
+      note.className = 'discount-note';
+      note.innerHTML = "DISCOUNTS APPLIED AT NEXT STEP<br>10% OFF 3+ // 20% OFF 5+";
+      container.appendChild(note);
+
+      // Update Totals
+      document.getElementById('cart-count').textContent = count;
+      document.getElementById('cart-total').textContent = `${(total / 100).toFixed(2)} AED`;
+      document.getElementById('checkout-button').disabled = false;
     }
+
+    // Expose globally
+    window.updateCart = updateCart;
 
     function saveCart() {
       localStorage.setItem('caffy_cart', JSON.stringify(cart));
