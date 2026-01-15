@@ -853,14 +853,24 @@ body.cart-open .cart-icon-container {
         height: auto !important;     /* Allow body to grow */
       }
 
-      /* Give the form room to breathe on mobile */
-      body.checkout-active #checkout-view {
-        height: auto !important;
-        min-height: 100vh;
-        overflow-y: visible;
-        padding-top: 20px;
-        padding-bottom: 150px; /* Extra space for mobile keyboard */
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+      /* --- FIXED CHECKOUT SCROLLING --- */
+      /* This forces the checkout view to handle its own scrolling, 
+         ignoring the locked body/html behind it. */
+      #checkout-view {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100dvh !important; /* Take full screen */
+        
+        overflow-y: scroll !important; /* Force internal scroll */
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
+        
+        z-index: 9999999 !important; /* Sit on top of everything */
+        background: #121212; /* Ensure background is solid */
+        
+        padding: 20px 20px 150px 20px !important; /* Extra bottom padding for keyboard */
+        box-sizing: border-box;
       }
     }
   </style>
