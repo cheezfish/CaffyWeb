@@ -556,6 +556,11 @@ body.cart-open .cart-icon-container {
   100% { transform: translateX(-100%); }
 }
 
+/* Add this inside your <style> block */
+.no-transition {
+  transition: none !important;
+}
+
 /* --- QUANTITY CONTROLS (Cyber-Pill) --- */
 .quantity-pill {
   display: flex;
@@ -1280,22 +1285,52 @@ body.cart-open .cart-icon-container {
     }
 
     // --- VIEW MANAGEMENT FUNCTIONS ---
-    function showCheckoutView() { 
-      document.body.classList.add('checkout-active'); 
-      mainContent.classList.add('hidden'); 
-      checkoutView.classList.remove('hidden');
-      updateOrderSummary();
+
+    // 1. OPEN THE CART
+    function openCart(immediate = false) {
+      if (immediate) cartModal.classList.add('no-transition');
+      
+      cartModal.classList.add('open');
+      document.body.classList.add('cart-open');
+      
+      if (immediate) {
+        void cartModal.offsetWidth; // Force browser update
+        cartModal.classList.remove('no-transition');
+      }
+      
+      // Update browser history so "Back" works
+      if (history.state?.view !== 'cart') {
+        history.pushState({ view: 'cart' }, '');
+      }
     }
-    function hideCheckoutView() { 
-      document.body.classList.remove('checkout-active'); 
-      mainContent.classList.remove('hidden'); 
-      checkoutView.classList.add('hidden'); 
-    }
+
+    // 2. CLOSE THE CART
     function closeCart() { 
       cartModal.classList.remove('open'); 
       document.body.classList.remove('cart-open'); 
     }
 
+    // 3. SHOW CHECKOUT
+    function showCheckoutView() { 
+      document.body.classList.add('checkout-active'); 
+      mainContent.classList.add('hidden'); 
+      checkoutView.classList.remove('hidden');
+      updateOrderSummary();
+
+      // Update browser history so "Back" works
+      if (history.state?.view !== 'checkout') {
+        history.pushState({ view: 'checkout' }, '');
+      }
+    }
+
+    // 4. HIDE CHECKOUT
+    function hideCheckoutView() { 
+      document.body.classList.remove('checkout-active'); 
+      mainContent.classList.remove('hidden'); 
+      checkoutView.classList.add('hidden'); 
+    }
+
+    // --- INITIATE CHECKOUT ---
     async function initiateCheckout() {
       if (cart.length === 0) return;
 
@@ -1468,13 +1503,31 @@ body.cart-open .cart-icon-container {
       return re.test(email);
     }
 
+    // --- BACK BUTTON LOGIC ---
+    window.addEventListener('popstate', (event) => {
+      const view = event.state?.view;
+
+      if (view === 'checkout') {
+        showCheckoutView();
+      } 
+      else if (view === 'cart') {
+        hideCheckoutView(); // In case we were in checkout
+        openCart(true);     // Snap cart open instantly
+      } 
+      else {
+        // No state means we are back at the main store
+        hideCheckoutView();
+        closeCart();
+      }
+    });
+
     // --- EVENT LISTENERS ---
     document.addEventListener('DOMContentLoaded', () => {
       // Product add to cart buttons
       document.querySelectorAll('.add-to-cart-button').forEach(button => {
         button.addEventListener('click', e => {
           addToCart({ ...e.currentTarget.dataset, price: parseInt(e.currentTarget.dataset.price) });
-          cartModal.classList.add('open');
+          openCart();
           document.body.classList.add('cart-open');
         });
       });
@@ -1500,15 +1553,23 @@ body.cart-open .cart-icon-container {
 
       // Cart and checkout navigation
       cartIcon.addEventListener('click', () => {
-        cartModal.classList.add('open');
-        document.body.classList.add('cart-open');
+        openCart();
       });
-      closeCartButton.addEventListener('click', closeCart);
-      checkoutButton.addEventListener('click', initiateCheckout);
+      closeCartButton.addEventListener('click', () => {
+        if (history.state?.view === 'cart') {
+          history.back();
+        } else {
+          closeCart();
+        }
+      });
+      checkoutButton.addEventListener('click', () => {
+        // Just hide the cart UI, don't go back in history yet
+        cartModal.classList.remove('open'); 
+        document.body.classList.remove('cart-open');
+        initiateCheckout(); 
+      });
       backToStoreButton.addEventListener('click', () => {
-        hideCheckoutView();
-        cartModal.classList.add('open');
-        document.body.classList.add('cart-open');
+        history.back(); // This will trigger the logic to show the Cart instantly
       });
 
       // Footer toggle
