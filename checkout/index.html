@@ -666,18 +666,26 @@ body.cart-open .cart-icon-container {
         height: 100dvh;
         width: 100vw;
         overflow: hidden;
-        position: fixed;
         margin: 0; padding: 0;
+        position: fixed;
       }
 
-      /* 2. HEADER (7%) - Tighter */
-      #HeroContainer {
-        height: 7vh !important;
-        min-height: 0;
-        margin: 0 !important;
-        padding: 0 !important;
+      #main-content {
+        height: 100dvh;
+        width: 100%;
         display: flex;
-        align-items: flex-end; /* Bottom align title */
+        flex-direction: column;
+      }
+
+      /* 2. HEADER - Tighter (8%) */
+      /* Pulled up from 10% to create room */
+      #HeroContainer {
+        flex: 0 0 auto;
+        height: auto !important;
+        padding: 5px 0 0 0 !important;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
         justify-content: center;
         z-index: 2;
         width: 100%;
@@ -689,33 +697,39 @@ body.cart-open .cart-icon-container {
         font-size: 2.8rem; 
         line-height: 1; 
         margin: 0; 
-        padding-bottom: 0;
         width: 100%; text-align: center; 
       }
       
       #subtitle { display: none; }
 
-      /* 3. MARQUEE (4%) - Show on Mobile */
+      /* 3. MARQUEE */
       .marquee-wrapper {
-        height: 4vh !important;
+        flex: 0 0 auto;
+        height: 30px !important;
         width: 100%;
-        display: flex !important; /* Force show */
+        display: flex !important;
         align-items: center;
         background: #000;
         border-bottom: 1px solid #1a1a1a;
         z-index: 5;
       }
       
-      /* 4. PRODUCT CONTAINER (89%) */
-      /* 100 - 7 - 4 = 89 */
+      .marquee-text {
+        font-size: 10px;
+        padding-top: 2px;
+      }
+      
+      /* 4. PRODUCT CONTAINER */
       #main-content > .container:last-of-type {
-        height: 80vh !important;
+        flex: 1;
+        height: auto !important;
         width: 100%;
         max-width: 100%;
         margin: 0 !important;
         padding: 0 !important;
         display: flex;
         flex-direction: column;
+        overflow: hidden; 
       }
 
       .row {
@@ -726,7 +740,7 @@ body.cart-open .cart-icon-container {
         flex-direction: column;
       }
 
-      /* 5. PRODUCT SPLIT */
+      /* 5. PRODUCT SPLIT (Lifted) */
       .six.columns {
         flex: 1; 
         width: 100% !important;
@@ -734,61 +748,61 @@ body.cart-open .cart-icon-container {
         display: flex;
         flex-direction: column;
         
-        /* Align content to start, but center horizontally */
-        justify-content: flex-start; 
+        /* This centers items vertically... */
+        justify-content: center; 
         align-items: center;
+        
+        /* ...BUT this padding pushes the "Center" upwards */
+        padding-bottom: 6vh !important; 
         
         position: relative;
         border-bottom: 1px solid #11111100;
-        padding-top: 10px !important; /* Slight top padding */
+        overflow: hidden;
       }
 
-      /* Remove border from last item */
-      .six.columns:last-child {
-        border-bottom: none;
-      }
+      .six.columns:last-child { border-bottom: none; }
 
-      /* 6. 3D MODEL - Tighter */
+      /* 6. 3D MODEL */
       .product-model {
-        flex: 2; 
-        width: 100%;
+        flex: 1; 
+        width: 90%;
         min-height: 0;
-        max-height: 60%; 
-        margin: 0 auto -10px auto !important; /* Negative margin pulls text closer */
+        max-height: 100%;
+        margin: 0 auto !important;
         display: block;
       }
 
-      /* 7. TEXT - Compact */
+      /* 7. TEXT (The -10 Trick) */
       h4.product {
         font-size: 2rem;
-        margin-bottom: 5px; /* Zero margin */
+        /* Negative margin sucks the text up to the model */
+        margin: -15px 0 10px 0 !important; 
+        line-height: 1;
         flex-shrink: 0;
-        line-height: 1.1;
+        position: relative; 
+        z-index: 5; /* Ensure text sits on top of model bounding box */
       }
 
       p.price {
         font-size: 1.5rem;
         margin: 0 0 10px 0;
         color: #ccc;
-        flex-shrink: 0;
         line-height: 1;
+        flex-shrink: 0;
       }
 
-      /* 8. BUTTONS - Lifted from Bottom */
+      /* 8. BUTTONS */
       button.add-to-cart-button.columns {
         width: auto !important;
         min-width: 140px !important;
-        max-width: 200px !important;
-        flex: 0 0 auto !important;
+        max-width: 180px !important;
+        flex: 0 0 auto;
         align-self: center !important;
-        
-        /* More space at bottom to lift it up */
-        margin: 0 0 25px 0 !important; 
-        
+        margin: 0 !important;
         height: 36px !important;
         line-height: 34px !important;
         padding: 0 25px !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
         letter-spacing: 2px;
         display: inline-block !important;
       }
@@ -796,19 +810,40 @@ body.cart-open .cart-icon-container {
       /* 9. ICONS */
       .cart-icon-container {
         position: fixed !important;
-        bottom: 25px !important;
+        bottom: 20px !important;
         right: 20px !important;
         z-index: 99999 !important;
       }
 
       #footerButtonContainer {
         position: fixed !important;
-        bottom: 25px !important;
+        bottom: 20px !important;
         left: 20px !important;
         z-index: 1 !important;
-        width: 50px; height: 50px;
-        background: transparent; border: none;
-        display: flex; align-items: center; justify-content: center;
+        
+        /* Reset all button defaults that cause offsets */
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        width: auto !important;
+        height: auto !important;
+        
+        /* Center the icon */
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 10. FOOTER ICONS - Aggressive Shrink */
+      .social-icons {
+        gap: 20px !important; /* Pull them closer together */
+        margin-bottom: 5px !important;
+      }
+
+      .social-icons a i {
+        font-size: 2rem !important; /* Override the 'fa-xl' class */
+        color: #888 !important; /* Dim them slightly so they aren't so loud */
       }
     }
   </style>
