@@ -1079,7 +1079,6 @@ body.cart-open .cart-icon-container {
     function updateCartDisplay() {
       const container = document.getElementById('cart-items-container');
       
-      // Empty State
       if (cart.length === 0) {
         container.innerHTML = '<p class="cart-empty-message">Your basket is empty.</p>';
         document.getElementById('checkout-button').disabled = true;
@@ -1099,14 +1098,13 @@ body.cart-open .cart-icon-container {
         total += item.price * item.quantity;
         count += item.quantity;
         
-        // Logic to detect what's in cart (Robust check)
-        if (item.id.includes("Mint")) hasMint = true;
-        if (item.id.includes("Blueberry") || item.id.includes("Berry")) hasBerry = true;
+        // --- FIX: Check the Variant Name, not the random ID ---
+        if (item.variant === "Mint") hasMint = true;
+        if (item.variant === "Blueberry") hasBerry = true;
 
         const itemEl = document.createElement('div');
         itemEl.classList.add('cart-item');
         
-        // 1. PILL BUTTONS UI
         itemEl.innerHTML = `
           <model-viewer class="cart-item-model" src="${item.model}" variant-name="${item.variant}" disable-zoom disable-pan shadow-intensity="0"></model-viewer>
           <div class="cart-item-details">
@@ -1125,20 +1123,18 @@ body.cart-open .cart-icon-container {
         container.appendChild(itemEl);
       });
 
-      // 2. CROSS SELL LOGIC (Only show if missing one variant)
+      // --- CROSS SELL LOGIC ---
       if (hasMint && !hasBerry) {
         const crossSellDiv = document.createElement('div');
         crossSellDiv.className = 'cross-sell-box';
         crossSellDiv.innerHTML = `
-            <p class="cross-sell-text">Missing: Blueberry</p>
-            <button class="cross-sell-btn" id="cross-add-berry">ADD +1</button>
+            <div class="cross-sell-text">Flavor check: Try Blueberry?</div>
+            <button class="cross-sell-btn" id="cross-add-berry">Add +1</button>
         `;
         container.appendChild(crossSellDiv);
         
-        // Wait for DOM then bind click
         setTimeout(() => {
             document.getElementById('cross-add-berry').addEventListener('click', () => {
-                // Find the main button and click it to ensure consistency
                 const btn = document.querySelector('button[data-variant="Blueberry"]');
                 if(btn) btn.click(); 
             });
@@ -1148,8 +1144,8 @@ body.cart-open .cart-icon-container {
         const crossSellDiv = document.createElement('div');
         crossSellDiv.className = 'cross-sell-box';
         crossSellDiv.innerHTML = `
-            <p class="cross-sell-text">Missing: Cool Mint</p>
-            <button class="cross-sell-btn" id="cross-add-mint">ADD +1</button>
+            <div class="cross-sell-text">Flavor check: Try Cool Mint?</div>
+            <button class="cross-sell-btn" id="cross-add-mint">Add +1</button>
         `;
         container.appendChild(crossSellDiv);
         
@@ -1161,10 +1157,10 @@ body.cart-open .cart-icon-container {
         }, 0);
       }
 
-      // 3. BULK DISCOUNT NOTE
+      // --- DISCOUNT NOTE ---
       const note = document.createElement('div');
       note.className = 'discount-note';
-      note.innerHTML = "DISCOUNTS APPLIED AT NEXT STEP<br>5% OFF 3+ // 10% OFF 5+";
+      note.innerHTML = "Bulk discounts (10% off 3+ / 20% off 5+) applied at next step.";
       container.appendChild(note);
 
       // Update Totals
