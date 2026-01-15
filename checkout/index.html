@@ -1637,7 +1637,7 @@ body.cart-open .cart-icon-container {
       // 1. LIVE PRICE FETCHING
       // This ensures the price on the button matches the price in Stripe
       try {
-        const response = await fetch(WORKER_BASE,);
+        const response = await fetch(`${WORKER_BASE}/get-prices`);
         if (response.ok) {
           const data = await response.json(); // Get the whole object
           const prices = data.prices;         // Extract prices
@@ -1683,7 +1683,7 @@ body.cart-open .cart-icon-container {
           const email = e.target.value;
           // Only send if email is valid and user has items in cart
           if (email.includes('@') && email.includes('.') && cart.length > 0) {
-            fetch(WORKER_BASE, {
+            fetch(`${WORKER_BASE}/capture-lead`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               keepalive: true, // Ensures request finishes even if page closes
