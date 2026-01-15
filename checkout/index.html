@@ -875,13 +875,15 @@ body.cart-open .cart-icon-container {
   </style>
 </head>
 
-<div class="marquee-wrapper">
-          <div class="marquee-container">
-            <div class="marquee-text">Welcome to the future - you belong here. // 20% OFF LAUNCH DISCOUNT // LIMITED TIME OFFER //</div>
-          </div>
-        </div>
+
 
 <body>
+
+  <div class="marquee-wrapper">
+          <div class="marquee-container">
+            <div class="marquee-text">Welcome to the future - you belong here. // 20% OFF LAUNCH DISCOUNT // LIMITED TIME OFFER // FREE SHIPPING </div>
+          </div>
+        </div>
 
   <div id="main-content">
     <div class="container" id="HeroContainer">
@@ -1082,6 +1084,31 @@ body.cart-open .cart-icon-container {
     const footer = document.getElementById('footer');
     const footerButton = document.getElementById('footerButtonContainer');
 
+    function calculateFinalTotal() {
+      let subtotal = cart.reduce((t, i) => t + i.price * i.quantity, 0);
+      let totalQty = cart.reduce((t, i) => t + i.quantity, 0);
+      let discountAmount = 0;
+      let discountLabel = "";
+
+      // Use the rules fetched from the Worker's /get-prices endpoint
+      if (activeDiscountRules && activeDiscountRules.length > 0) {
+        const sortedRules = activeDiscountRules.sort((a, b) => b.threshold - a.threshold);
+        const activeRule = sortedRules.find(rule => totalQty >= rule.threshold);
+
+        if (activeRule) {
+          discountAmount = subtotal * (activeRule.percent / 100);
+          discountLabel = activeRule.label;
+        }
+      }
+
+      return {
+        subtotal: subtotal,
+        discountAmount: discountAmount,
+        discountLabel: discountLabel,
+        finalTotal: subtotal - discountAmount
+      };
+    }
+
     // --- CART FUNCTIONS ---
     function updateCart(itemId, newQuantity) {
       const item = cart.find(i => i.id === itemId);
@@ -1206,15 +1233,11 @@ body.cart-open .cart-icon-container {
       const orderItemsList = document.getElementById('order-items-list');
       orderItemsList.innerHTML = '';
       
-      let total = 0;
-      let totalQty = 0;
+      const priceData = calculateFinalTotal();
 
       // 1. List Items
       cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-        totalQty += item.quantity;
-        
         const orderItem = document.createElement('div');
         orderItem.classList.add('order-item');
         orderItem.innerHTML = `
@@ -1224,57 +1247,35 @@ body.cart-open .cart-icon-container {
         orderItemsList.appendChild(orderItem);
       });
 
-      // 2. CALCULATE DISCOUNT (Dynamic)
-      let discountAmount = 0;
-      let discountLabel = "";
-
-      // Sort rules so we check highest threshold first
-      if (activeDiscountRules.length > 0) {
-        const sortedRules = activeDiscountRules.sort((a, b) => b.threshold - a.threshold);
-        const activeRule = sortedRules.find(rule => totalQty >= rule.threshold);
-
-        if (activeRule) {
-            discountAmount = total * (activeRule.percent / 100);
-            discountLabel = activeRule.label;
-        }
-      }
-
-      // 3. Show Discount Row (If applicable)
-      if (discountAmount > 0) {
+      // 2. Show Discount (From Worker Rules)
+      if (priceData.discountAmount > 0) {
         const discountItem = document.createElement('div');
         discountItem.classList.add('order-item');
-        // Make it stand out with your accent color
         discountItem.style.color = '#00ffff'; 
         discountItem.innerHTML = `
-          <span class="order-item-name">${discountLabel}</span>
-          <span class="order-item-price">-${(discountAmount / 100).toFixed(2)} AED</span>
+          <span class="order-item-name">${priceData.discountLabel}</span>
+          <span class="order-item-price">-${(priceData.discountAmount / 100).toFixed(2)} AED</span>
         `;
         orderItemsList.appendChild(discountItem);
       }
       
-      // 4. Calculate Final Total
-      const finalTotal = total - discountAmount;
-
-      // 5. Update Total Row
+      // 3. Update Total Row
       const totalItem = document.createElement('div');
       totalItem.classList.add('order-item');
-      // Add some styling to separate total
       totalItem.style.borderTop = '1px solid #333'; 
       totalItem.style.marginTop = '10px';
       totalItem.style.paddingTop = '10px';
       totalItem.style.fontWeight = 'bold';
-      
       totalItem.innerHTML = `
         <span>Total</span>
-        <span style="color: #00ffff; font-size: 1.2em;">${(finalTotal / 100).toFixed(2)} AED</span>
+        <span style="color: #00ffff; font-size: 1.2em;">${(priceData.finalTotal / 100).toFixed(2)} AED</span>
       `;
       orderItemsList.appendChild(totalItem);
 
-      // 6. Update the "Pay Now" Button Text to match
+      // 4. Update the Button
       const submitBtn = document.getElementById('submit-payment-button');
       if(submitBtn) {
-          const btnText = submitBtn.querySelector('#button-text');
-          if(btnText) btnText.textContent = `Pay ${(finalTotal / 100).toFixed(2)} AED`;
+          submitBtn.querySelector('#button-text').textContent = `Pay ${(priceData.finalTotal / 100).toFixed(2)} AED`;
       }
     }
 
@@ -1353,8 +1354,8 @@ body.cart-open .cart-icon-container {
       closeCart();
       showCheckoutView();
 
-      const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
-      document.getElementById('submit-payment-button').querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
+      //const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
+      //document.getElementById('submit-payment-button').querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
 
       try {
         // 1. GET THE UMAMI SESSION ID (Using the robust helper)
@@ -1476,8 +1477,8 @@ body.cart-open .cart-icon-container {
         btn.querySelector('#button-text').textContent = "Processing...";
       } else {
         btn.disabled = false;
-        const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
-        btn.querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
+        const priceData = calculateFinalTotal();
+        btn.querySelector('#button-text').textContent = `Pay ${(priceData.finalTotal / 100).toFixed(2)} AED`;
       }
     }
     
@@ -1517,6 +1518,7 @@ body.cart-open .cart-icon-container {
 
     // --- EVENT LISTENERS ---
     document.addEventListener('DOMContentLoaded', () => {
+      history.replaceState({ view: 'store' }, '');
       // Product add to cart buttons
       document.querySelectorAll('.add-to-cart-button').forEach(button => {
         button.addEventListener('click', e => {
