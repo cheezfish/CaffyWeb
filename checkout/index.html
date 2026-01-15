@@ -661,8 +661,9 @@ body.cart-open .cart-icon-container {
 
 /* --- MOBILE OPTIMIZATIONS (Locked Viewport) --- */
     @media (max-width: 768px) {
-      /* 1. LOCK SCREEN */
-      html, body {
+      /* 1. LOCK SCREEN (Only when checkout is NOT active) */
+      html:not(.checkout-mode), 
+      html:not(.checkout-mode) body {
         height: 100dvh;
         width: 100vw;
         overflow: hidden;
@@ -670,11 +671,14 @@ body.cart-open .cart-icon-container {
         position: fixed;
       }
 
-      #main-content {
-        height: 100dvh;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+      /* 2. UNLOCK SCREEN (When checkout IS active) */
+      html.checkout-mode, 
+      html.checkout-mode body {
+        height: auto !important;
+        overflow: auto !important;
+        position: static !important;
+        overflow-y: scroll !important; /* Force scrollbar functionality */
+        -webkit-overflow-scrolling: touch;
       }
 
       /* 2. HEADER - Tighter (8%) */
@@ -846,31 +850,16 @@ body.cart-open .cart-icon-container {
         color: #888 !important; /* Dim them slightly so they aren't so loud */
       }
 
-      /* --- CRITICAL: UNLOCK SCROLL FOR CHECKOUT --- */
-      body.checkout-active {
-        overflow-y: auto !important; /* Allow vertical scroll */
-        position: static !important; /* Release the 'fixed' lock */
-        height: auto !important;     /* Allow body to grow */
-      }
-
-      /* --- FIXED CHECKOUT SCROLLING --- */
-      /* This forces the checkout view to handle its own scrolling, 
-         ignoring the locked body/html behind it. */
+      /* --- CHECKOUT VIEW (Normal Flow) --- */
       #checkout-view {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100dvh !important; /* Take full screen */
-        
-        overflow-y: scroll !important; /* Force internal scroll */
-        -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
-        
-        z-index: 9999999 !important; /* Sit on top of everything */
-        background: #121212; /* Ensure background is solid */
-        
-        padding: 20px 20px 150px 20px !important; /* Extra bottom padding for keyboard */
-        box-sizing: border-box;
+        position: relative !important; /* Flows naturally */
+        width: 100%;
+        height: auto !important;
+        min-height: 100vh;
+        overflow: visible !important;
+        z-index: 9999 !important;
+        background: #121212;
+        padding: 20px 20px 150px 20px !important; /* Space for keyboard */
       }
     }
   </style>
@@ -1280,14 +1269,25 @@ body.cart-open .cart-icon-container {
     }
 
     // --- VIEW MANAGEMENT FUNCTIONS ---
+    // --- VIEW MANAGEMENT FUNCTIONS ---
     function showCheckoutView() { 
+      // 1. Add class to BODY and HTML
       document.body.classList.add('checkout-active'); 
+      document.documentElement.classList.add('checkout-mode'); // <--- CRITICAL FIX
+      
       mainContent.classList.add('hidden'); 
       checkoutView.classList.remove('hidden');
+      
+      // 2. Force scroll to top
+      window.scrollTo(0, 0);
+      
       updateOrderSummary();
     }
+
     function hideCheckoutView() { 
       document.body.classList.remove('checkout-active'); 
+      document.documentElement.classList.remove('checkout-mode'); // <--- CRITICAL FIX
+      
       mainContent.classList.remove('hidden'); 
       checkoutView.classList.add('hidden'); 
     }
