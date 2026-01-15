@@ -28,604 +28,638 @@
   <script src="https://kit.fontawesome.com/ab45b5ded8.js" crossorigin="anonymous"></script>
   <style>
     /* All previous, correct CSS is included here */
-    :not(:defined)>* {
+:not(:defined)>* {
+  display: none;
+}
+
+.product-model {
+  width: 100%;
+  height: 50vh;
+  margin: 0 auto;
+  cursor: grab;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.cart-icon-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  filter: drop-shadow(0 0 5px #00ffff);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.cart-icon-container i {
+  color: #00ffff;
+}
+
+#cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #00ffff;
+  color: #000;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#footerButtonContainer {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+#footerButtonContainer i {
+  color: #888;
+  font-size: 32px;
+}
+
+body.checkout-active .cart-icon-container,
+body.checkout-active #footerButtonContainer,
+body.cart-open .cart-icon-container {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+.cart-modal {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  background: #121212;
+  color: #fff;
+  border-left: 1px solid #00ffff;
+  box-shadow: -5px 0 25px rgba(0, 255, 255, 0.2);
+  z-index: 1002;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.cart-modal.open {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 25px;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+  border-bottom: 1px solid #333;
+}
+
+.close-cart-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.cart-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px 25px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #222;
+}
+
+.cart-item-model {
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  margin-right: 15px;
+  border-radius: 4px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item-details h5 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cart-item-details p {
+  margin: 5px 0 0;
+  color: #888;
+}
+
+.cart-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.quantity-controls button {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 18px;
+}
+
+.quantity-controls span {
+  min-width: 30px;
+  text-align: center;
+}
+
+.remove-item-btn {
+  background: none;
+  border: none;
+  color: #ff5a5f;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.cart-empty-message {
+  color: #888;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.cart-footer {
+  flex-shrink: 0;
+  padding: 25px;
+  border-top: 1px solid #333;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+#checkout-button {
+  width: 100%;
+  background-color: #00ffff;
+  color: #000;
+  border-color: #00ffff;
+  font-weight: bold;
+}
+
+#checkout-view {
+  color: #fff;
+  padding-bottom: 100px;
+}
+
+#back-to-store-button {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin: 40px auto 20px;
+  background: none;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+#payment-form {
+  margin: 40px auto;
+  max-width: 500px;
+  padding: 0 15px;
+}
+
+.form-section {
+  margin-bottom: 35px;
+}
+
+.form-section h4 {
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #00ffff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-field input[type="email"],
+.form-field input[type="tel"],
+.form-field input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
+}
+
+.form-field input::placeholder {
+  color: #666;
+}
+
+.required {
+  color: #ff5a5f;
+}
+
+#address-element,
+#payment-element {
+  margin-bottom: 24px;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+  gap: 12px;
+}
+
+.checkbox-field input[type="checkbox"] {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #00ffff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.checkbox-field label {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.checkbox-field label a {
+  color: #00ffff;
+  text-decoration: none;
+}
+
+.checkbox-field label a:hover {
+  text-decoration: underline;
+}
+
+.order-summary {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.order-summary h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #00ffff;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #00ffff;
+}
+
+.order-item-name {
+  color: #ccc;
+}
+
+.order-item-price {
+  color: #fff;
+}
+
+#submit-payment-button {
+  width: 100%;
+  background-color: #00ffff;
+  color: #000;
+  border-color: #00ffff;
+  font-weight: bold;
+  padding: 15px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit-payment-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+#payment-message {
+  color: #ff5a5f;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#footer {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: #1a1a1a;
+  padding: 20px 0;
+  border-top: 1px solid #00ffff;
+  box-shadow: 0 -5px 25px rgba(0, 255, 255, 0.2);
+}
+
+.footer-content {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.social-icons a {
+  color: #ccc;
+  font-size: 24px;
+}
+
+.links a {
+  color: #aaa;
+}
+
+.trademark {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* --- SYSTEM DECRYPT (Clean & Subtle) --- */
+.cyber-reveal {
+  font-family: 'Ubuntu Mono', monospace !important;
+  color: #00ffff !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  display: block; 
+  width: 100%;
+  text-align: center;
+  animation: system-boot 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.deal-text {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 1.5rem;
+  color: #888;
+  margin-top: 8px;
+  opacity: 0;
+  letter-spacing: 1px;
+  transition: opacity 0.5s ease 0.2s;
+}
+
+.deal-text.visible {
+  opacity: 1;
+}
+
+.accent-cyan {
+  color: #00ffff;
+  font-weight: 700;
+}
+
+@keyframes system-boot {
+  0% {
+    opacity: 0;
+    color: #ffffff;
+    text-shadow: 0 0 20px #ffffff;
+    transform: scale(0.98);
+  }
+  10% {
+    opacity: 1;
+    color: #ffffff;
+  }
+  100% {
+    color: #00ffff;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+    transform: scale(1);
+  }
+}
+
+/* --- MARQUEE --- */
+.marquee-wrapper {
+  width: 100%;
+  background: #000;
+  border-bottom: 1px solid #1a1a1a;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* Hide Marquee by default (Desktop) */
+    .marquee-wrapper {
       display: none;
     }
 
-    .product-model {
-      width: 100%;
-      height: 50vh;
-      margin: 0 auto;
-      cursor: grab;
-    }
 
-    .hidden {
-      display: none !important;
-    }
-
-    .cart-icon-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      cursor: pointer;
-      z-index: 1001;
-      filter: drop-shadow(0 0 5px #00ffff);
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    .cart-icon-container i {
-      color: #00ffff;
-    }
-
-    #cart-count {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #00ffff;
-      color: #000;
-      border-radius: 50%;
-      padding: 2px 8px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    #footerButtonContainer {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 1001;
-      background: none;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    #footerButtonContainer i {
-      color: #888;
-      font-size: 32px;
-    }
-
-    body.checkout-active .cart-icon-container,
-    body.checkout-active #footerButtonContainer,
-    body.cart-open .cart-icon-container {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-    }
-
-    .cart-modal {
-      box-sizing: border-box;
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 100%;
-      max-width: 420px;
-      height: 100%;
-      background: #121212;
-      color: #fff;
-      border-left: 1px solid #00ffff;
-      box-shadow: -5px 0 25px rgba(0, 255, 255, 0.2);
-      z-index: 1002;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      display: flex;
-      flex-direction: column;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .cart-modal.open {
-      transform: translateX(0);
-    }
-
-    .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-      padding: 25px;
-      font-size: 24px;
-      font-weight: 500;
-      margin: 0;
-      border-bottom: 1px solid #333;
-    }
-
-    .close-cart-btn {
-      background: none;
-      border: none;
-      color: #888;
-      font-size: 28px;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0;
-    }
-
-    .cart-items {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 10px 25px;
-    }
-
-    .cart-item {
-      display: flex;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #222;
-    }
-
-    .cart-item-model {
-      width: 70px;
-      height: 70px;
-      min-width: 70px;
-      margin-right: 15px;
-      border-radius: 4px;
-    }
-
-    .cart-item-details {
-      flex-grow: 1;
-    }
-
-    .cart-item-details h5 {
-      margin: 0;
-      font-size: 16px;
-    }
-
-    .cart-item-details p {
-      margin: 5px 0 0;
-      color: #888;
-    }
-
-    .cart-item-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-left: 15px;
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-    }
-
-    .quantity-controls button {
-      background: #222;
-      color: #fff;
-      border: 1px solid #444;
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      font-size: 18px;
-    }
-
-    .quantity-controls span {
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .remove-item-btn {
-      background: none;
-      border: none;
-      color: #ff5a5f;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .cart-empty-message {
-      color: #888;
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    .cart-footer {
-      flex-shrink: 0;
-      padding: 25px;
-      border-top: 1px solid #333;
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      font-size: 18px;
-      font-weight: 500;
-      margin-bottom: 20px;
-    }
-
-    #checkout-button {
-      width: 100%;
-      background-color: #00ffff;
-      color: #000;
-      border-color: #00ffff;
-      font-weight: bold;
-    }
-
-    #checkout-view {
-      color: #fff;
-      padding-bottom: 100px;
-    }
-
-    #back-to-store-button {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      width: fit-content;
-      margin: 40px auto 20px;
-      background: none;
-      border: 1px solid #444;
-      color: #aaa;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      border-radius: 4px;
-    }
-
-    #payment-form {
-      margin: 40px auto;
-      max-width: 500px;
-      padding: 0 15px;
-    }
-
-    .form-section {
-      margin-bottom: 35px;
-    }
-
-    .form-section h4 {
-      margin-bottom: 20px;
-      font-weight: 500;
-      color: #00ffff;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .form-field {
-      flex: 1;
-    }
-
-    .form-field label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ccc;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .form-field input[type="email"],
-    .form-field input[type="tel"],
-    .form-field input[type="text"] {
-      width: 100%;
-      padding: 12px 15px;
-      background: #1a1a1a;
-      border: 1px solid #444;
-      border-radius: 4px;
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .form-field input:focus {
-      outline: none;
-      border-color: #00ffff;
-      box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
-    }
-
-    .form-field input::placeholder {
-      color: #666;
-    }
-
-    .required {
-      color: #ff5a5f;
-    }
-
-    #address-element,
-    #payment-element {
-      margin-bottom: 24px;
-    }
-
-    .checkbox-field {
-      display: flex;
-      align-items: flex-start;
-      margin: 20px 0;
-      gap: 12px;
-    }
-
-    .checkbox-field input[type="checkbox"] {
-      margin: 0;
-      width: 18px;
-      height: 18px;
-      accent-color: #00ffff;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .checkbox-field label {
-      color: #aaa;
-      font-size: 14px;
-      line-height: 1.4;
-      cursor: pointer;
-    }
-
-    .checkbox-field label a {
-      color: #00ffff;
-      text-decoration: none;
-    }
-
-    .checkbox-field label a:hover {
-      text-decoration: underline;
-    }
-
-    .order-summary {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-
-    .order-summary h4 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      color: #00ffff;
-    }
-
-    .order-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #2a2a2a;
-    }
-
-    .order-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-top: 10px;
-      font-weight: 600;
-      color: #00ffff;
-    }
-
-    .order-item-name {
-      color: #ccc;
-    }
-
-    .order-item-price {
-      color: #fff;
-    }
-
-    #submit-payment-button {
-      width: 100%;
-      background-color: #00ffff;
-      color: #000;
-      border-color: #00ffff;
-      font-weight: bold;
-      padding: 15px;
-      font-size: 16px;
-
-      /* --- THIS IS THE FIX --- */
-      display: flex;
-      align-items: center;      /* Vertically centers the text */
-      justify-content: center;  /* Horizontally centers the text */
-    }
-
-    #submit-payment-button:disabled {
-      background-color: #555;
-      cursor: not-allowed;
-    }
-
-    #payment-message {
-      color: #ff5a5f;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    #footer {
-      width: 100%;
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      z-index: 1000;
-      background-color: #1a1a1a;
-      padding: 20px 0;
-      border-top: 1px solid #00ffff;
-      box-shadow: 0 -5px 25px rgba(0, 255, 255, 0.2);
-    }
-
-    .footer-content {
-      width: 80%;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-    }
-
-    .social-icons a {
-      color: #ccc;
-      font-size: 24px;
-    }
-
-    .links a {
-      color: #aaa;
-    }
-
-    .trademark {
-      color: #666;
-      font-size: 0.9rem;
-    }
-
-    /* --- SYSTEM DECRYPT (Clean & Subtle) --- */
-    .cyber-reveal {
-      font-family: 'Ubuntu Mono', monospace !important;
-      color: #00ffff !important;
-      font-weight: 400 !important; /* Lighter weight looks more premium */
-      letter-spacing: 3px; /* Widespacing looks high-end */
-      text-transform: uppercase;
-      
-      /* The Subtle Glow - No jagged edges */
-      text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-      
-      /* Ensure it stays perfectly centered */
-      display: block; 
-      width: 100%;
-      text-align: center;
-      
-      /* The Entry Animation */
-      animation: system-boot 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    .deal-text {
-      font-family: 'Ubuntu Mono', monospace;
-      font-size: 1.5rem; /* Smaller is more elegant */
-      color: #888;
-      margin-top: 8px;
-      opacity: 0;
-      letter-spacing: 1px;
-      transition: opacity 0.5s ease 0.2s; /* Slight delay */
-    }
-    
-    .deal-text.visible {
-      opacity: 1;
-    }
-
-    .accent-cyan {
-      color: #00ffff;
-      font-weight: 700;
-    }
-
-    /* A single, clean flash of light upon unlock */
-    @keyframes system-boot {
-      0% {
-        opacity: 0;
-        color: #ffffff;
-        text-shadow: 0 0 20px #ffffff;
-        transform: scale(0.98);
-      }
-      10% {
-        opacity: 1;
-        color: #ffffff;
-      }
-      100% {
-        color: #00ffff;
-        text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-        transform: scale(1);
-      }
-    }
-
-    /* --- MODAL UPGRADES --- */
-
-    /* 1. Cyber-Pill Quantity Buttons */
-    .quantity-pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #000;
-      border: 1px solid #333;
-      border-radius: 4px; /* Slightly squared for tech feel */
-      height: 32px;
-      width: 100px;
-      margin-bottom: 5px;
-    }
-
-    .qty-btn {
-      background: transparent;
-      border: none;
-      color: #fff;
-      width: 30px;
-      height: 100%;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      padding: 0; margin: 0;
-    }
-
-    .qty-btn:hover { background: rgba(0, 255, 255, 0.1); color: #00ffff; }
-
-    .qty-val {
-      font-family: 'Ubuntu Mono', monospace;
-      font-size: 14px;
-      color: #00ffff;
-      width: 30px;
-      text-align: center;
-      border-left: 1px solid #222;
-      border-right: 1px solid #222;
-      line-height: 30px;
-    }
-
-    /* 2. Cross-Sell Box */
-    .cross-sell-box {
-      background: rgba(0, 255, 255, 0.03);
-      border: 1px dashed #333;
-      border-radius: 4px;
-      padding: 12px;
-      margin-top: 15px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .cross-sell-text { 
-      font-size: 11px; 
-      color: #ccc; 
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 0;
-    }
-    
-    .cross-sell-btn {
-      background: transparent;
-      border: 1px solid #00ffff;
-      color: #00ffff;
-      font-size: 10px;
-      padding: 5px 12px;
-      border-radius: 2px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-      margin: 0;
-      height: auto;
-      line-height: 1;
-    }
-
-    .cross-sell-btn:hover {
-      background: #00ffff;
-      color: #000;
-    }
-
-    /* 3. Discount Note */
-    .discount-note {
-      font-family: 'Ubuntu Mono', monospace;
-      font-size: 10px;
-      color: #00ffff; /* Highlight it */
-      text-align: right;
-      margin-bottom: 5px;
-      margin-top: 20px;
-      opacity: 0.8;
-      letter-spacing: 0.5px;
-    }
-
+.marquee-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 15s linear infinite;
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 11px;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* --- QUANTITY CONTROLS (Cyber-Pill) --- */
+.quantity-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 20px;
+  height: 32px;
+  width: 100px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.qty-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 100%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+  margin: 0;
+}
+
+.qty-btn:hover { 
+  background: rgba(0, 255, 255, 0.1); 
+  color: #00ffff; 
+}
+
+.qty-btn:active { 
+  background: rgba(0, 255, 255, 0.2); 
+}
+
+.qty-val {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  color: #00ffff;
+  width: 20px;
+  text-align: center;
+  border-left: 1px solid #222;
+  border-right: 1px solid #222;
+  line-height: 30px;
+}
+
+/* --- CROSS SELL & DISCOUNT NOTES --- */
+.cross-sell-box {
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px dashed #333;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 15px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cross-sell-text { 
+  font-size: 12px; 
+  color: #ccc; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.cross-sell-btn {
+  background: transparent;
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  font-size: 10px;
+  padding: 5px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  margin: 0;
+  height: auto;
+  line-height: 1;
+}
+
+.cross-sell-btn:hover {
+  background: #00ffff;
+  color: #000;
+}
+
+.discount-note {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 10px;
+  color: #00ffff;
+  text-align: right;
+  margin-bottom: 5px;
+  margin-top: 20px;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+
+/* --- MOBILE OPTIMIZATIONS (Locked Viewport) --- */
     @media (max-width: 768px) {
       /* 1. LOCK SCREEN */
       html, body {
@@ -636,14 +670,14 @@
         margin: 0; padding: 0;
       }
 
-      /* 2. HEADER (7%) */
+      /* 2. HEADER (7%) - Tighter */
       #HeroContainer {
         height: 7vh !important;
         min-height: 0;
         margin: 0 !important;
         padding: 0 !important;
         display: flex;
-        align-items: flex-end;
+        align-items: flex-end; /* Bottom align title */
         justify-content: center;
         z-index: 2;
         width: 100%;
@@ -654,30 +688,32 @@
       #title { 
         font-size: 2.8rem; 
         line-height: 1; 
-        margin: 0; padding-bottom: 5px; 
+        margin: 0; 
+        padding-bottom: 0;
         width: 100%; text-align: center; 
       }
       
       #subtitle { display: none; }
 
-      /* 3. MARQUEE (3%) */
+      /* 3. MARQUEE (4%) - Show on Mobile */
       .marquee-wrapper {
-        height: 3vh !important;
+        height: 4vh !important;
         width: 100%;
-        display: flex;
+        display: flex !important; /* Force show */
         align-items: center;
         background: #000;
-        border-bottom: 1px solid #22222200;
+        border-bottom: 1px solid #1a1a1a;
         z-index: 5;
       }
       
-      /* 4. PRODUCT CONTAINER (90%) - FIXED SELECTOR */
+      /* 4. PRODUCT CONTAINER (89%) */
+      /* 100 - 7 - 4 = 89 */
       #main-content > .container:last-of-type {
-        height: 90vh !important; /* 100 - 7 - 3 = 90 */
+        height: 80vh !important;
         width: 100%;
         max-width: 100%;
         margin: 0 !important;
-        padding: 0 0 60px 0;
+        padding: 0 !important;
         display: flex;
         flex-direction: column;
       }
@@ -690,7 +726,7 @@
         flex-direction: column;
       }
 
-      /* 5. PRODUCT SPLIT - PUSHED UP */
+      /* 5. PRODUCT SPLIT */
       .six.columns {
         flex: 1; 
         width: 100% !important;
@@ -698,46 +734,57 @@
         display: flex;
         flex-direction: column;
         
-        /* THE CHANGE: Align to top instead of center */
+        /* Align content to start, but center horizontally */
         justify-content: flex-start; 
-        padding-top: 15px !important; /* Small gap above model */
-        
         align-items: center;
+        
         position: relative;
-        border: none;
+        border-bottom: 1px solid #11111100;
+        padding-top: 10px !important; /* Slight top padding */
       }
 
-      /* 6. 3D MODEL */
+      /* Remove border from last item */
+      .six.columns:last-child {
+        border-bottom: none;
+      }
+
+      /* 6. 3D MODEL - Tighter */
       .product-model {
         flex: 2; 
-        width: 80%;
-        min-height: 200px;
-        max-height: 60%;
-        margin: 0 auto !important;
+        width: 100%;
+        min-height: 0;
+        max-height: 60%; 
+        margin: 0 auto -10px auto !important; /* Negative margin pulls text closer */
+        display: block;
       }
 
-      /* 7. TEXT */
+      /* 7. TEXT - Compact */
       h4.product {
-        font-size: 1.5rem;
-        margin: 0;
+        font-size: 2rem;
+        margin-bottom: 5px; /* Zero margin */
         flex-shrink: 0;
+        line-height: 1.1;
       }
 
       p.price {
-        font-size: 1.2rem;
-        margin: 0 0 5px 0;
+        font-size: 1.5rem;
+        margin: 0 0 10px 0;
         color: #ccc;
         flex-shrink: 0;
+        line-height: 1;
       }
 
-      /* 8. BUTTONS - Forced Pill Shape */
+      /* 8. BUTTONS - Lifted from Bottom */
       button.add-to-cart-button.columns {
         width: auto !important;
         min-width: 140px !important;
         max-width: 200px !important;
         flex: 0 0 auto !important;
         align-self: center !important;
-        margin: 0 0 10px 0 !important;
+        
+        /* More space at bottom to lift it up */
+        margin: 0 0 25px 0 !important; 
+        
         height: 36px !important;
         line-height: 34px !important;
         padding: 0 25px !important;
@@ -749,122 +796,20 @@
       /* 9. ICONS */
       .cart-icon-container {
         position: fixed !important;
-        bottom: 20px !important;
+        bottom: 25px !important;
         right: 20px !important;
-        left: auto !important;
         z-index: 99999 !important;
       }
 
       #footerButtonContainer {
         position: fixed !important;
-        bottom: 20px !important;
+        bottom: 25px !important;
         left: 20px !important;
-        z-index: 1 !important; /* Keep low so modal covers it */
+        z-index: 1 !important;
         width: 50px; height: 50px;
         background: transparent; border: none;
         display: flex; align-items: center; justify-content: center;
       }
-    }
-
-    /* --- 1. MARQUEE (Slogan) --- */
-    .marquee-container {
-      width: 100%;
-      background: #000;
-      border-bottom: 1px solid #1a1a1a;
-      overflow: hidden;
-      white-space: nowrap;
-      height: 25px; /* Very thin */
-      display: flex;
-      align-items: center;
-      position: relative;
-      z-index: 5;
-    }
-
-    .marquee-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 15s linear infinite;
-      font-family: 'Ubuntu Mono', monospace;
-      font-size: 11px;
-      color: #00ffff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* --- 2. NEW QUANTITY CONTROLS (Cyber-Pill) --- */
-    .quantity-pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 20px;
-      height: 32px;
-      width: 100px;
-      overflow: hidden;
-      margin-bottom: 5px;
-    }
-
-    .qty-btn {
-      background: transparent;
-      border: none;
-      color: #fff;
-      width: 30px;
-      height: 100%;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-
-    .qty-btn:active { background: rgba(0, 255, 255, 0.2); }
-
-    .qty-val {
-      font-family: 'Ubuntu Mono', monospace;
-      font-size: 14px;
-      color: #00ffff;
-      width: 20px;
-      text-align: center;
-    }
-
-    /* --- 3. CROSS SELL & DISCOUNT NOTES --- */
-    .cross-sell-box {
-      background: rgba(0, 255, 255, 0.05);
-      border: 1px dashed #333;
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 15px;
-      text-align: center;
-    }
-    
-    .cross-sell-text { font-size: 12px; color: #ccc; margin-bottom: 5px; }
-    
-    .cross-sell-btn {
-      background: transparent;
-      border: 1px solid #00ffff;
-      color: #00ffff;
-      font-size: 10px;
-      padding: 5px 15px;
-      border-radius: 15px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .discount-note {
-      font-size: 10px;
-      color: #888;
-      font-style: italic;
-      text-align: center;
-      margin-bottom: 10px;
-      margin-top: 5px;
     }
   </style>
 </head>
