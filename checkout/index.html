@@ -34,7 +34,7 @@
 
     .product-model {
       width: 100%;
-      height: 400px;
+      height: 50vh;
       margin: 0 auto;
       cursor: grab;
     }
@@ -530,52 +530,197 @@
     }
 
     @media (max-width: 768px) {
-      .row .six.columns {
-        width: 100%;
-        margin-left: 0;
+  /* 1. LOCK SCREEN */
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+  }
+
+  /* 2. HEADER - Tighter & Fixes Offset */
+  #HeroContainer {
+    height: 8vh !important; /* Shrink slightly to give products room */
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: flex-end; /* Align bottom of header */
+    justify-content: center;
+    z-index: 2;
+    width: 100%;
+  }
+  
+  /* FIX: Reset the column margins that were pushing title right/left */
+  #HeroContainer .columns {
+    margin: 0 !important;
+    width: 100% !important;
+    text-align: center;
+  }
+  
+  #title { 
+    font-size: 2.8rem; 
+    line-height: 1; 
+    margin: 0;
+    padding-bottom: 5px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  #subtitle { display: none; }
+
+  /* 3. MAIN CONTAINER */
+  #HeroContainer + .container {
+    height: 92vh !important; /* Give more height to products */
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+    padding: 0 0 60px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 4. PRODUCT SPLIT - No Divider */
+  .six.columns {
+    flex: 1; 
+    width: 100% !important;
+    margin: 0 !important; /* Resets margins */
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    position: relative;
+    border: none !important; /* REMOVED DIVIDER */
+  }
+
+  /* 5. 3D MODEL - BIGGER */
+  .product-model {
+    flex: 2; /* Allow model to take 2x space compared to text */
+    width: 100%; /* Wider */
+    min-height: 0;
+    max-height: 60%; /* Increased from 50% */
+    margin: 0 auto !important;
+  }
+
+  /* 6. TEXT - Compact */
+  h4.product {
+    font-size: 1.5rem;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  p.price {
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    color: #ccc;
+    flex-shrink: 0;
+  }
+
+  /* 7. BUTTONS - Specificity Boost to Defeat Skeleton */
+      button.add-to-cart-button.columns {
+        /* Reset Grid/Flex Behavior */
+        width: auto !important; /* Force content width */
+        min-width: 140px !important; /* Ensure it's not too small */
+        max-width: 200px !important; /* Ensure it's not too big */
+        
+        flex: 0 0 auto !important; /* Stop flex stretching */
+        align-self: center !important; /* Center in flex container */
+        
+        /* Reset Skeleton Column Margins */
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 5px !important;
+        
+        /* Visuals */
+        height: 38px !important;
+        line-height: 36px !important;
+        padding: 0 25px !important;
+        font-size: 11px !important;
+        letter-spacing: 2px;
+        display: inline-block !important;
       }
 
-      .product-model {
-        height: 320px;
+  /* 8. ICONS - FIXED POSITIONS */
+      
+      /* Info Button (Left) */
+      #footerButtonContainer {
+        position: fixed !important;
+        bottom: 20px !important;
+        left: 20px !important;
+        z-index: 1 !important;
+        width: 50px; /* Ensure clickable area */
+        height: 50px;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .add-to-cart-button {
-        margin-bottom: 50px;
+      /* Cart Icon (Right) */
+      .cart-icon-container {
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        left: auto !important; /* Safety reset */
+        z-index: 99999 !important;
       }
 
-      #HeroContainer {
-        margin-bottom: 0;
+  /* 9. FOOTER - Compact & Elegant */
+      #footer {
+        padding: 15px 0 !important;
+        background: rgba(18, 18, 18, 0.95) !important; /* Slightly transparent */
+        backdrop-filter: blur(10px); /* Modern glass effect */
+        border-top: 1px solid #333;
       }
 
-      #back-to-store-button {
-        margin-top: 20px;
+      .footer-content {
+        width: 90%;
+        gap: 10px; /* Reduce gap between rows */
       }
 
-      .cart-modal {
-        max-width: 100%;
-        border-left: none;
+      /* Shrink the Icons */
+      .social-icons {
+        gap: 25px; /* Bring them closer */
+        margin-bottom: 5px;
       }
 
-      .cart-footer {
-        position: sticky;
-        bottom: 0;
-        width: 100%;
-        box-sizing: border-box;
+      .social-icons a i {
+        font-size: 1.5rem !important; /* Override fa-xl size */
+        color: #ccc;
       }
 
-      .form-row {
-        flex-direction: column;
-        gap: 0;
+      /* Shrink Links */
+      .links {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 5px;
       }
 
-      .form-field {
-        margin-bottom: 15px;
+      .links a {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
-      #payment-form {
-        padding: 0 20px;
+      /* Shrink Copyright */
+      .trademark {
+        font-size: 0.7rem;
+        color: #666;
+        margin-top: 0;
       }
-    }
+}
   </style>
 </head>
 
