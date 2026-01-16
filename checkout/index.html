@@ -1765,6 +1765,9 @@ body.cart-open .cart-icon-container {
           // 2. Add the specific item
           addToCart({ ...targetBtn.dataset, price: parseInt(targetBtn.dataset.price) });
 
+          // 3. Open the Cart Drawer
+          openCart();
+
           
           // 4. Clean the URL so a refresh doesn't trigger it again
           window.history.replaceState({}, document.title, window.location.pathname);
