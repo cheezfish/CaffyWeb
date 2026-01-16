@@ -1749,6 +1749,30 @@ body.cart-open .cart-icon-container {
           });
       });
 
+       // --- NEW: SEO LANDING PAGE HANDSHAKE ---
+      // This must run AFTER the prices are fetched so we have the real Price IDs
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemToAdd = urlParams.get('add');
+
+      if (itemToAdd) {
+        const variantName = itemToAdd === 'mint' ? 'Mint' : 'Blueberry';
+        const targetBtn = document.querySelector(`button[data-variant="${variantName}"]`);
+
+        if (targetBtn) {
+          // 1. Clear any old cart data (optional, but cleaner for direct buy)
+          cart = []; 
+          
+          // 2. Add the specific item
+          addToCart({ ...targetBtn.dataset, price: parseInt(targetBtn.dataset.price) });
+          
+          // 3. Immediately trigger the checkout process
+          initiateCheckout();
+          
+          // 4. Clean the URL so a refresh doesn't trigger it again
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+
     }
 
     // Run this when page loads
