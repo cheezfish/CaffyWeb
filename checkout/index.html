@@ -1043,6 +1043,12 @@ body.cart-open .cart-icon-container {
     // --- ACTION ITEM: Your real publishable key goes here ---
     const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGTgOgr38QJD7IJ6YHwzWW8kJ3gEfDXjMkNQov2VvhgTBb5kbxHxrtAHaVSl0P2kCBXXmwqBKO00MBg79AMV');
 
+    // 1. Capture everything immediately before the URL is cleaned
+    const initialParams = new URLSearchParams(window.location.search);
+    const persistentSource = initialParams.get('utm_source') || 'direct';
+    const persistentCampaign = initialParams.get('utm_campaign') || 'none';
+    const persistentFrom = initialParams.get('from') ? `/for/${initialParams.get('from')}` : window.location.pathname;
+
     // --- HELPER: GET UMAMI SESSION SAFELY ---
     async function getUmamiId() {
       try {
@@ -1329,11 +1335,6 @@ body.cart-open .cart-icon-container {
     async function initiateCheckout() {
       if (cart.length === 0) return;
 
-      // --- NEW: CAPTURE UTM & CONSENT DATA ---
-      const urlParams = new URLSearchParams(window.location.search);
-      const utm_source = urlParams.get('utm_source') || 'direct';
-      const utm_campaign = urlParams.get('utm_campaign') || 'none';
-      const landing_page = window.location.pathname;
       // Capture marketing checkbox state (it's checked by default in your HTML)
       const marketingConsent = document.getElementById('marketing-checkbox').checked ? 'opt_in' : 'opt_out';
       // --- END NEW DATA ---
@@ -1367,9 +1368,9 @@ body.cart-open .cart-icon-container {
           line_items: secure_line_items,
           metadata: {
             // --- ADDED THESE TO YOUR METADATA ---
-            utm_source: utm_source,
-            utm_campaign: utm_campaign,
-            landing_page: landing_page,
+            utm_source: persistentSource,
+            utm_campaign: persistentCampaign,
+            landing_page: persistentFrom, 
             marketing_consent: marketingConsent,
             items_summary: flavorList,
             umami_session_id: umamiSessionId
