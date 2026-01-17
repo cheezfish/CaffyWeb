@@ -1043,8 +1043,6 @@ body.cart-open .cart-icon-container {
     // --- ACTION ITEM: Your real publishable key goes here ---
     const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGTgOgr38QJD7IJ6YHwzWW8kJ3gEfDXjMkNQov2VvhgTBb5kbxHxrtAHaVSl0P2kCBXXmwqBKO00MBg79AMV');
 
-    const fromPage = new URLSearchParams(window.location.search).get('from');
-
     // --- HELPER: GET UMAMI SESSION SAFELY ---
     async function getUmamiId() {
       try {
@@ -1375,7 +1373,6 @@ body.cart-open .cart-icon-container {
             marketing_consent: marketingConsent,
             items_summary: flavorList,
             umami_session_id: umamiSessionId
-            landing_page: fromPage ? `/for/${fromPage}` : window.location.pathname,
           }
         };
 
