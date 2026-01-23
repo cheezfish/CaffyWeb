@@ -1335,14 +1335,21 @@ body.cart-open .cart-icon-container {
     async function initiateCheckout() {
       if (cart.length === 0) return;
 
-      // Capture marketing checkbox state (it's checked by default in your HTML)
+      // 1. GET CLEAN DATA
+      // Recalculate totals to ensure we get the correct discount label
+      const priceData = calculateFinalTotal();
+      const discountLabel = priceData.discountLabel || ""; 
+      
+      // Capture marketing consent
       const marketingConsent = document.getElementById('marketing-checkbox').checked ? 'opt_in' : 'opt_out';
-      // --- END NEW DATA ---
+
+      // Create a CLEAN list of products only (No discount text here)
+      const flavorList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
 
       // --- UMAMI TRACKING START ---
       const totalVal = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
       const totalCount = cart.reduce((t, i) => t + i.quantity, 0);
-      const flavorList = cart.map(i => `${i.name} (x${i.quantity})`).join(', '); // Using .name for n8n readability
+      
       if (typeof umami !== 'undefined') {
         umami.track('View Checkout Form', { 
             value: totalVal, 
@@ -1355,24 +1362,25 @@ body.cart-open .cart-icon-container {
       closeCart();
       showCheckoutView();
 
-      //const totalAmount = (cart.reduce((t, i) => t + i.price * i.quantity, 0) / 100).toFixed(2);
-      //document.getElementById('submit-payment-button').querySelector('#button-text').textContent = `Pay ${totalAmount} AED`;
-
       try {
-        // 1. GET THE UMAMI SESSION ID (Using the robust helper)
         const umamiSessionId = await getUmamiId();
-
-        // 2. PREPARE THE PAYLOAD WITH ALL DATA
         const secure_line_items = cart.map(item => ({ id: item.id, quantity: item.quantity }));
+        
+        // 2. CONSTRUCT PAYLOAD
         const bodyPayload = {
           line_items: secure_line_items,
           metadata: {
-            // --- ADDED THESE TO YOUR METADATA ---
             utm_source: persistentSource,
             utm_campaign: persistentCampaign,
             landing_page: persistentFrom, 
             marketing_consent: marketingConsent,
-            items_summary: flavorList,
+            
+            // CLEAN ITEMS (Products Only)
+            items_summary: flavorList, 
+            
+            // SEPARATE DISCOUNT (Baserow will put this in the Discount Column)
+            discount_code: discountLabel,
+            
             umami_session_id: umamiSessionId
           }
         };
