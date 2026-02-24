@@ -719,6 +719,7 @@ body.cart-open .cart-icon-container {
     @media (max-width: 768px) {
       /* 1. LOCK SCREEN */
       html, body {
+        height: 100vh; /* Fallback for older browsers */
         height: 100dvh;
         width: 100vw;
         overflow: hidden;
@@ -727,6 +728,7 @@ body.cart-open .cart-icon-container {
       }
 
       #main-content {
+        height: 100vh; /* Fallback for older browsers */
         height: 100dvh;
         width: 100%;
         display: flex;
