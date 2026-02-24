@@ -214,7 +214,7 @@
       // 6. Webhook Logic (Send Marketing Consent)
       const status = (consentParam === 'true') ? 'opt_in' : 'opt_out';
       try {
-        await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/marketing-consent', {
+        await fetch('https://api.getcaffy.com/marketing-consent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           keepalive: true,

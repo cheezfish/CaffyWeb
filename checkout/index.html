@@ -555,6 +555,56 @@ body.cart-open .cart-icon-container {
   transition: none !important;
 }
 
+/* --- INSTAGRAM BROWSER OVERLAY --- */
+#instagram-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #121212;
+  z-index: 99999999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 30px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#instagram-overlay.visible {
+  display: flex;
+}
+
+#instagram-overlay i {
+  font-size: 48px;
+  color: #00ffff;
+  margin-bottom: 24px;
+}
+
+#instagram-overlay h3 {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+#instagram-overlay p {
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+#instagram-overlay .hint {
+  margin-top: 24px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: #ccc;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
 /* --- QUANTITY CONTROLS (Cyber-Pill) --- */
 .quantity-pill {
   display: flex;
@@ -897,6 +947,17 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 
 <body>
 
+  <!-- Instagram In-App Browser Warning -->
+  <div id="instagram-overlay">
+    <i class="fab fa-instagram"></i>
+    <h3>Open in Safari to checkout</h3>
+    <p>Instagram's browser doesn't support secure payments.</p>
+    <div class="hint">
+      Tap <strong style="color:#fff;">···</strong> in the top right corner<br>
+      then select <strong style="color:#00ffff;">Open in Safari</strong>
+    </div>
+  </div>
+
   <div class="marquee-wrapper">
           <div class="marquee-container">
             <div class="marquee-text">Welcome to the future - you belong here. // 20% OFF LAUNCH DISCOUNT // LIMITED TIME OFFER // FREE SHIPPING </div>
@@ -1058,6 +1119,11 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
   </div>
 
   <script type="text/javascript">
+    // --- INSTAGRAM BROWSER DETECTION ---
+    if (/Instagram/.test(navigator.userAgent)) {
+      document.getElementById('instagram-overlay').classList.add('visible');
+    }
+
     // --- ACTION ITEM: Your real publishable key goes here ---
     const stripe = Stripe('pk_live_51QYtamFAY8BwNpdGTgOgr38QJD7IJ6YHwzWW8kJ3gEfDXjMkNQov2VvhgTBb5kbxHxrtAHaVSl0P2kCBXXmwqBKO00MBg79AMV');
 
@@ -1404,7 +1470,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
         };
 
         // 3. SEND THE ENHANCED PAYLOAD TO YOUR WORKER
-        const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev', {
+        const response = await fetch('https://api.getcaffy.com', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyPayload),
@@ -1649,7 +1715,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
       // 1. LIVE PRICE FETCHING
       // This ensures the price on the button matches the price in Stripe
       try {
-        const response = await fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/get-prices');
+        const response = await fetch('https://api.getcaffy.com/get-prices');
         if (response.ok) {
           const data = await response.json(); // Get the whole object
           const prices = data.prices;         // Extract prices
@@ -1695,7 +1761,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
           const email = e.target.value;
           // Only send if email is valid and user has items in cart
           if (email.includes('@') && email.includes('.') && cart.length > 0) {
-            fetch('https://caffy-stripe-cloud.imran-aziz.workers.dev/capture-lead', {
+            fetch('https://api.getcaffy.com/capture-lead', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               keepalive: true, // Ensures request finishes even if page closes
