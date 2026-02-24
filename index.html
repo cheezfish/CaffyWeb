@@ -65,6 +65,19 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+  <style>
+    /* Lock the main page to viewport height on mobile — no scrolling */
+    @media (max-width: 768px) {
+      html, body {
+        height: 100dvh;
+        width: 100vw;
+        overflow: hidden;
+        position: fixed;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  </style>
 </head>
 
 <!-- Google tag (gtag.js) -->
