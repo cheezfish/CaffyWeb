@@ -1773,7 +1773,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
           const email = e.target.value;
           // Only send if email is valid and user has items in cart
           if (email.includes('@') && email.includes('.') && cart.length > 0) {
-            fetch('https://api.getcaffy.com/capture-lead', {
+            fetch('https://orders.getcaffy.com/capture-lead', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               keepalive: true, // Ensures request finishes even if page closes
