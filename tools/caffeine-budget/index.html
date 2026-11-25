@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Caffeine Calculator: Plan Your Daily Caffeine | CAFFY</title>
+<meta name="description" content="Free caffeine calculator. Add your coffee, tea, energy drinks or CAFFY pouches and see how much caffeine is in your body through the day and at bedtime.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://getcaffy.com/tools/caffeine-budget/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CAFFY">
+<meta property="og:title" content="Caffeine Calculator: Plan Your Daily Caffeine | CAFFY">
+<meta property="og:description" content="Free caffeine calculator. Add your coffee, tea, energy drinks or CAFFY pouches and see how much caffeine is in your body through the day and at bedtime.">
+<meta property="og:url" content="https://getcaffy.com/tools/caffeine-budget/">
+<meta property="og:image" content="https://getcaffy.com/images/caffy-pouch-mint.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/images/favicon.ico">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://getcaffy.com/tools/caffeine-budget/#app",
+      "name": "CAFFY Caffeine Calculator",
+      "url": "https://getcaffy.com/tools/caffeine-budget/",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "inLanguage": [
+        "en",
+        "ar"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AED"
+      },
+      "publisher": {
+        "@id": "https://getcaffy.com/#org"
+      },
+      "description": "Add drinks and times to see caffeine in the body across the day, against FDA and EFSA limits."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much caffeine is in a CAFFY pouch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "About 80 mg per pouch, from guarana. That is about the same as a 250 ml energy drink can and a little less than an 8 oz cup of brewed coffee (about 96 mg)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much caffeine is too much in a day?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The FDA and EFSA both treat up to 400 mg a day as not generally associated with negative effects in healthy adults. For pregnant women EFSA's figure is 200 mg a day, and it considers single doses up to 200 mg to raise no safety concerns."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does caffeine stay in your body?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The average elimination half-life is about 5 hours, so half of a dose is gone after roughly 5 hours. Individuals vary widely, from about 1.5 to 9.5 hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does caffeine affect sleep?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "EFSA notes that single doses of 100 mg of caffeine may affect sleep duration and patterns in some adults, particularly close to bedtime. The calculator shows how much is still active at your bedtime."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CAFFY",
+          "item": "https://getcaffy.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Caffeine calculator",
+          "item": "https://getcaffy.com/tools/caffeine-budget/"
+        }
+      ]
+    }
+  ]
+}</script>
+<script defer src="https://analytics.getcaffy.com/script.js" data-website-id="9ff81ca6-c20a-4e0e-a512-17fc4d51f211"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#fff;font-family:Montserrat,system-ui,sans-serif;line-height:1.6}
+a{color:#4ff;}
+.top{text-align:center;padding:24px 0 8px}
+.top a{color:antiquewhite;text-decoration:none;letter-spacing:5px;font-size:34px;font-weight:500}
+.wrap{max-width:980px;margin:0 auto;padding:16px 20px 56px}
+.crumbs{font-size:13px;opacity:.7;margin:8px 0 24px}
+.crumbs a{color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.grid img{width:100%;height:auto;border-radius:12px;background:#0a0a0a}
+h1{font-size:30px;font-weight:500;margin:0 0 6px;line-height:1.25}
+.price{font-size:28px;font-weight:700;margin:14px 0 2px}
+.price small{font-size:14px;font-weight:300;opacity:.75;margin-left:6px}
+.meta{font-size:14px;opacity:.8;margin:0 0 20px}
+.btn{display:inline-block;background:#4ff;color:#000;font-weight:700;letter-spacing:1px;text-decoration:none;padding:14px 34px;border-radius:6px;text-transform:uppercase;font-size:14px}
+ul.facts{padding-left:18px;margin:20px 0}
+ul.facts li{margin:6px 0}
+h2{font-size:18px;font-weight:500;margin:34px 0 8px;border-bottom:1px solid #222;padding-bottom:6px}
+p{margin:8px 0}
+.fine{font-size:13px;opacity:.7}
+footer{text-align:center;font-size:12px;opacity:.6;padding:28px 12px 40px}
+footer a{color:#fff;margin:0 8px}
+@media(max-width:760px){.grid{grid-template-columns:1fr;gap:20px}h1{font-size:24px}}
+
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border-bottom:1px solid #222;padding:8px 6px;text-align:left}
+th{color:#9fb0a9;font-weight:500}
+td.n{text-align:right;font-weight:600;color:#4ff}
+iframe.tool{width:100%;height:1100px;border:1px solid #222;border-radius:14px;background:#050807;margin:12px 0 4px}
+details{border-top:1px solid #222;padding:10px 0}details:last-of-type{border-bottom:1px solid #222}
+summary{cursor:pointer;font-weight:500}
+details p{color:#c8d4cf}
+</style>
+</head>
+<body>
+<div class="top"><a href="/">CAFFY</a></div>
+<div class="wrap" style="max-width:820px">
+<nav class="crumbs"><a href="/">CAFFY</a> / Caffeine calculator</nav>
+<h1>Caffeine calculator</h1>
+<p class="meta">Add what you drink and when. See how much caffeine is in your body through the day and at bedtime, against the FDA and EFSA limits. Free, no sign-up, nothing stored.</p>
+<iframe class="tool" id="cbtool" src="/tools/caffeine-budget/app.html" title="Caffeine calculator" loading="eager"></iframe>
+
+<h2>How much caffeine is in common drinks?</h2>
+<table><thead><tr><th>Drink</th><th>Serving</th><th style="text-align:right">Caffeine (mg)</th></tr></thead><tbody>
+<tr><td>CAFFY pouch</td><td>1 pouch</td><td class="n">80</td></tr><tr><td>Espresso</td><td>1 oz shot</td><td class="n">63</td></tr><tr><td>Brewed coffee</td><td>8 oz cup</td><td class="n">96</td></tr><tr><td>Black tea</td><td>8 oz cup</td><td class="n">47</td></tr><tr><td>Cola</td><td>12 oz can</td><td class="n">34</td></tr><tr><td>Energy drink</td><td>250 ml can</td><td class="n">80</td></tr><tr><td>Large energy drink</td><td>16 oz can</td><td class="n">160</td></tr>
+</tbody></table>
+<p class="fine">Typical figures from Mayo Clinic, published caffeine tables and the CAFFY FAQ. Real amounts vary by brand and brewing.</p>
+
+<h2>Questions</h2>
+<details><summary>How much caffeine is in a CAFFY pouch?</summary><p>About 80 mg per pouch, from guarana. That is about the same as a 250 ml energy drink can and a little less than an 8 oz cup of brewed coffee (about 96 mg).</p></details><details><summary>How much caffeine is too much in a day?</summary><p>The FDA and EFSA both treat up to 400 mg a day as not generally associated with negative effects in healthy adults. For pregnant women EFSA&#x27;s figure is 200 mg a day, and it considers single doses up to 200 mg to raise no safety concerns.</p></details><details><summary>How long does caffeine stay in your body?</summary><p>The average elimination half-life is about 5 hours, so half of a dose is gone after roughly 5 hours. Individuals vary widely, from about 1.5 to 9.5 hours.</p></details><details><summary>Does caffeine affect sleep?</summary><p>EFSA notes that single doses of 100 mg of caffeine may affect sleep duration and patterns in some adults, particularly close to bedtime. The calculator shows how much is still active at your bedtime.</p></details>
+
+<h2>Sources</h2>
+<p class="fine"><a href="https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-is-too-much">FDA</a> · <a href="https://efsa.europa.eu/en/efsajournal/pub/4102">EFSA Scientific Opinion on the safety of caffeine</a> · <a href="https://www.ncbi.nlm.nih.gov/books/NBK223808/">Institute of Medicine, Caffeine in Food and Dietary Supplements</a> · <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20049372">Mayo Clinic</a> · <a href="/faq/">CAFFY FAQ</a></p>
+<p class="fine">This is an educational estimate, not medical advice. People differ. Speak to a health professional about caffeine if you are pregnant, take medication or have a heart condition.</p>
+<p style="margin-top:22px"><a class="btn" href="/shop/cool-mint/">Try CAFFY Cool Mint</a> &nbsp; <a href="/shop/blueberry/">or Blueberry</a></p>
+<p class="fine" style="margin-top:22px">Built with <a href="https://wiskers.click" rel="noopener">Wiskers</a>.</p>
+</div>
+<footer><a href="/terms/">Terms</a><a href="/returns/">Returns</a><a href="/faq/">FAQ</a><a href="/privacy/">Privacy</a><br>© 2024–2026 Caffy FZC LLC. All rights reserved.</footer>
+<script>window.addEventListener("message",function(e){var d=e.data;if(e.origin===location.origin&&d&&d.type==="caffeine-budget-height"){document.getElementById("cbtool").style.height=(d.h+8)+"px";}});</script>
+</body>
+</html>
