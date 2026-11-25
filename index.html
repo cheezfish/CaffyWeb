@@ -5,10 +5,64 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>CAFFY - Energy, Memory, Focus</title>
-  <meta name="description" content="A novel blend of nootropics for energy, memory, and focus">
+  <title>CAFFY | Nicotine-Free Energy Pouches for Focus | UAE</title>
+  <meta name="description" content="CAFFY nicotine-free energy pouches: guarana caffeine and L-theanine for steady focus without the crash. Cool Mint and Blueberry, delivered across the UAE.">
   <meta name="author" content="Caffy FZC LLC.">
   <meta name="keywords" content="Caffy, Caffeine, Nootropics">
+  <link rel="canonical" href="https://getcaffy.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CAFFY">
+  <meta property="og:title" content="CAFFY | Nicotine-Free Energy Pouches for Focus | UAE">
+  <meta property="og:description" content="CAFFY nicotine-free energy pouches: guarana caffeine and L-theanine for steady focus without the crash. Cool Mint and Blueberry, delivered across the UAE.">
+  <meta property="og:url" content="https://getcaffy.com/">
+  <meta property="og:image" content="https://getcaffy.com/images/caffy-pouch-mint.png">
+  <meta property="og:image:width" content="1079">
+  <meta property="og:image:height" content="770">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CAFFY | Nicotine-Free Energy Pouches for Focus | UAE">
+  <meta name="twitter:description" content="CAFFY nicotine-free energy pouches: guarana caffeine and L-theanine for steady focus without the crash. Cool Mint and Blueberry, delivered across the UAE.">
+  <meta name="twitter:image" content="https://getcaffy.com/images/caffy-pouch-mint.png">
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://getcaffy.com/#org",
+      "name": "CAFFY",
+      "url": "https://getcaffy.com/",
+      "logo": "https://getcaffy.com/images/CAFFY%20LOGO%20white.png",
+      "sameAs": [
+        "https://x.com/GetCaffy",
+        "https://www.instagram.com/get__caffy/",
+        "https://www.tiktok.com/@getcaffy",
+        "https://www.linkedin.com/company/getcaffy/",
+        "https://www.reddit.com/user/getcaffy/",
+        "https://www.youtube.com/@GetCaffy"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://getcaffy.com/#site",
+      "url": "https://getcaffy.com/",
+      "name": "CAFFY",
+      "publisher": {
+        "@id": "https://getcaffy.com/#org"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Product",
+      "@id": "https://getcaffy.com/#product",
+      "name": "CAFFY Energy Pouch",
+      "brand": {
+        "@id": "https://getcaffy.com/#org"
+      },
+      "description": "Nicotine-free, tobacco-free and sugar-free energy pouch with caffeine from guarana and L-theanine, available in Cool Mint and Blueberry.",
+      "image": "https://getcaffy.com/images/caffy-pouch-mint.png",
+      "url": "https://getcaffy.com/"
+    }
+  ]
+}</script>
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -79,6 +133,11 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
     }
 
     /* --- AMBIENT BACKGROUND EFFECTS --- */
+    /* Screen-reader and crawler text that mirrors the visible modals */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    /* Keep the h1 looking exactly like the old div */
+    h1#title { margin-bottom: 0; line-height: inherit; }
+
     #ambient-bg {
       position: fixed;
       top: 0;
@@ -151,6 +210,15 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 <body>
   <div id="ambient-bg"></div>
 
+  <main class="sr-only">
+    <h2>About CAFFY</h2>
+    <p>CAFFY makes nicotine-free, tobacco-free and sugar-free energy pouches with caffeine from guarana and L-theanine, delivered across the UAE.</p>
+    <p>CAFFY is the product of a mission to create the perfect blend of nootropic supplements. Our aim is to reimagine the way we utilise caffeine, and deliver you positive tangible effects with complete transparency.</p>
+    <h2>Flavours</h2>
+    <p>Available in Cool Mint and Blueberry.</p>
+    <p><a href="/for/">Who CAFFY is for</a> · <a href="/faq/">FAQ</a> · <a href="/checkout/">Buy CAFFY</a></p>
+  </main>
+
   <div class="marquee-wrapper">
           <div class="marquee-container">
             <div class="marquee-text">Welcome to the future - you belong here. // 20% OFF LAUNCH DISCOUNT // LIMITED TIME OFFER // FREE SHIPPING </div>
@@ -162,7 +230,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 
   <div class="container" id="HeroContainer">
       <div class="hero twelve columns">
-        <div id="title" class="montserrat-500">CAFFY</div>
+        <h1 id="title" class="montserrat-500">CAFFY<span class="sr-only"> nicotine-free energy pouches</span></h1>
         <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label" data-umami-event="Click Subscribe"
         data-umami-event-location="Hero Section">BUY NOW</button>
