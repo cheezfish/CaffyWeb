@@ -203,52 +203,55 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
       100% { transform: scale(1.1) translateY(20px); opacity: 1; }
     }
 
-    /* --- DESIGN PREVIEW: trust line, aurora, charge pulse (2026-11-25) --- */
+    /* --- Homepage polish (2026-11-25) ---
+       One job per line of copy: marquee = the offer and what it is, strip = price and terms, tagline = brand.
+       Spacing is set per screen size so the can has clear air above (strip) and below (buttons). */
+
     #trustStrip {
-      margin: 10px auto 0; max-width: 92vw;
-      font-family: 'Ubuntu Mono', monospace; font-size: 12px; letter-spacing: 1.5px;
-      color: rgba(0, 255, 255, 0.72); text-transform: uppercase; line-height: 1.5;
+      display: flex; justify-content: center; align-items: center; flex-wrap: nowrap;
+      margin: 20px auto 0; padding: 0 12px;
+      font-family: montserrat, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: rgba(250, 235, 215, .62);
     }
-    #trustStrip span { white-space: nowrap; }
-    #trustStrip i { font-style: normal; opacity: .4; margin: 0 6px; }
-    #trustStrip a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(0,255,255,.35); }
-    @media (max-width: 768px) { #trustStrip { font-size: 10.5px; letter-spacing: 1px; } #trustStrip .wide { display: none; } }
+    #trustStrip span { padding: 0 16px; white-space: nowrap; }
+    #trustStrip span + span { border-left: 1px solid rgba(255, 255, 255, .16); }
+    #trustStrip b { color: #4ff; font-weight: 600; }
+    @media (max-width: 768px) {
+      #trustStrip { margin-top: 16px; padding: 0 6px; font-size: 9px; letter-spacing: .06em; }
+      #trustStrip span { padding: 0 7px; }
+    }
+    @media (max-width: 380px) { #trustStrip { font-size: 8.5px; letter-spacing: .03em; padding: 0 2px; } #trustStrip span { padding: 0 5px; } }
 
-    /* make room for the trust line: lower the model box's top edge, keep its bottom edge (and the buttons) where they are */
-    #animation-demo { top: calc(10% + 44px) !important; height: calc(90% - 44px) !important; }
-    @media (min-width: 769px) { #animation-demo { top: calc(10% + 100px) !important; height: calc(90% - 100px) !important; } }
 
-    /* slow aurora: two huge blurred blobs drifting behind the can */
-    #ambient-bg::before, #ambient-bg::after {
-      content: ""; position: absolute; border-radius: 50%; filter: blur(60px); will-change: transform;
+    /* Button row (phones and tablets): the base style gives each button 30px side padding and no-wrap, which pushes the row off-screen
+       and off-centre. Let the three share the width equally and centre the row, leaving air above the (i) icon. */
+    @media (max-width: 1024px) {
+      #labelsbox { display: flex !important; left: 0 !important; right: 0 !important; width: auto !important; padding: 0 10px; gap: 8px; justify-content: center; box-sizing: border-box; }
+      #labelsbox .label { flex: 1 1 0; min-width: 0; max-width: 170px; padding: 0 4px; font-size: clamp(10px, 3.1vw, 12px); letter-spacing: .06em; }
     }
-    #ambient-bg::before {
-      width: 60vmax; height: 60vmax; left: -15vmax; top: 10vh;
-      background: radial-gradient(circle, rgba(0,255,255,.10), transparent 65%);
-      animation: aurora-a 42s ease-in-out infinite alternate;
-    }
-    #ambient-bg::after {
-      width: 50vmax; height: 50vmax; right: -12vmax; bottom: -10vh;
-      background: radial-gradient(circle, rgba(60,255,190,.08), transparent 65%);
-      animation: aurora-b 54s ease-in-out infinite alternate;
-    }
-    @keyframes aurora-a { from { transform: translate(0,0) scale(1); } to { transform: translate(18vw,-8vh) scale(1.25); } }
-    @keyframes aurora-b { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-16vw,6vh) scale(.9); } }
+    #footerButton { margin-bottom: 4px; }
 
-    /* charge pulse: once, when the 3D model has loaded */
-    #chargeRing {
-      position: fixed; left: 50%; top: 52%; width: 40vmin; height: 40vmin; border-radius: 50%;
-      border: 2px solid rgba(0,255,255,.7); box-shadow: 0 0 40px rgba(0,255,255,.35), inset 0 0 30px rgba(0,255,255,.15);
-      transform: translate(-50%,-50%) scale(.3); opacity: 0; pointer-events: none; z-index: 5;
-    }
+    /* Slow aurora in its own clipped layer: two soft cyan and mint glows drifting behind the can. */
+    #aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    #aurora i { position: absolute; border-radius: 50%; will-change: transform; }
+    #aurora i:nth-child(1) { width: 75vmax; height: 75vmax; left: -25vmax; top: 5vh;
+      background: radial-gradient(circle, rgba(0,255,255,.085) 0%, rgba(0,255,255,0) 62%); animation: aurora-a 46s ease-in-out infinite alternate; }
+    #aurora i:nth-child(2) { width: 65vmax; height: 65vmax; right: -22vmax; bottom: -18vh;
+      background: radial-gradient(circle, rgba(60,255,190,.07) 0%, rgba(60,255,190,0) 62%); animation: aurora-b 58s ease-in-out infinite alternate; }
+    @keyframes aurora-a { from { transform: translate(0,0) scale(1); } to { transform: translate(16vw,-6vh) scale(1.2); } }
+    @keyframes aurora-b { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-14vw,5vh) scale(.92); } }
+
+    /* Charge pulse: plays once, when the 3D model has finished loading. */
+    #chargeRing { position: fixed; left: 50%; top: 50%; width: 40vmin; height: 40vmin; border-radius: 50%;
+      border: 2px solid rgba(0,255,255,.7); box-shadow: 0 0 40px rgba(0,255,255,.3), inset 0 0 30px rgba(0,255,255,.12);
+      transform: translate(-50%,-50%) scale(.3); opacity: 0; pointer-events: none; z-index: 5; }
     body.charged #chargeRing { animation: charge-ring 1.4s cubic-bezier(.2,.8,.2,1) forwards; }
-    @keyframes charge-ring { 0% { transform: translate(-50%,-50%) scale(.3); opacity: .9; } 100% { transform: translate(-50%,-50%) scale(2.6); opacity: 0; } }
+    @keyframes charge-ring { 0% { transform: translate(-50%,-50%) scale(.3); opacity: .85; } 100% { transform: translate(-50%,-50%) scale(2.4); opacity: 0; } }
     body.charged #labelsbox .label { animation: label-charge 1.1s ease-out both; }
     body.charged #about { animation-delay: .35s !important; } body.charged #flavour { animation-delay: .5s !important; } body.charged #effect { animation-delay: .65s !important; }
-    @keyframes label-charge { 0% { box-shadow: 0 0 0 rgba(0,255,255,0); } 35% { box-shadow: 0 0 22px rgba(0,255,255,.75); border-color: #4ff; } 100% { box-shadow: 0 0 0 rgba(0,255,255,0); } }
+    @keyframes label-charge { 0% { box-shadow: 0 0 0 rgba(0,255,255,0); } 35% { box-shadow: 0 0 22px rgba(0,255,255,.7); border-color: #4ff; } 100% { box-shadow: 0 0 0 rgba(0,255,255,0); } }
     @media (prefers-reduced-motion: reduce) {
-      #ambient-bg::before, #ambient-bg::after { animation: none; }
-      body.charged #chargeRing, body.charged #labelsbox .label { animation: none; }
+      #aurora i, body.charged #chargeRing, body.charged #labelsbox .label { animation: none; }
     }
   </style>
 </head>
@@ -266,6 +269,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 
 
 <body>
+  <div id="aurora"><i></i><i></i></div>
   <div id="ambient-bg"></div>
   <div id="chargeRing"></div>
 
@@ -282,7 +286,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
 
   <div class="marquee-wrapper">
           <div class="marquee-container">
-            <div class="marquee-text">Welcome to the future - you belong here. // 20% OFF LAUNCH DISCOUNT // LIMITED TIME OFFER // FREE SHIPPING </div>
+            <div class="marquee-text">20% OFF LAUNCH DISCOUNT // NICOTINE-FREE // SUGAR-FREE // 80 MG CAFFEINE // </div>
           </div>
         </div>
 
@@ -295,7 +299,7 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
         <h5 id="subtitle" class="montserrat-300">Welcome to the future - you belong here.</h5>
         <button id="buyNowBtn" class="button-primary label" data-umami-event="Click Subscribe"
         data-umami-event-location="Hero Section">BUY NOW</button>
-        <div id="trustStrip"><span>AED 50 · 15 pouches</span><i>/</i><span>Free UAE delivery</span><i>/</i><span>7-day returns</span><i class="wide">/</i><span class="wide"><a href="/tools/caffeine-budget/">Free caffeine calculator</a></span></div>
+        <div id="trustStrip"><span><b>AED 50</b> / 15 pouches</span><span>Free UAE delivery</span><span>7-day returns</span></div>
         <div id="infoBox" style="display: none;">
           <p id="info"></p>
           <div class="controls">
@@ -524,7 +528,42 @@ src="https://www.facebook.com/tr?id=1411429983722473&ev=PageView&noscript=1"
   (function () {
     var mv = document.getElementById("animation-demo");
     if (!mv) return;
-    var fire = function () { document.body.classList.add("charged"); };
+    var ring = document.getElementById("chargeRing"), strip = document.getElementById("trustStrip");
+    // Size the model box to the free space between the trust line and the buttons, with an even gap each side.
+    // The box keeps its bottom edge, so the buttons (which live inside it) never move.
+    function fit() {
+      var H = window.innerHeight, W = window.innerWidth, gap = W > 768 ? 30 : 26;
+      var labels = document.getElementById("labelsbox"); if (!labels || !strip) return;
+      // The buttons keep their screen position: sit at 6% above the box bottom (box = bottom of the screen), lifted clear of the (i) icon on phones.
+      ["top", "height"].forEach(function (k) { mv.style.removeProperty(k); }); labels.style.removeProperty("bottom");
+      var lh = labels.offsetHeight || 38, big = W > 1024;
+      var labelsBottom = big ? H - 0.06 * H : H - 0.054 * H - 10, labelsTop = labelsBottom - lh;
+      var stripBottom = strip.getBoundingClientRect().bottom;
+      var zoneTop = stripBottom + gap, zoneBottom = labelsTop - gap, zoneH = zoneBottom - zoneTop;
+      if (zoneH < 120) return;
+      var centre = (zoneTop + zoneBottom) / 2;
+      // the box must contain the buttons (it clips anything hanging outside it), so it is at least as tall as that needs
+      var boxH = Math.max(2 * (labelsBottom + 6 - centre), 120);
+      var top = centre - boxH / 2;
+      mv.style.setProperty("top", top + "px", "important"); mv.style.setProperty("height", boxH + "px", "important");
+      // hang the buttons below the smaller box so they stay exactly where they were
+      var boxBottom = top + boxH;
+      labels.style.setProperty("bottom", (boxBottom - labelsBottom) + "px", "important");
+      // the 3D view fits the can to about 75% of the smaller box side; zoom out when that is bigger than the free space.
+      // Set as the attribute (not the property) so the page script, which loads later, starts its camera cycle from it.
+      var natural = 0.75 * Math.min(W, boxH);
+      var radius = Math.max(100, Math.min(190, 105 * natural / zoneH));
+      mv.setAttribute("camera-orbit", "75deg 60deg " + radius.toFixed(1) + "%");
+    }
+    var fire = function () {
+      fit();
+      var r = mv.getBoundingClientRect(); var d = Math.min(r.width, r.height) * 0.5;
+      ring.style.left = (r.left + r.width / 2) + "px"; ring.style.top = (r.top + r.height / 2) + "px"; ring.style.width = ring.style.height = d + "px";
+      document.body.classList.add("charged");
+    };
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    window.addEventListener("resize", fit);
     if (mv.loaded) fire(); else mv.addEventListener("load", fire, { once: true });
   })();
 </script>
